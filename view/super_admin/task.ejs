@@ -1,0 +1,92 @@
+<%- include('head'); -%>
+  <div class="content-wrapper">
+
+    <section class="content">
+      <div class="container-fluid">
+  <!-- Content Header (Page header) -->
+  <br><br>
+<style>
+  th{
+    cursor: pointer;
+  }
+  .status_td{
+      display: flex;
+    justify-content: center;
+  }
+  .status{
+      padding:5px 15px;
+      color:#fff;
+      border-radius:5px;
+      font-size:13px;
+      
+  }
+</style>
+  <!-- Main content -->
+  <section class="content">
+    
+    <div class="card">
+      <!-- /.box-header -->
+      <div class="card-header">
+          Task
+          <a href="<%=APP_URL%>admin/add_task" class="btn btn-primary" style="float: right;">Add New Task</a>
+      </div>
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped" data-add-new="categories" data-control="categories" id="myTable">
+          <thead>
+            <tr>
+               <th>Sr.No</th>
+               <th >Task Name</th>
+               <th >Client</th>
+               <th >Description</th>
+               <th >User</th>
+               <th >Hours</th>
+               <th >Date</th>
+                <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+              @php($i = 1)
+              @foreach($users as $user)
+                <tr>
+                   <td>{{$i}}</td>
+                  <td>{{$user->task_name}}</td>
+                  <td>{{$user->client}}</td>
+                  <td>{{$user->description}}</td>
+                  <td>{{$user->user_name}}</td>
+                  <td>{{$user->hours}}</td>
+                  <td>{{$user->date}}</td>
+                  <td>
+                    <a href="{{env('APP_URL').'super_admin/task_view/'.$user->id}}" class="btn btn-info btn-sm view_btn" data-header="Product Details" data-id="67" data-method="#"><i class="fa fa-eye"></i></a>
+                    <!--<a href="{{env('APP_URL').'super_admin/edit_clients/'.$user->id}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>-->
+                    <!--<a onclick="a({{$user->id}})" class="btn btn-danger btn-sm delete_btn"><i class="fa fa-trash"></i></a>-->
+                  </td>
+                </tr>
+                @php($i++)
+              @endforeach                   
+               
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>    </section>
+    </div>
+<%- include('foot'); -%>
+
+<script>
+        function a(id){
+         var r = confirm("Are you sure");
+         if (r == true) {
+         location.replace("{{env('APP_URL').'super_admin/delete_clients/'}}"+id)
+         } else {
+         }
+         }
+</script>
+
+</body>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<%- include('head'); -%>
+<%- include('nav'); -%>
+<div style="height:50px;"></div>
+    <main id="main" class="main-page">
+    <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
+      <div class="container-fluide">
+        <div class="row">
+          <div class="col-lg-12 video-box" style="background: rgba( 255, 255, 255, 0.25 );box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );backdrop-filter: blur( 4px );-webkit-backdrop-filter: blur( 4px ); border-radius: 10px;border: 1px solid rgba( 255, 255, 255, 0.18 );">
+            <section id="speakers-details">
+              <div class="container">
+                <div class="section-header">
+                  <h2>Modify / Cancel Booking</h2>
+                  <p>SKY DOOR HOTELS & RESORTS</p>
+                  <div class="row">
+                    <div class="col-12">
+                      <form action="" method="post">
+                        <input type="hidden" name="booking_id" value="<%=bookdetail.id%>">
+                        <div class="form-group">
+                          <label><h4>Name : <%=bookdetail.name%></h4></label>
+                        </div><br><br><br>
+                        <div class="form-group">
+                          <label>Country</label>
+                          <input type="text" class="form-control" name="country" value="<%=bookdetail.country%>">
+                        </div>
+                        <div class="form-group">
+                          <label>address</label>
+                          <input type="text" class="form-control" name="address" value="<%=bookdetail.address%>">
+                        </div>
+                        <div class="form-group">
+                          <label>city</label>
+                          <input type="text" class="form-control" name="city" value="<%=bookdetail.city%>">
+                        </div>
+                        <div class="form-group">
+                          <label>Room</label>
+                          <input type="number" class="form-control" name="room" value="<%=bookdetail.room%>">
+                        </div>
+                        <div class="form-group">
+                          <label>Additional Details and Preferences</label>
+                          <textarea class="form-control" name="additional"><%=bookdetail.additional%></textarea>
+                        </div>
+                        <div class="form-group">
+                          <input type="submit" class="btn btn-success" value="Modify Booking">
+                        </div>
+                        <div class="form-group">
+                          <a href="<%=APP_URL%>cancel/<%=bookdetail.id%>" class="btn btn-danger form-control">Cancel Booking</a>
+                        </div>
+                      </form>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>
+  <!-- ======= Footer ======= -->
+  <%- include('foot'); -%>

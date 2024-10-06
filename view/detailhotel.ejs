@@ -1,0 +1,800 @@
+<%- include('head'); -%>
+<%- include('nav'); -%>
+<link rel="stylesheet" href="<%=APP_URL%>assets/css/detailpagehotel.css">
+<link href="<%=APP_URL%>assets1/site/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<link href="assets1/site/css/style.css" rel="stylesheet">
+<link href="assets1/site/css/style4.css" rel="stylesheet">
+<style>
+    .tabsmenu li {
+        border: 1px solid #000;
+    }
+    .tabsmenu li a{
+        color:black;
+    }
+    a{
+        color: #ffffff;
+    }
+</style>
+ <div style="width:100%; height:100px;"></div>
+
+        <div class="section">
+            <div class="moving-image"></div>
+            
+            <ul class="case-study-wrapper">
+                <li class="case-study-name">
+                    <a href="#" class="hover-target">ROOM</a>
+                </li>
+                <li class="case-study-name">
+                    <a href="#" class="hover-target">WASHROM</a>
+                </li>
+                <li class="case-study-name">
+                    <a href="#" class="hover-target">BALCONY</a>
+                </li>
+                <li class="case-study-name">
+                    <a href="#" class="hover-target">OVERVIEW</a>
+                </li>
+            </ul>
+
+            <ul class="case-study-images">
+                <li>
+                    <img src="<%=APP_URL%>/uploads/<%=hotel_room.room_images%>" alt="">
+                  
+                    <!-- <div class="info">
+                        <img src="<%=APP_URL%>assets/hotelpics/iconfav/phone.png" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/room3.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/room3.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/room3.jpg" alt="">
+                        
+                    </div> -->
+                </li>
+                <li>
+                    <img src="<%=APP_URL%>/uploads/<%=hotel_room.washroom_images%>" alt="">
+                  
+                    <!-- <div class="info">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/washroom/washroom.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/washroom/washroom.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/washroom/washroom.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/washroom/washroom.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/roomspic/washroom/washroom.jpg" alt="">
+                        
+                    </div> -->
+                </li>
+                <li>
+                    <img src="<%=APP_URL%>/uploads/<%=hotel_room.balcony_images%>" alt="">
+                   
+                    <!-- <div class="info">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room3.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room3.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room3.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room3.jpg" alt="">
+                        
+                    </div> -->
+                </li>
+                <li >
+                    <img src="<%=APP_URL%>/uploads/<%=hotel_room.overview_images%>" alt="">
+                   
+                    <!-- <div class="info">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room4.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room4.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room4.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room4.jpg" alt="">
+                        <img src="<%=APP_URL%>assets/hotelpics/1/room4.jpg" alt="">
+                        
+                    </div> -->
+                </li>
+            </ul>
+             
+        </div>
+        
+        <div class='cursor' id="cursor"></div>
+        <div class='cursor2' id="cursor2"></div>
+        <div class='cursor3' id="cursor3"></div>
+
+    <div class="wrapper">
+       
+
+        <div id="content" class="container-fluid">
+            <a href="" id="place"></a>
+            <div class="row">
+                
+                
+                <div style="margin-top:1em; display: inline-block;width: 100%;">
+                    <div id="exTab2" class="container-fluid no-padding">
+                        <ul class="nav nav-tabs tabsmenu mhide" >
+                            <li class="active" style="width:160px;font-weight:900; text-align:center;font-size:16px;"><a href="#1" data-toggle= "tab">Facilities</a></li>
+                            <li style="width:160px;font-weight:900; text-align:center;font-size:16px;" ><a href="#2" data-toggle="tab">Offers</a></li>
+                            <li style="width:160px;font-weight:900;text-align:center; font-size:16px;"><a href="#3" data-toggle="tab">Dine</a></li>
+                            <li style="width:160px;font-weight:900; text-align:center;font-size:16px;"><a href="#5" data-toggle="tab">Location</a></li>
+                            <li style="width:160px; font-weight:900;text-align:center;font-size:16px;"><a href="#7" data-toggle="tab" style="text-align: center;"><span style="color:green;">BOOK-NOW </span> </a>
+                            </li>
+                            <!-- <li style="width:160px;font-weight:900; text-align:center;font-size:16px;"><a href="#8" data-toggle="tab" style="text-align: center;"><img
+                                        src="<%=APP_URL%>assets/hotelpics/iconfav/social-media.png" /></a>
+                            </li> -->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="1">
+                                <div class="container">
+                                    <div class="row mshow">
+                                        <div class="owl-carousel features-carousel">
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="<%=APP_URL%>assets/hotelpics/iconold/icon_2_jlhBjtvh.png"
+                                                        alt="Gym" title="Gym" class="feature" />
+                                                    <h6 class="">Gym</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_6MtEiaKz.png"
+                                                        alt="Club lounge" title="Club lounge" class="feature" />
+                                                    <h6 class="">Club lounge</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_Qj5R2KJR.png"
+                                                        alt="Spa" title="Spa" class="feature" />
+                                                    <h6 class="">Spa</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_WSz0Dpb3.png"
+                                                        alt="Swiming Pool" title="Swiming Pool" class="feature" />
+                                                    <h6 class="">Swiming Pool</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_QKIqDzND.png"
+                                                        alt="Doctor on call" title="Doctor on call"
+                                                        class="feature" />
+                                                    <h6 class="">Doctor on call</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_jlhBjtvh.png"
+                                                        alt="In-house bakery" title="In-house bakery"
+                                                        class="feature" />
+                                                    <h6 class="">In-house bakery</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_rH7khkWl.png"
+                                                        alt="Multi cuisine restaurant"
+                                                        title="Multi cuisine restaurant" class="feature" />
+                                                    <h6 class="">Multi cuisine restaurant</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_7fWGFLkI.png"
+                                                        alt="Music floor" title="Music floor" class="feature" />
+                                                    <h6 class="">Music floor</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_vcWXo0gg.png"
+                                                        alt="Non-smoking rooms" title="Non-smoking rooms"
+                                                        class="feature" />
+                                                    <h6 class="">Non-smoking rooms</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_JWCPdYnm.png"
+                                                        alt="Sports lounge" title="Sports lounge" class="feature" />
+                                                    <h6 class="">Sports lounge</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_vns2JDlr.png"
+                                                        alt="Theatre" title="Theatre" class="feature" />
+                                                    <h6 class="">Theatre</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_r1ebvsuU.png"
+                                                        alt="Spacious banquet and meeting rooms"
+                                                        title="Spacious banquet and meeting rooms"
+                                                        class="feature" />
+                                                    <h6 class="">Spacious banquet and meeting rooms</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_Vyphxxuc.png"
+                                                        alt="Bathtubs" title="Bathtubs" class="feature" />
+                                                    <h6 class="">Bathtubs</h6>
+                                                </div>
+                                            </div>
+                                            <div class="features-item">
+                                                <div class="text-center featurebox">
+                                                    <img src="public1/uploads/icon/icon_2_xOHeivMH.png"
+                                                        alt="TV" title="TV" class="feature" />
+                                                    <h6 class="">TV</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mhide">
+                                        <div class="col-sm-12 align-items-center">
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconold/icon_2_jlhBjtvh.png"
+                                                    alt="Gym" title="Gym" class="feature" />
+                                                <h6 class="">Gym</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconold/icon_2_jlhBjtvh.png"
+                                                    alt="Club lounge" title="Club lounge" class="feature" />
+                                                <h6 class="">Club lounge</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-spa-64.png"
+                                                    alt="Spa" title="Spa" class="feature" />
+                                                <h6 class="">Spa</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-summer-64.png"
+                                                    alt="Swiming Pool" title="Swiming Pool" class="feature" />
+                                                <h6 class="">Swiming Pool</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Doctor on call" title="Doctor on call" class="feature" />
+                                                <h6 class="">Doctor on call</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconold/theatere.png"
+                                                    alt="In-house bakery" title="In-house bakery" class="feature" />
+                                                <h6 class="">In-house bakery</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Multi cuisine restaurant" title="Multi cuisine restaurant"
+                                                    class="feature" />
+                                                <h6 class="">Multi cuisine restaurant</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Music floor" title="Music floor" class="feature" />
+                                                <h6 class="">Music floor</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconold/noskoing.png"
+                                                    alt="Non-smoking rooms" title="Non-smoking rooms"
+                                                    class="feature" />
+                                                <h6 class="">Non-smoking rooms</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Sports lounge" title="Sports lounge" class="feature" />
+                                                <h6 class="">Sports lounge</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Theatre" title="Theatre" class="feature" />
+                                                <h6 class="">Theatre</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Spacious banquet and meeting rooms"
+                                                    title="Spacious banquet and meeting rooms" class="feature" />
+                                                <h6 class="">Spacious banquet and meeting rooms</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="Bathtubs" title="Bathtubs" class="feature" />
+                                                <h6 class="">Bathtubs</h6>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3 text-center featurebox">
+                                                <img src="<%=APP_URL%>assets/hotelpics/iconfav/icons8-doctor-male-skin-type-3-96.png"
+                                                    alt="TV" title="TV" class="feature" />
+                                                <h6 class="">TV</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="2">
+                                <div class="container rooms">
+                                    <div class="row">
+                                        <div class="col-sm-12 mhide">
+                                            <p>Each floor of the hotel offers a unique, theme-based experience for
+                                                our guests to choose from and break the monotony of the mundane
+                                                hotel life:<br />
+                                                <img alt=""
+                                                    src="public1/uploads/icon/icon_1_spSwezLa.png"
+                                                    style="width:100%" />
+                                            </p>
+                                            <p>Hotel rooms come equipped with best of the facilities from the range
+                                                below:</p>
+                                            <p><strong>GUEST ROOM FACILITIES:</strong><br /> High-speed Wi-Fi
+                                                internet | LED television | Satellite TV connection for
+                                                entertainment &amp; international news | Air conditioning |
+                                                Complimentary bottled drinking
+                                                water in-room | Complimentary in-room tea &amp; coffee facility |
+                                                Guest amenities on request | In-room safe | Bedroom slippers | Daily
+                                                newspaper on request | Pillow menu | Eco-friendly room lighting
+                                                | Eco-friendly bathroom amenities | 24-hrs hot &amp; cold water |
+                                                Rain shower | Hairdryer | Iron &amp; ironing board on request |
+                                                Wakeup call on request</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row roomoffers">
+                                        <h3 class="backblue">Offers</h3>
+                                        <div class="container">
+                                            <div class="col-xs-12 col-md-4 col-lg-4 col-sm-12">
+                                                <div class="card-body">
+                                                    <h4 class="card-title color-orange">
+
+                                                        Great Escapes</h4>
+                                                    <div class="card-text"> Escape to our favourite spot with tailor
+                                                        made packages which offer great savings
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-4 col-lg-4 col-sm-12">
+                                                <div class="card-body">
+                                                    <h4 class="card-title color-orange">
+                                                        Book Early- Save 15% </h4>
+                                                    <div class="card-text">
+                                                        Book atleast 21 days in advance and save upto 15% on your
+                                                        stay
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-md-4 col-lg-4 col-sm-12">
+                                                <div class="card-body">
+                                                    <h4 class="card-title color-orange"> Sky Door Breakfast Plus </h4>
+                                                    <div class="card-text"> Enjoy Great rates with breakfast and
+                                                        wifi included
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row roomoffers" style="display:none;">
+                                        <h3 class="backblue">Offers</h3>
+
+                                        <div id="multi-item-example" class="carousel slide carousel-multi-item"
+                                            data-ride="carousel">
+
+                                            <div class="carousel-inner" role="listbox">
+                                                <div class="carousel-item active">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Secret Deals
+                                                                    </h4>
+                                                                    <div class="card-text">Unlock your Secret deal
+                                                                        and get up to 25% Discount</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Book Early
+                                                                        Save More</h4>
+                                                                    <div class="card-text">&lt;p&gt;Book minimum 7
+                                                                        days in advance and get upto 10% off on your
+                                                                        stay&lt;/p&gt;</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Stay long
+                                                                        stay green EN</h4>
+                                                                    <div class="card-text">Stay for a minimum of 6
+                                                                        Nights ad get up to 25% additional Discount
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Secret Deals
+                                                                    </h4>
+                                                                    <div class="card-text">Unlock your Secret deal
+                                                                        and get up to 25% Discount</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Book Early
+                                                                        Save More</h4>
+                                                                    <div class="card-text">&lt;p&gt;Book Early Save
+                                                                        More&lt;/p&gt;</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carousel-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title color-orange">Stay long
+                                                                        stay green</h4>
+                                                                    <div class="card-text">Stay for a minimum of 6
+                                                                        Nights ad get up to 25% additional Discount
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class=" controls-top">
+                                                <a class="btn-floating" href="#multi-item-example"
+                                                    data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                                                <a class="btn-floating" href="#multi-item-example"
+                                                    data-slide="next"><i class="fa fa-chevron-right"></i></a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="3">
+                               
+                                
+                               
+
+                                <div class="container party">
+
+                                    <form method="post" action="meet-and-events">
+                                        <div class="ajaxMsg"></div>
+                                        <div class="container gyf">
+                                            <div class="col-md-12">
+                                                <p class="mt-5"><span><strong>Dine In Reservations</strong></span>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4">
+                                                    <input placeholder="Date" class="textbox-n form-control"
+                                                        name="booking_date" type="text" onfocus="(this.type='date')"
+                                                        id="date" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select style="text-transform: none;" name="booking_time"
+                                                        class="form-control in-select">
+                                                        <option value="">Time</option>
+                                                        <option value="1 AM">1 AM</option>
+                                                        <option value="2 AM">2 AM</option>
+                                                        <option value="3 AM">3 AM</option>
+                                                        <option value="4 AM">4 AM</option>
+                                                        <option value="5 AM">5 AM</option>
+                                                        <option value="6 AM">6 AM</option>
+                                                        <option value="7 AM">7 AM</option>
+                                                        <option value="8 AM">8 AM</option>
+                                                        <option value="9 AM">9 AM</option>
+                                                        <option value="10 AM">10 AM</option>
+                                                        <option value="11 AM">11 AM</option>
+                                                        <option value="12 PM">12 PM</option>
+                                                        <option value="1 PM">1 PM</option>
+                                                        <option value="2 PM">2 PM</option>
+                                                        <option value="3 PM">3 PM</option>
+                                                        <option value="4 PM">4 PM</option>
+                                                        <option value="5 PM">5 PM</option>
+                                                        <option value="6 PM">6 PM</option>
+                                                        <option value="7 PM">7 PM</option>
+                                                        <option value="8 PM">8 PM</option>
+                                                        <option value="9 PM">9 PM</option>
+                                                        <option value="10 PM">10 PM</option>
+                                                        <option value="11 PM">11 PM</option>
+                                                        <option value="12 AM">12 AM</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4"><input placeholder="No. of Guests"
+                                                        name="no_of_guest" class="form-control in-text" type="text"
+                                                        min="0" required></div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4"><input placeholder="Name" name="name"
+                                                        class="form-control in-text" type="text" required></div>
+                                                <div class="col-md-4"><input placeholder="Email" name="email"
+                                                        class="form-control in-text" type="text" required></div>
+                                                <div class="col-md-4"><input placeholder="Phone" name="phone"
+                                                        class="form-control in-text" type="text" min="0" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <textarea class="form-control in-text" name="comment"
+                                                    style="height:100px;" placeholder="Comments"></textarea>
+                                            </div>
+                                            <div class="col-md-12 text-center"><button class="btn" name="submit" style="background:#4267b2;" type="submit">
+                                                Reserve
+                                              </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="4">
+                             
+                            </div>
+                            <div class="tab-pane" id="5">
+                                <div class="container findus">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p>The hotel is located in the Whitefield area of Bangalore. Bangalore
+                                                is one of the most modern cities of India and has a pleasant weather
+                                                throughout the year. We are located 45 km away from the Kempegowda
+                                                International Airport, 10 km from K.R Puram Railway Station, 3 km
+                                                from ITPL Bus Stand and 1 km from the proposed Metro Station.</p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <h3 class="center">Nearby Places To Visit</h3>
+                                    </div>
+                                    <div class="row g-0">
+                                        <div class="col-lg-12 venue-map">
+                                          <iframe
+                                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d112190.09708640014!2d77.40784639999998!3d28.511436799999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1649326101924!5m2!1sen!2sin"
+                                            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        </div>
+                                      </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="7">
+                                <div class=" row">
+                                    <div class="container ">
+                                        <div class="card">
+                                            <form action="<%=APP_URL%>booking" method="post">
+                                                <div class="form-group">
+                                                    <label>Destination</label>
+                                                    <select name="destination" id="destination" class="form-control"  onchange="citya()">
+                                                    <option style="background: #3b72b0;" value="<%=hotel_room.city%>"><%=hotel_room.city%></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Hotel</label>
+                                                    <select name="hotel_id" class="form-control"  id="hotel">
+                                                        <option style="background: #3b72b0;" value="<%=hotel_room.hotel_id%>"><%=hotel_room.hotel_name%></option>
+                                                    </select>
+                                                    <input type="hidden" name="room_id" value="<%=hotel_room.id%>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Check-in</label>
+                                                    <input type="text" id="checkin" name="checkin" value="Check-in" class="form-control" 
+                                              onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Check-out</label>
+                                                    <input type="text" id="checkout" name="checkout" value="Check-out" class="form-control" onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Room(s)</label>
+                                                    <input type="text" name="room" id="room" value="Room(s)" class="form-control" onfocus="if(this.type == 'text') this.type='number';if(this.value == '') this.value=1"">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Name</label>
+                                                  <input type="text" class="form-control" name="name">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Email</label>
+                                                  <input type="text" class="form-control" name="email">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Mobile</label>
+                                                  <input type="text" class="form-control" name="mobile">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Country</label>
+                                                  <input type="text" class="form-control" name="country">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>address</label>
+                                                  <input type="text" class="form-control" name="address">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>city</label>
+                                                  <input type="text" class="form-control" name="city">
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Additional Details and Preferences</label>
+                                                  <textarea class="form-control" name="additional"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label><span><input type="checkbox" name="singin" style="width: 15px; height: 15px;"></span><span> Sign in</span></label>
+                                                </div><br>
+                                                <div class="form-group">
+                                                  <input type="submit" class="btn btn-success" name="button" value="Complete Booking">
+                                                </div>
+                                              </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="tab-pane" id="8">
+                                <div class="social">
+                                    <ul>
+                                        <li><a href="https://www.facebook.com/TheSky DoorbyTheFernWhitefieldBengaluru"
+                                                target="_blank"><img
+                                                    src="public1/assets/site/img/fb.jpg"></a>
+                                        </li>
+                                        <li><a href="https://www.instagram.com/theSky Doorbythefernbengaluru/?hl=en"
+                                                target="_blank"><img
+                                                    src="public1/assets/site/img/ig.jpg"></a>
+                                        </li>
+                                        <li><a href="https://twitter.com/HotelsSky Door" target="_blank"><img
+                                                    src="public1/assets/site/img/tw.jpg"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('foot'); -%>
+    <!-- End  Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <script src="<%=APP_URL%>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=APP_URL%>assets/js/main.js"></script>
+    <script src="assets1/site/lib/jquery/jquery.min.js"></script>
+    <script src="assets1/site/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets1/site/lib/superfish/superfish.min.js"></script>
+    <script src="<%=APP_URL%>assets/site/js/main.js"></script>
+    <script>
+        (function ($) {
+            "use strict";
+
+            document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
+                t.style.left = n.clientX + "px",
+                    t.style.top = n.clientY + "px",
+                    e.style.left = n.clientX + "px",
+                    e.style.top = n.clientY + "px",
+                    i.style.left = n.clientX + "px",
+                    i.style.top = n.clientY + "px"
+            });
+            var t = document.getElementById("cursor"),
+                e = document.getElementById("cursor2"),
+                i = document.getElementById("cursor3");
+            function n(t) {
+                e.classList.add("hover"), i.classList.add("hover")
+            }
+            function s(t) {
+                e.classList.remove("hover"), i.classList.remove("hover")
+            }
+            s();
+            for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+                o(r[a])
+            }
+            function o(t) {
+                t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+            }
+
+            var pos = 0;
+            window.setInterval(function () {
+                pos++;
+                document.getElementsByClassName('moving-image')[0].style.backgroundPosition = pos + "px 0px";
+            }, 18
+            );
+
+            $(document).ready(function () {
+
+                $('.case-study-name:nth-child(1)').on('mouseenter', function () {
+                    $('.case-study-name.active').removeClass('active');
+                    $('.case-study-images li.show').removeClass("show");
+                    $('.case-study-images li:nth-child(1)').addClass("show");
+                    $('.case-study-name:nth-child(1)').addClass('active');
+                })
+                $('.case-study-name:nth-child(2)').on('mouseenter', function () {
+                    $('.case-study-name.active').removeClass('active');
+                    $('.case-study-images li.show').removeClass("show");
+                    $('.case-study-images li:nth-child(2)').addClass("show");
+                    $('.case-study-name:nth-child(2)').addClass('active');
+                })
+                $('.case-study-name:nth-child(3)').on('mouseenter', function () {
+                    $('.case-study-name.active').removeClass('active');
+                    $('.case-study-images li.show').removeClass("show");
+                    $('.case-study-images li:nth-child(3)').addClass("show");
+                    $('.case-study-name:nth-child(3)').addClass('active');
+                })
+                $('.case-study-name:nth-child(4)').on('mouseenter', function () {
+                    $('.case-study-name.active').removeClass('active');
+                    $('.case-study-images li.show').removeClass("show");
+                    $('.case-study-images li:nth-child(4)').addClass("show");
+                    $('.case-study-name:nth-child(4)').addClass('active');
+                })
+                $('.case-study-name:nth-child(1)').trigger('mouseenter')
+
+            });
+
+        })(jQuery); 
+    </script>
+<script>
+    const tabs = document.querySelectorAll("[data-target]"),
+  tabContents = document.querySelectorAll("[data-content]");
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const target = document.querySelector(tab.dataset.target);
+
+    tabContents.forEach((tc) => {
+      tc.classList.remove("is-active");
+    });
+    target.classList.add("is-active");
+
+    tabs.forEach((t) => {
+      t.classList.remove("is-active");
+    });
+    tab.classList.add("is-active");
+  });
+});
+
+</script>
+<script>
+    $(window).scroll(function() {    
+      var scroll = $(window).scrollTop();
+      if (scroll >= 100) {
+          $(".atheader").css({'background-color': '#ffffee'});
+      }else if (scroll >= 200) {
+          $(".atheader").css({'background-color': '#fffeee'});
+      }else{
+          $(".atheader").removeAttr('style');
+      }
+  });
+    </script>
+  <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+  }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

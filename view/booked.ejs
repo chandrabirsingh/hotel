@@ -1,0 +1,102 @@
+<%- include('head'); -%>
+<%- include('nav'); -%>
+<div style="height:100px;"></div>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap');
+html,body {
+    font-family: 'Raleway', sans-serif;  
+}
+.thankyou-page ._header {
+    background: #51d6fb;
+    padding: 100px 30px;
+    text-align: center;
+    background: #51d6fb;
+}
+.thankyou-page ._header .logo {
+    max-width: 200px;
+    margin: 0 auto 50px;
+}
+.thankyou-page ._header .logo img {
+    width: 100%;
+}
+.thankyou-page ._header h1 {
+    font-size: 65px;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+}
+.thankyou-page ._body {
+    margin: -70px 0 30px;
+}
+.thankyou-page ._body ._box {
+    margin: auto;
+    max-width: 80%;
+    padding: 50px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 0 35px rgba(10, 10, 10,0.12);
+    -moz-box-shadow: 0 0 35px rgba(10, 10, 10,0.12);
+    -webkit-box-shadow: 0 0 35px rgba(10, 10, 10,0.12);
+}
+.thankyou-page ._body ._box h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #4ab74a;
+}
+.thankyou-page ._footer {
+    text-align: center;
+    padding: 50px 30px;
+}
+
+.thankyou-page ._footer .btn {
+    background: #4ab74a;
+    color: white;
+    border: 0;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 0;
+    letter-spacing: 0.8px;
+    padding: 20px 33px;
+    
+}
+</style>
+<!-- <div class="container"> -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+<div class="thankyou-page">
+    <div class="_header">
+        <div class="logo">
+            <img src="https://codexcourier.com/images/banner-logo.png" alt="">
+        </div>
+        <h1>Thank You!</h1>
+    </div>
+    <div class="_body">
+        <div class="_box">
+            <h2>
+                <strong></strong>
+            </h2>
+            <div class="card-body">
+                <center><h3>Booking Complete</h3></center>
+                <br>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Booking ID:</b> <span style="float:right;">SKYDOOR000<%=id%></span></div>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Name:</b> <span style="float:right;"><%=book.name%></span></div>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Email:</b> <span style="float:right;"><%=book.email%></span></div>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Mobile:</b> <span style="float:right;"><%=book.mobile%></span></div>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Check-in:</b> <span style="float:right;"><%=book.checkin%></span></div>
+                <div style="width:100%; overflow: hidden;"><b style="float:left;">Check-out:</b> <span style="float:right;"><%=book.checkout%></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="_footer">
+        <a class="btn" href="<%=APP_URL%>">Back to homepage</a>
+    </div>
+</div>
+<!-- </div> -->
+<script>
+//     setInterval(function() {
+//         window.location.replace('<%=APP_URL%>');
+// }, 5000);
+</script>
+<%- include('foot'); -%>

@@ -1,0 +1,73 @@
+<%- include('head'); -%>
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="container-fluid">
+  <br><br>
+<style>
+  th{
+    cursor: pointer;
+  }
+  .status_td{
+      display: flex;
+    justify-content: center;
+  }
+  .status{
+      padding:5px 15px;
+      color:#fff;
+      border-radius:5px;
+      font-size:13px;
+      
+  }
+</style>
+  <section class="content">
+    <div class="card">
+      <div class="card-header">
+          Hotels
+          <a href="<%=APP_URL%>admin/add_hotel" class="btn btn-primary" style="float: right;">Add Hotel</a>
+      </div>
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped" data-add-new="categories" data-control="categories" id="myTable">
+          <thead>
+            <tr>
+               <th >Name</th>
+               <th >Room type</th>
+               <th >Beds</th>
+               <th >Room Facilities</th>
+                <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% rooms.forEach(function(hotel,index){ %>
+                <tr>
+                 <td><%=hotel.room_name%></td>
+                 <td><%=hotel.room_type%></td>
+                 <td><%=hotel.beds%></td>
+                 <td><%=hotel.room_facilities%></td>
+                 <td><!-- 
+                   <a href="user_view.php" class="btn btn-info btn-sm view_btn" data-header="Product Details" data-id="67" data-method="#"><i class="fa fa-eye"></i></a> -->
+                   <a href="<%=APP_URL%>admin/edit_hotel/<%=hotel.id%>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                   <a onclick="a($user.id)" class="btn btn-danger btn-sm delete_btn"><i class="fa fa-trash"></i></a>
+                 </td>
+               </tr>
+              <% });%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  </div>
+  </section>
+</div>
+<%- include('foot'); -%>
+<script>
+        function a(id){
+         var r = confirm("Are you sure");
+         if (r == true) {
+         location.replace("{{env('APP_URL').'super_admin/delete_clients/'}}"+id)
+         } else {
+         }
+         }
+</script>
+</body>
+</body>
+</html>

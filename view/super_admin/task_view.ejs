@@ -1,0 +1,77 @@
+<%- include('head'); -%>
+  <div class="content-wrapper">
+
+    <section class="content">
+      <div class="container-fluid">
+  <!-- Content Header (Page header) -->
+  <br><br>
+<style>
+  th{
+    cursor: pointer;
+  }
+  .status_td{
+      display: flex;
+    justify-content: center;
+  }
+  .status{
+      padding:5px 15px;
+      color:#fff;
+      border-radius:5px;
+      font-size:13px;
+      
+  }
+</style>
+  <!-- Main content -->
+  <section class="content">
+    
+    <div class="card">
+      <!-- /.box-header -->
+      <div class="card-header">
+          Task View
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-md-4">
+                <span>Task Name:</span> <span style="color:#959393">{{$task->task_name}}</span>
+                <br><br>
+                <span>Client Name:</span> <span style="color:#959393">{{$task->client}}</span>
+                <br>
+              </div>
+              <div class="col-md-4">
+                  <span>User:</span> <span style="color:#959393">{{$task->user_name}}</span>
+                  <br><br>
+                <span>Hours:</span> <span style="color:#959393">{{$task->hours}}</span>
+                
+                
+                <br>
+              </div>
+              <div class="col-md-4">
+                  <span>Date:</span> <span style="color:#959393">{{$task->date}}</span>
+                <br><br>
+                <span>Attachment:</span> <?php $img = explode(',',$task->attach_image); foreach($img as $im){?><a href="<?=$im?>"> <i class="fas fa-eye"></i> </a><?php } ?>
+                <br>
+              </div>
+              <div class="col-md-4"><br>
+                  <span>Lead:</span> <span style="color:#959393">{{$task->lead}}</span>
+              </div>
+          </div>
+          <h5 style="margin-top:30px;">
+              Description
+          </h5>
+          <p style="color:#959393">
+              {{$task->description}}
+          </p>
+      </div>
+      <!-- /.box-body -->
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>    </section>
+    </div>
+<%- include('foot'); -%>
+
+
+</body>
+</body>
+</html>

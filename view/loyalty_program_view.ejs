@@ -1,0 +1,28 @@
+<%- include('head'); -%>
+<div class="container">
+    <center>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="card" style="background-image: linear-gradient(#009bff, #88dd85);">
+                    <div class="card-header">
+                        <img src="https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;chl=<%=coupondata.coupon_no%>" alt="QR code">
+                    </div>
+                    <div class="card-body">
+                        <p><b>Coupon code</b> : <%=coupondata.coupon_no%></p>
+                        <p><b>Menber name</b> : <%=coupondata.name%></p>
+                        <p><b>Member mobile</b> : <%=coupondata.mobile%></p>
+                        <p><b>Date of purchase</b> : <%=coupondata.date_of_purchase%></p>
+                        <p><b>Member Type</b> : <% if(coupondata.member_type == 1){%>Loyalty card valid for specific single hotel in the sky door hotel group<% }else{ %>Loyalty card valid for all hotels in the sky door hotel group<% } %></p>
+                        <p><b>Validity</b> : 1 year from the date of purchase</p>
+                        <p>Membership applicable for <%=coupondata.name%> only</p>
+                    </div>
+                    <div class="card-body">
+                        <span style="font-size:10px;">Terms: This coupon can be used against any value-added services at once/per billing/per hotel, is sky door hotel group. Remaining un used amount is not refundable nor transferable.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </center>
+</div>

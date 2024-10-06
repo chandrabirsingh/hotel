@@ -1,0 +1,87 @@
+<%- include('head'); -%>
+<%- include('nav'); -%>
+<div style="height:100px;"></div>
+    <!-- ======= About Section ======= -->
+    <section id="about" >
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-6">
+            <h2 style="color:white">Loyalty Program</h2>
+            <span style="color:rgb(255, 255, 255); font-size: large; font-weight: 800;">Our Brand that's delight
+              everyone in to a happiness through an amazing experiential journey.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <main id="main" class="main-page">
+    <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
+      <div class="container-fluide">
+              <div class=" text-center">
+                    <div class="container">
+                  <h1>Loyalty Program</h1>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card mb-2">
+                            <form class="login100-form validate-form flex-sb flex-w" method="post" action="/loyalty_program_view/<%=id%>" enctype="multipart/form-data">
+                                <div class="container gyf">
+                                    <div class="col-md-12">
+                                        <p class="mt-5"><span><strong>Join our exclusive guest loyalty program</strong></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-4"><input placeholder="Name" name="name"
+                                                    class="form-control in-text" type="text" required></div>
+                                            <div class="col-md-4"><input placeholder="Email" name="email"
+                                                    class="form-control in-text" type="text" required></div>
+                                            <div class="col-md-4"><input placeholder="Mobile" name="mobile"
+                                                    class="form-control in-text" type="number" min="0" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-4"><input placeholder="Occupation" name="occupation"
+                                                    class="form-control in-text" type="text" required></div>
+                                            <div class="col-md-4"><input placeholder="No of person in family" name="no_of_person_in_family" class="form-control in-text" type="number" min="1" required>
+                                            </div>
+                                            <div class="col-md-4"><input name="photo_id_card" class="form-control" type="file" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                          <% if(id == 2){ %>
+                                            <input type="hidden" name="hotel_id" value="">
+                                            <% }else{ %>
+                                            <div class="col-md-6">
+                                              <select name="hotel_id" class="form-control">
+                                                  <option>Choose Hotel</option>
+                                                  <% hotels.forEach((hotel,index) => { %>
+                                                    <option value="<%=hotel.id%>"><%=hotel.hotel_name%></option>
+                                                  <% }) %>
+                                              </select>
+                                            </div><% } %>
+                                            <div class="col-md-6">
+                                              <input type="text" class="form-control" name="full_communication_address" placeholder="Full communication address">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="container-login100-form-btn">
+                                  <button class="btn" name="submit" style="background:#4267b2;" type="submit">
+                                    Buy
+                                  </button>
+                                </div>
+                      
+                              </form>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+    </section>
+    </main>
+  <!-- ======= Footer ======= -->
+  <%- include('foot'); -%>

@@ -1,0 +1,113 @@
+<%- include('head'); -%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+<link rel="stylesheet" href="<%=APP_URL%>assets/css/hotelroom.css">
+<%- include('nav'); -%>
+<div style="width:100%; height:100px;"></div>
+
+ <section class="tbd-popo" style="margin-top:0;"> 
+<input class="variation" id="bluepurple" type="radio" value="1" name="color" checked="checked"/>
+
+<input class="variation" id="sunset" type="radio" value="2" name="color"/>
+
+<input class="variation" id="godiva" type="radio" value="3" name="color"/>
+
+<input class="variation" id="dark" type="radio" value="4" name="color"/>
+
+<input class="variation" id="pinkaru" type="radio" value="5" name="color"/>
+
+<main>
+  <section class="results-header" style="padding:0; margin:0;">
+    <h1>Find hotels near you.</h1>
+    <div class="results-header__option">
+      <div class="option__button option--grid selected"><span></span><span></span><span></span><span></span><span>Grid</span></div>
+      <div class="option__button option--list"><span></span><span></span><span></span><span>List</span></div>
+    </div>
+  </section>
+  <div class="filter-section__wrapper">
+    <section class="filter-section">
+      <h6>Filters</h6>
+      <div class="filters">
+        <h5 class="filters__title">ROOM TYPE</h5>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-1" type="checkbox"/>
+            <label for="checkbox-1">SINGLE<span class="box"></span>
+              <div class="tooltip top" data-tooltip="Younger than 18 months."><span><i class="icon-info"></i></span></div>
+            </label>
+          </div><span class="badge status-primary">10</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-2" type="checkbox" checked="checked"/>
+            <label for="checkbox-2">DOUBLE<span class="box"></span></label>
+          </div><span class="badge status-primary">5</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-3" type="checkbox"/>
+            <label for="checkbox-3">Adult<span class="box"></span></label>
+          </div><span class="badge status-primary">20</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-4" type="checkbox"/>
+            <label for="checkbox-4">Senior<span class="box"></span></label>
+          </div><span class="badge status-primary">8</span>
+        </div>
+      </div>
+      <div class="filters">
+        <h5 class="filters__title">ROOM SIZE</h5>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-5" type="checkbox"/>
+            <label for="checkbox-5">Small<span class="box"></span></label>
+          </div><span class="badge status-primary">9</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-6" type="checkbox" checked="checked"/>
+            <label for="checkbox-6">Medium<span class="box"></span></label>
+          </div><span class="badge status-primary">12</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-7" type="checkbox"/>
+            <label for="checkbox-7">Large<span class="box"></span></label>
+          </div><span class="badge status-primary">17</span>
+        </div>
+        <div class="filters__item">
+          <div class="checkbox">
+            <input id="checkbox-8" type="checkbox"/>
+            <label for="checkbox-8">XL<span class="box"></span></label>
+          </div><span class="badge status-primary">3</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <section class="results-section results--grid">
+    <% hotels.forEach((hotel,index) => { %>
+    <div class="profile">
+      <div class="profile__image"><img src="<%=APP_URL%>uploads/<% let img = hotel.room_images.split(',');%><%=img[0]%>" alt="Doggo"/></div>
+      <div class="profile__info">
+        <h3><%=hotel.room_name%></h3>
+        <h5><%=hotel.hotel_name%></h5>
+      </div>
+      <div class="profile__stats">
+        <p class="profile__stats__title">Type</p>
+        <h5 class="profile__stats__info"><%=hotel.room_type%></h5>
+      </div>
+      <div class="profile__stats">
+        <p class="profile__stats__title">Size</p>
+        <h5><%=hotel.room_size%></h5>
+      </div>
+      <div class="profile__stats">
+        <p class="profile__stats__title"> City</p>
+        <h5 class="profile__stats__info"> <%=hotel.city%></h5>
+      </div><br>
+      <div class="profile__cta"><a class="button" href="<%=APP_URL%>detailhotel">detail</a></div>
+    </div>
+    <% }) %>
+  </section>
+</main>
+</section>
+<%- include('foot'); -%>

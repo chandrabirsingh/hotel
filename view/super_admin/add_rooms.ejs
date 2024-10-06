@@ -1,0 +1,122 @@
+<%- include('head'); -%>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+     <div class="card">
+         <div class="card-header">
+             Add Hotel
+         </div>
+         <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose Hotel</label>
+                <br>
+                <select class="form-control" name="hotel_id">
+                    <option>Choose Hotel</option>
+                    <% hotels.forEach((hotel,index) => { %>
+                        <option value="<%=hotel.id%>"><%=hotel.hotel_name%></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="file">Room Name</label>
+                <br>
+                <input type="text" placeholder="Room Name here..." class="form-control" name="room_name" >
+            </div>
+            <div class="form-group">
+                <label for="file">Room images</label>
+                <br>
+                <input type="file" class="form-control" name="room_images" multiple>
+            </div>
+            <div class="form-group">
+                <label for="file">Washroom images</label>
+                <br>
+                <input type="file" class="form-control" name="washroom_images" multiple>
+            </div>
+            <div class="form-group">
+                <label for="file">Balcony images</label>
+                <br>
+                <input type="file" class="form-control" name="balcony_images" multiple>
+            </div>
+            <div class="form-group">
+                <label for="file">Overview images</label>
+                <br>
+                <input type="file" class="form-control" name="overview_images" multiple>
+            </div>
+            <div class="form-group">
+                <label for="file">360° Background image (4395 × 900)</label>
+                <br>
+                <input type="file" class="form-control" name="background_image" >
+            </div>
+            <div class="form-group">
+                <label for="file">Room type</label>
+                <br>
+                <input type="text" class="form-control" name="room_type" >
+            </div>
+            <div class="form-group">
+                <label for="file">No of Beds</label>
+                <br>
+                <input type="number" class="form-control" name="beds" placeholder="No of Beds">
+            </div>
+            <div class="form-group">
+                <label for="file">Room size</label>
+                <br>
+                <input type="text" class="form-control" name="room_size" placeholder="Room size">
+            </div>
+            <div class="form-group">
+                <label for="file">Price</label>
+                <br>
+                <input type="number" class="form-control" name="price" placeholder="Price" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="file">Breakfast Price</label>
+                <br>
+                <input type="number" class="form-control" name="breakfast" placeholder="Breakfast Price" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="file">Dinner Price</label>
+                <br>
+                <input type="number" class="form-control" name="dinner" placeholder="Dinner Price" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Room Facilities</label><br>
+                <label style="font-size:15px;">High-speed Wi-Fi internet <input type="checkbox" name="room_facilities[]" value="High-speed Wi-Fi internet"></label>
+                <label style="font-size:15px;">LED television <input type="checkbox" name="room_facilities[]" value="LED television"></label>
+                <label style="font-size:15px;">Air conditioning <input type="checkbox" name="room_facilities[]" value="Air conditioning"></label>
+                <label style="font-size:15px;">Complimentary bottled drinking water in-room <input type="checkbox" name="room_facilities[]" value="Complimentary bottled drinking water in-room"></label>
+                <label style="font-size:15px;">Complimentary bottled drinking water in-room <input type="checkbox" name="room_facilities[]" value="Complimentary bottled drinking water in-room"></label>
+                <label style="font-size:15px;">Complimentary in-room tea & coffee facility <input type="checkbox" name="room_facilities[]" value="Complimentary in-room tea & coffee facility"></label>
+                <label style="font-size:15px;">Guest amenities on request <input type="checkbox" name="room_facilities[]" value="Guest amenities on request"></label><br>
+                <label style="font-size:15px;">In-room safe <input type="checkbox" name="room_facilities[]" value="In-room safe"></label>
+                <label style="font-size:15px;">Bedroom slippers <input type="checkbox" name="room_facilities[]" value="Bedroom slippers"></label>
+                <label style="font-size:15px;">Daily newspaper on request <input type="checkbox" name="room_facilities[]" value="Daily newspaper on request"></label>
+                <label style="font-size:15px;">Pillow menu <input type="checkbox" name="room_facilities[]" value="Pillow menu"></label>
+                <label style="font-size:15px;">Eco-friendly room lighting <input type="checkbox" name="room_facilities[]" value="Eco-friendly room lighting"></label>
+                <label style="font-size:15px;">Eco-friendly bathroom amenities <input type="checkbox" name="room_facilities[]" value="Eco-friendly bathroom amenities"></label>
+                <label style="font-size:15px;">24-hrs hot & cold water <input type="checkbox" name="room_facilities[]" value="24-hrs hot & cold water"></label>
+                <label style="font-size:15px;">Rain shower <input type="checkbox" name="room_facilities[]" value="Rain shower"></label>
+                <label style="font-size:15px;">Hairdryer <input type="checkbox" name="room_facilities[]" value="Hairdryer"></label>
+                <label style="font-size:15px;">Iron & ironing board on request <input type="checkbox" name="room_facilities[]" value="Iron & ironing board on request"></label>
+                <label style="font-size:15px;">Wakeup call on request <input type="checkbox" name="room_facilities[]" value="Wakeup call on request"></label>
+            </div>
+            <div class="form-group">
+                <label for="file">Description</label>
+                <br>
+                <textarea placeholder="Enter Description here..." class="form-control" name="description"></textarea>
+            </div>
+                <center>
+                    <button type="submit" class="btn"  style="background:#000;color:#fff;">Submit</button>
+                </center>
+      </form>
+         </div>
+     </div>
+      </div> 
+        </div>
+    </div>
+  </section>
+</div> 
+<%- include('foot'); -%>
+</body>
+</html>

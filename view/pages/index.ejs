@@ -1,0 +1,1026 @@
+<%- include('../partial/head'); -%>
+  <%- include('../partial/nav'); -%>
+    <style>
+      .photo-gallery {
+        color: #313437;
+        background-color: #fff;
+      }
+
+      .photo-gallery p {
+        color: #7d8285;
+      }
+
+      .photo-gallery h2 {
+        font-weight: bold;
+        margin-bottom: 40px;
+        padding-top: 40px;
+        color: inherit;
+      }
+
+      @media (max-width:767px) {
+        .photo-gallery h2 {
+          margin-bottom: 25px;
+          padding-top: 25px;
+          font-size: 24px;
+        }
+      }
+
+      .photo-gallery .intro {
+        font-size: 16px;
+        max-width: 500px;
+        margin: 0 auto 40px;
+      }
+
+      .photo-gallery .intro p {
+        margin-bottom: 0;
+      }
+
+      .photo-gallery .photos {
+        padding-bottom: 20px;
+      }
+
+      .photo-gallery .item {
+        padding-bottom: 30px;
+      }
+
+      .lb-outerContainer {
+        width: 450px !important;
+        height: 425px !important;
+      }
+
+      .lb-image {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .hover {
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 60%;
+      }
+
+      .hover2 {
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 45%;
+      }
+
+      .hover-overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 90;
+        transition: all 0.4s;
+      }
+
+      .hover img {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.3s;
+      }
+
+      .hover-content {
+        position: relative;
+        z-index: 99;
+      }
+
+
+      /* DEMO 1 ============================== */
+      .hover-1 img {
+        width: 105%;
+        position: absolute;
+        top: 0;
+        left: -5%;
+        transition: all 0.3s;
+      }
+
+      .hover-1-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        transition: all 0.4s;
+      }
+
+      .hover-1 .hover-overlay {
+        background: rgba(0, 0, 0, 0.194);
+      }
+
+      .hover-1-description {
+        transform: translateY(0.5rem);
+        transition: all 0.4s;
+        opacity: 0;
+      }
+
+      .hover-1:hover .hover-1-content {
+        bottom: 2rem;
+      }
+
+      .hover-1:hover .hover-1-description {
+        opacity: 1;
+        transform: none;
+      }
+
+      .hover-1:hover img {
+        left: 0;
+      }
+
+      .hover-1:hover .hover-overlay {
+        opacity: 0;
+      }
+
+      img {
+        border-radius: 10px;
+      }
+    </style>
+    <style>
+      #myVideo {
+        width: 100vw;
+        height: 100vh;
+        object-fit: fill;
+      }
+
+      #hero .hero-container {
+        top: calc(50% + 73px);
+        transform: translateY(-50%);
+      }
+
+      .find-quick-form {
+        background: #40617747;
+        border-radius: 18px;
+        box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+        backdrop-filter: brightness(.8) blur(1px);
+        -webkit-backdrop-filter: blur(3.7px);
+        border: 1px solid rgb(79 161 208 / 49%);
+      }
+
+      /* .navbar1 a, .navbar a:focus{
+  display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: 0.3s;
+    position: relative;
+    padding: 21px 3px;
+} */
+      .btnHover {
+        scale: 1;
+        border: 1px solid #005f96;
+        transition: all .5s ease;
+      }
+
+      .btnHover:hover {
+        background: white;
+        color: black;
+        scale: .9;
+        border: 1px solid black;
+
+      }
+
+      
+      .imgHov {
+        box-shadow: 12px 12px 1px 0 rgb(56, 56, 56), -12px -12px 1px 0 rgb(132, 207, 250);
+        transition: box-shadow 0.4s ease-in-out;
+      }
+
+      .imgHov:hover {
+        animation: shadowAnim 0.6s ease-in-out forwards;
+      }
+
+      @keyframes shadowAnim {
+        0% {
+          box-shadow: 12px 12px 1px 0 rgb(56, 56, 56), -12px -12px 1px 0 rgb(132, 207, 250);
+        }
+
+        50% {
+          box-shadow: 0px 0px 1px 0 rgb(132, 207, 250), 0px 0px 1px 0 rgb(56, 56, 56);
+        }
+
+        100% {
+          box-shadow: 12px 12px 1px 0 rgb(132, 207, 250), -12px -12px 1px 0 rgb(56, 56, 56);
+        }
+      }
+
+    
+      .services-right .icon-box {
+        flex-direction: row-reverse;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 30px;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .services-left,
+      .services-right {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .image-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        border-radius: 100%;
+        background: #70c9a9;
+        overflow: hidden;
+      }
+
+      .image-center img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+        transform: translate(0px, 10px);
+        
+      }
+
+      .icon-box {
+        text-align: center;
+        padding: 10px !important;
+        background: none !important;
+        border: none;
+        border-radius: none;
+        box-shadow: none !important;
+        transition: box-shadow 0.3s ease;
+        transform: translateX(var(--angle));
+        gap: 5px;
+        
+      }
+
+      .icon-box:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .icon-box i {
+        font-size: 2rem;
+        padding: 0px !important;
+      }
+
+      .icon-box h3 {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        font-weight: 800;;
+        font-family: "Inter", sans-serif !important;
+      }
+
+      .testimonial .pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .testimonial .pic {
+        display: inline-block;
+        position: static;
+        min-width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      .image-center.sm_sc{
+        display: none;
+      }
+      @media (max-width: 1024px) {
+      .grid-container {
+        grid-template-columns: 1fr 1fr; /* 2 columns */
+    }
+    .image-center.sm_sc{
+        display: flex;
+      }
+      .image-center.sm_sc img{
+        transform: translate(0px, 10px) rotateX(153deg) rotateZ(180deg);
+      }
+}
+      @media (max-width: 576px) {
+      .grid-container {
+        grid-template-columns: 1fr; /* 2 columns */
+    }
+    .image-center{
+        display: none;
+      }
+    .image-center.sm_sc{
+        display: none;
+      }
+      .icon-box {
+        transform: none;
+      }
+      .services-right .icon-box {
+        flex-direction: row;
+      }
+      #hero .hero-container {
+    top: unset;
+    transform: unset;
+}
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <section id="hero" style="padding: 0px;">
+      <video autoplay muted loop id="myVideo">
+        <source src="<%=APP_URL%>assets/hotelpics/newfreepic/211152_tiny.mp4" type="video/mp4">
+      </video>
+      <div class="hero-container">
+        <section class="rowa">
+          <div class="container">
+            <div align="left">
+              <form action="<%=APP_URL%>hotelroomdetail" method="get"
+                class="row m0 find-quick-form text-center search aaseaform" style="margin-left:0px;margin-top: 0px;">
+                <div class="row" id="bookform">
+                  <div class="col-md-12 text-start mb-3">
+                    <div class="row" style="align-items: center;">
+                      <div class="col-md-2" style="color: #fff;">
+                        OFFERS
+                      </div>
+                      <div class="col-md-10">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                          <div class="carousel-inner">
+                            <div class="carousel-item active text-center" style="color: #fff;">
+                              <div class="row">
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> BEST RATE GUARANTEE
+                                </div>
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Flexible
+                                  Cancellation</div>
+                              </div>
+                            </div>
+                            <div class="carousel-item text-center" style="color: #fff;">
+                              <div class="row">
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Free WIFI</div>
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> 10% off on all
+                                  booking</div>
+                              </div>
+                            </div>
+                            <div class="carousel-item text-center" style="color: #fff;">
+                              <div class="row">
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Meals Availability
+                                </div>
+                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Last Room
+                                  Availability</div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only"></span>
+                        </a> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="destination" required id="destination" class="form-control" style="color: #fff;
+                          background: #6ea0e300;" onchange="city()">
+                        <option value="" style="background: #3b72b0;">Choose Destination</option>
+                        <% cities.forEach((city,index)=> { %>
+                          <option style="background: #3b72b0;" value="<%=city.city%>">
+                            <%=city.city%>
+                          </option>
+                          <% }) %>
+                      </select>
+                    </div>
+                  </div>
+                  <script>
+                    function city() {
+                      let destination = $("#destination").val();
+                      $.get("/fhotel/" + destination,
+                        function (data, status) {
+                          $('#hotel').html(data);
+                          console.log(data);
+                        });
+                    }
+                  </script>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="hotel" required class="form-control" style="color: #fff;
+                          background: #6ea0e300;" id="hotel">
+                        <option value="" style="background: #3b72b0;">Choose Hotel</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <input type="text" id="checkin" name="checkin" value="Check-in" class="form-control"
+                        onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
+                        style="color: #fff;
+                          background: #6ea0e300;">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <input type="text" id="checkout" name="checkout" value="Check-out" class="form-control"
+                        onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
+                        style="color: #fff;
+                          background: #6ea0e300;">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <input type="text" name="room" id="room" value="Room(s)" class="form-control"
+                        style="color: #fff; background: #6ea0e300;"
+                        onfocus="if(this.type == 'text') this.type='number';if(this.value == '') this.value=1">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <select name="adults" id="adults" class="form-control" style="color: #fff;
+                      background: #6ea0e300;">
+                        <option style="background: #3b72b0;">Adults</option>
+                        <option style="background: #3b72b0;" value="1">1</option>
+                        <option style="background: #3b72b0;" value="2">2</option>
+                        <option style="background: #3b72b0;" value="3">3</option>
+                        <option style="background: #3b72b0;" value="4">4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <select name="child" id="child" class="form-control" style="color: #fff;
+                      background: #6ea0e300;">
+                        <option style="background: #3b72b0;">Children (5 to 11 years old)</option>
+                        <option style="background: #3b72b0;" value="1">1</option>
+                        <option style="background: #3b72b0;" value="2">2</option>
+                        <option style="background: #3b72b0;" value="3">3</option>
+                        <option style="background: #3b72b0;" value="4">4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <select name="child" id="child" class="form-control" style="color: #fff;
+                      background: #6ea0e300;">
+                        <option style="background: #3b72b0;">Children (below 5 years)</option>
+                        <option style="background: #3b72b0;" value="1">1</option>
+                        <option style="background: #3b72b0;" value="2">2</option>
+                        <option style="background: #3b72b0;" value="3">3</option>
+                        <option style="background: #3b72b0;" value="4">4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <input type="text" name="coupon" id="coupon" value="Coupon(s)" class="form-control"
+                        style="color: #fff; background: #6ea0e300;" onfocus="this.value='SKY10'">
+                    </div>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-6">
+                    <div class="form-group mt-2">
+                      <a data-bs-toggle="modal" data-bs-target="#exampleModal" placeholder="destination"
+                        class="btn btn-success p-2">Modify/Cancel Booking</a>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mt-2">
+                      <button type="submit" placeholder="destination" class="btn rounded-0 p-3 px-3 btnHover">Check
+                        Availability</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+    <!-- End Hero Section -->
+    <!-- ======= About Section ======= -->
+    <section id="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <h2 class="big_font" style="color:white">OUR BRAND</h2>
+            <span style="color:rgb(255, 255, 255); font-size: large; font-weight: 800;">Our brand that`s delight
+              everyone in to a happiness through an amazing experiential journey.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section class="why-us" data-aos="fade-up" date-aos-delay="200">
+      <div class="container">
+        <div class="eleven ">
+          <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">discover the beauty of world
+          </h1>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-12 video-box">
+            <div class="overflow-hidden imgHov" style="aspect-ratio:1/1;;width: 480px;">
+
+              <img src="<%=APP_URL%>assets/img/lobby-398845_1280.jpg" class="img-fluid p-0 rounded-0">
+            </div>
+            <!-- <video autoplay muted loop id="myVideo" style="width:100%;">
+              <source src="<%=APP_URL%>assets/hotelpics/vedios/new1vediofree/v5.mp4" type="video/mp4">
+            </video> -->
+          </div>
+          <div class="col-lg-6 col-12 p-5">
+            <h4 class="title mb-3">Amazing experiential journey</h4>
+            <p class="description">Experience the simple luxury with us along with beautiful scenic views, hospitality
+              and culinary which served with love. </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Why Us Section -->
+    <!-- photo gallary -->
+    <div class="photo-gallery">
+      <div class="container">
+        <div class="row photos">
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="overflow-hidden">
+                  <a href="<%=APP_URL%>images/res1.jpg" data-lightbox="photos">
+                    <img src="<%=APP_URL%>images/res1.jpg" class="rounded-0 img-fluid w-100 h-100">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+            <h2>Create Connections / Experience </h2>
+            <p>We establish connections with our guests. We provide authentic food, serene natural views and an
+              immortal journey of their life with us by our marvelous services. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-gallery">
+      <div class="container">
+        <div class="row photos">
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="hover hover-1 text-white 
+                "><img class="rounded-0 h-100" style="scale: 2;" src="<%=APP_URL%>images/clu1.jpg" alt="">
+                  <div class="hover-overlay"></div>
+                  <div class="hover-1-content px-5 py-4">
+                    <h3 class="hover-1-title text-uppercase font-weight-bold mb-0" style="color: #fff;"> <span
+                        class="fw-light">Drinks </span> and Dive</h3>
+                    <p class="hover-1-description font-weight-light mb-0" style="color: #fff!important;">Rejuvenate
+                      your spirit with your friends to taste amazing drinks and celebrate moments with your loved
+                      ones. </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="hover hover-1 text-white"><img class="rounded-0 h-100" src="<%=APP_URL%>images/clu5.jpg"
+                    alt="">
+                  <div class="hover-overlay"></div>
+                  <div class="hover-1-content px-5 py-4">
+                    <h3 class="hover-1-title text-uppercase font-weight-bold mb-0" style="color: #fff;"> <span
+                        class="fw-light">Solemnize </span> Merriment</h3>
+                    <p class="hover-1-description fw-light mb-0" style="color: #fff!important;">Celebrate
+                      your preeminent moments and enjoy luxury drinks, food and make memoirs in the shade of vibrant
+                      colors of light. </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-gallery">
+      <div class="container">
+        <div class="row photos">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="hover2 hover-1 text-white"><img class="rounded-0" src="<%=APP_URL%>images/bea5.jpg" alt="">
+                  <div class="hover-overlay"></div>
+                  <div class="hover-1-content px-5 py-4">
+                    <h3 class="hover-1-title text-uppercase mb-0" style="color: #fff;"> <span class="fw-light">Converse
+                      </span> and Mesmerizing Memoir</h3>
+                    <p class="hover-1-description fw-light mb-0" style="color: #fff!important;">Enjoy lively
+                      drinks, food and serene scenes of the natural world with loved ones. </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-gallery">
+      <div class="container">
+        <div class="row photos">
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="col-sm-12">
+                  <div class="overflow-hidden">
+                    <img class="img-fluid rounded-0 web-img" src="<%=APP_URL%>images/wed3.jpg">
+                  </div>
+                  <h2>Knitting Knots </h2>
+                  <p>The perfect place to celebrate togetherness of two souls and rejoice moments with your friends,
+                    relatives and new connections. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="overflow-hidden">
+                  <img class="img-fluid web-img rounded-0" src="<%=APP_URL%>images/wed6.jpg">
+                </div>
+                <h2>Rejoice Moments </h2>
+                <p>Celebrate moments and organize creative destination parties. Serving drinks, food and hospitality
+                  with enchanting views and affection. </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-gallery">
+      <div class="container">
+        <div class="row photos">
+          <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+            <h2>Experience Horizon </h2>
+            <p>Feel the horizon and create memories with your friends, life partner, family members and experience the
+              joyous moments of life together. We offer authentic views along with an amazing food, drink and weather.
+            </p>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="imgHov"
+                  style="box-shadow: 12px 12px 1px 0 rgb(56 56 56), -12px -12px 1px 0 rgb(132 207 250);">
+                  <a href="<%=APP_URL%>images/bar1.jpg" data-lightbox="photos">
+                    <img class="img-fluid rounded-0" src="<%=APP_URL%>images/bar1.jpg">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- photo gallary end -->
+    <!-- hotels -->
+    <section id="hotels" class="">
+
+      <div class="container" data-aos="fade-up">
+        <div class="eleven">
+          <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Our Destinaitons</h1>
+        </div>
+        <!-- <p>Her are some nearby hotels</p> -->
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="hotel mb-0 position-relative" style="height: 20rem;">
+              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i1.jpg" alt="Hotel 1" class="border-0 rounded-0"
+                style="height: 100%;width: 100%;object-fit: cover;">
+              <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                <h3>Hotels in Bangalore</h3>
+                <p class="text-end mb-0 fw-bold"><a href="<%=APP_URL%>hotelroomdetail?destination=Bangalore"
+                    class="inter"> view More</a></p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row gap-3" data-aos="fade-up" data-aos-delay="100">
+
+          <!-- <div class="col-12">
+            <h2 style="text-align: center;">Coming soon</h2>
+          </div> -->
+          <div class="col-lg-4 col-md-6">
+            <div class="hotel mb-0 position-relative" style="height: 20rem;">
+              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 1" class="border-0 rounded-0"
+                style="height: 100%;width: 100%;object-fit: cover;">
+              <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                <h3>Hotels in Goa</h3>
+                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="hotel mb-0 position-relative" style="height: 20rem;">
+              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i3.jpg" alt="Hotel 1" class="border-0 rounded-0"
+                style="height: 100%;width: 100%;object-fit: cover;">
+              <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                <h3>Hotels in Udaipur</h3>
+                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="hotel mb-0 position-relative" style="height: 20rem;">
+              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i4.jpg" alt="Hotel 1" class="border-0 rounded-0"
+                style="height: 100%;width: 100%;object-fit: cover;">
+              <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                <h3>Hotels in Jaipur</h3>
+                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
+              </div>
+
+            </div>
+          </div>
+          <!-- <div class="col-lg-3 col-md-6">
+            <div class="hotel">
+              <div class="hotel-img">
+                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 2" class="img-fluid"
+                  style="height:250px;">
+              </div>
+              <h3><a href="#">Hotels in Goa <br><span style="font-size:10px;"></span></a></h3>
+            </div>
+          </div> -->
+
+          <!-- <div class="col-lg-3 col-md-6">
+            <div class="hotel">
+              <div class="hotel-img">
+                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i3.jpg" alt="Hotel 3" class="img-fluid"
+                  style="height:250px;">
+              </div>
+              <h3><a href="#">Hotels in Udaipur <br><span style="font-size:10px;"></span></a></h3>
+            </div>
+          </div> -->
+
+          <!-- <div class="col-lg-3 col-md-6">
+            <div class="hotel">
+              <div class="hotel-img">
+                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i4.jpg" alt="Hotel 3" class="img-fluid"
+                  style="height:250px;">
+              </div>
+              <h3><a href="#">Hotels in Jaipur <br><span style="font-size:10px;"></span></a></h3>
+            </div>
+          </div> -->
+
+        </div>
+      </div>
+
+    </section>
+    <!-- hotel end -->
+    <!-- ======= OUR SERVICES ======= -->
+    <section id="features" class="features section-with-bg" style="overflow: hidden; margin: 20px 0;">
+      <div class="container-fluide" style="overflow: hidden;">
+        <div class="eleven">
+          <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Services Offerd</h1>
+        </div>
+        <div class="grid-container">
+          <div class="services-left">
+            <!-- First 6 services -->
+            <div class="icon-box" style="--angle: 30%;">
+              <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
+              <h3><a href="">Gareden for social wedding functions</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: 70%;">
+              <i class="ri-account-pin-circle-line" style="color: #ffbb2c;"></i>
+              <h3><a href="">Room stay</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: 57%;">
+              <i class="ri-hotel-bed-fill" style="color: #5578ff;"></i>
+              <h3><a href="">Room service</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: 60%;">
+              <i class="ri-hotel-line" style="color: #e80368;"></i>
+              <h3><a href="">Restaurants</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: 79%;">
+              <i class="ri-bar-chart-2-fill" style="color: #e361ff;"></i>
+              <h3><a href="">Bar</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: 75%;">
+              <i class="ri-dashboard-2-line" style="color: #47aeff;"></i>
+              <h3><a href="">Banquets</a></h3>
+            </div>
+
+          </div>
+
+          <div class="image-center">
+            <!-- Image goes here -->
+            <img src="<%=APP_URL%>/assets/img/girl.png" alt="Center Image">
+          </div>
+          <div class="image-center sm_sc">
+            <!-- Image goes here -->
+            <img src="<%=APP_URL%>/assets/img/girl.png" alt="Center Image">
+          </div> 
+
+          <div class="services-right">
+            <!-- Next 6 services -->
+            <div class="icon-box" style="--angle: -68%;">
+              <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
+              <h3><a href=""> Outdoor catering</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: -49%;">
+              <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
+              <h3><a href="">Guest car transport </a></h3>
+            </div>
+            <div class="icon-box" style="--angle: -68%;">
+              <i class="ri-anchor-line" style="color: #b2904f;"></i>
+              <h3><a href="">Laundry</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: -76%;">
+              <i class="ri-disc-line" style="color: #b20969;"></i>
+              <h3><a href="">SPA</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: -78%;">
+              <i class="ri-base-station-line" style="color: #ff5828;"></i>
+              <h3><a href="">GYM</a></h3>
+            </div>
+            <div class="icon-box" style="--angle: -70%;">
+              <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
+              <h3><a href="">Swimming pool</a></h3>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+    <!-- ======= OUR SERVICES end ======= -->
+
+    <!-- our testimonial -->
+    <div class="container">
+      <div class="eleven">
+        <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">customers thoughts</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="testimonial-slider" class="owl-carousel">
+            <div class="testimonial d-flex gap-3 justify-content-between">
+              <div class="pic">
+                <img src="<%=APP_URL%>/uploads/testimo-999.jpg">
+              </div>
+              <div class="d-flex flex-column">
+                <p class=" flex-grow-1">
+                  I feel fresh in this place. I found the right place to spend quality time with family members and
+                  friends and create eternal moments. The view from my room was absolutely serene and perfect for living
+                  life with natural views.
+                </p>
+                <p class="title">PRIYANKA</p>
+              </div>
+
+            </div>
+
+            <div class="testimonial d-flex gap-3 justify-content-between">
+              <div class="pic">
+                <img src="<%=APP_URL%>/uploads/testimo-9991.jpg">
+              </div>
+              <div class="d-flex flex-column">
+                <p class=" flex-grow-1">
+
+                  The hospitality and food was amazing. I got a real taste of different food at this place. I must
+                  suggest visitors to spend time over food with their loved ones and enjoy life to the fullest.
+
+                </p>
+                <p class="title">SHUBHAM</p>
+              </div>
+
+            </div>
+
+            <div class="testimonial d-flex gap-3 justify-content-between">
+              <div class="pic">
+                <img src="<%=APP_URL%>/uploads/testimo-9992.jpg">
+              </div>
+              <div class="d-flex flex-column">
+                <p class=" flex-grow-1">
+
+                  The hospitality and food was amazing. I got a real taste of different food at this place. I must
+                  suggest visitors to spend time over food with their loved ones and enjoy life to the fullest.
+
+                </p>
+                <p class="title">VAIBHAB</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- our testimonial end -->
+    <%- include('../partial/faq') -%>
+      <!-- our testimonial end -->
+      <!-- ======= Contact Section ======= -->
+      <section class="section-with-bg" id="contact">
+        <div class="container mt-5">
+          <div class="eleven">
+            <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Contact us</h1>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="contact-map h-100">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.80219906876!2d77.75838856417931!3d12.984499668109883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae0e0e447fb773%3A0x5dfbfa970e67953!2sALEMBIC%20URBAN%20FOREST%2C%203G%20Homes%20Crimson%20Layout%2C%20Kadugodi%2C%20Bengaluru%2C%20Karnataka%20560067!5e0!3m2!1sen!2sin!4v1654421859984!5m2!1sen!2sin"
+                  width="100%" height="400" class="h-100" style="border:0;" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </div>
+
+            <!-- Contact form -->
+            <div class="col-md-6 col-12">
+              <% if (typeof success !== 'undefined' && success.length > 0) { %>
+                <div class="alert alert-success">
+                  <%= success %>
+                </div>
+              <% } %>
+              
+              <% if (typeof error !== 'undefined' && error.length > 0) { %>
+                <div class="alert alert-danger">
+                  <%= error %>
+                </div>
+              <% } %>
+              
+            
+              <form role="form" name="ajax-form" id="ajax-form" action="contact" method="post" class="form-main">
+                <input type="hidden" name="redirectTo" value="index">
+                <div class="form-group">
+                  <label for="name2">Name</label>
+                  <input class="form-control" id="name" required name="name"  type="text" placeholder="Enter your name">
+                  <div class="error" id="err-name" style="display: none;">Please enter name</div>
+                </div> 
+                <div class="form-group">
+                  <label for="email2">Mobile</label>
+                  <input class="form-control" id="mobile" name="mobile" type="number" value="" placeholder="Enter your mobile number"> 
+                  <div class="error" id="err-emailvld" style="display: none;">Mobile is not a valid format</div>
+                </div>
+                <div class="form-group">
+                  <label for="email2">Email</label>
+                  <input class="form-control" id="email" required name="email" type="text" value="" placeholder="Enter your email">
+                  <div class="error" id="err-emailvld" style="display: none;">E-mail is not a valid format</div>
+                </div>
+                <div class="form-group">
+                  <label for="message2">Type your query here</label>
+                  <textarea class="form-control" style="height: 60px;" id="message" required name="message" rows="4"></textarea>
+                  <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn rounded-0 p-3 px-3 btnHover " style="width:150px;" id="send">Submit</button>
+
+                  </div>
+
+              </form> <!-- /form -->
+            </div> 
+
+          </div> 
+
+        </div>
+      </section>
+      <!-- contact us section -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" style="color:#000;">Modify/Cancel Booking</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="<%=APP_URL%>modify-cancel" method="post">
+                <div class="from-group">
+                  <input type="text" name="booking_id" class="form-control" placeholder="Enter Booking ID Here">
+                </div>
+                <br>
+                <div class="from-group">
+                  <input type="submit" class="form-control btn btn-primary" placeholder="Enter Booking ID Here">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include('../partial/foot'); -%>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+        <script>
+          window.setTimeout(function () {
+            $('.aaseaform').hide();
+          }, 30000);
+          function booknowshow() {
+            $('.aaseaform').show();
+          }
+        </script>
+        <script>
+          var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"WhatsApp Us","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"999999999","welcomeMessage":"hi","zIndex":999999,"btnColorScheme":"light"};
+          window.onload = () => {
+            _waEmbed(wa_btnSetting);
+          };
+        </script>
+      

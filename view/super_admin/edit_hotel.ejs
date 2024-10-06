@@ -1,0 +1,66 @@
+<%- include('head'); -%>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+     <div class="card">
+         <div class="card-header">
+             Add Hotel
+         </div>
+         <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Hotel Name</label>
+                <br>
+                <input type="text" placeholder="Enter Task Name here..." class="form-control" name="hotel_name" value="<%=hotel.hotel_name%>">
+            </div>
+            <div class="form-group">
+                <label for="file">Hotel images</label>
+                <br>
+                <input type="file" class="form-control" name="hotel_image" >
+            </div>
+            <div class="form-group">
+                <label for="file">Hotel background video</label>
+                <br>
+                <input type="file" class="form-control" name="hotel_background_video" >
+            </div>
+             <div class="form-group">
+                <label for="file">Description</label>
+                <br>
+                <input type="text" placeholder="Enter Description here..." class="form-control" name="description"  value="<%=hotel.description%>">
+            </div>
+            <div class="form-group">
+                <label for="file">No of Room</label>
+                <br>
+                <input type="text" placeholder="Enter Room here..." class="form-control" name="room"  value="<%=hotel.room%>">
+            </div>
+            <div class="form-group">
+                <label for="file">Location</label>
+                <br>
+                <input type="text" placeholder="Enter Location here..." class="form-control" name="location"  value="<%=hotel.location%>">
+            </div>
+            <div class="form-group">
+                <label for="file">AC <input type="checkbox" name="service[]"></label>
+                <label for="file">BAR <input type="checkbox" name="service[]"></label>
+                <label for="file">SWIMING POOL <input type="checkbox" name="service[]"></label>
+                <label for="file">GYM <input type="checkbox" name="service[]"></label>
+                <label for="file">SPA <input type="checkbox" name="service[]"></label>
+            </div>
+                <center>
+                    <button type="submit" class="btn"  style="background:#000;color:#fff;">Submit</button>
+                </center>
+      </form>
+         </div>
+     </div>
+      </div> 
+        </div>
+    </div>
+  </section>
+</div>
+
+
+ 
+<%- include('foot'); -%>
+</body>
+</html>

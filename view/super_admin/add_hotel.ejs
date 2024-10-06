@@ -1,0 +1,118 @@
+<%- include('head'); -%>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+     <div class="card">
+         <div class="card-header">
+             Add Hotel
+         </div>
+         <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Hotel Type</label>
+                <br>
+                <select class="form-control" name="hotel_type">
+                    <option value="">Select Hotel Type</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Resort">Resort</option>
+                    <option value="Luxary Residency">Luxary Residency</option>
+                    <option value="Service Apartment">Service Apartment</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="file">Hotel Name</label>
+                <br>
+                <input type="text" placeholder="Enter Hotel Name here..." class="form-control" name="hotel_name" >
+            </div>
+            <div class="form-group">
+                <label for="file">Hotel images</label>
+                <br>
+                <input type="file" class="form-control" name="hotel_image" multiple>
+            </div>
+            <div class="form-group">
+                <label for="file">Hotel Video</label>
+                <br>
+                <input type="file" class="form-control" name="hotel_background_video" >
+            </div>
+            <div class="form-group">
+                <label for="file">No of Rooms</label>
+                <br>
+                <input type="number" placeholder="Enter No of Rooms here..." class="form-control" name="room" >
+            </div>
+            <div class="form-group">
+                <label for="file">Location</label>
+                <br>
+                <input type="text" placeholder="Enter Location here..." class="form-control" name="location" >
+            </div>
+            <div class="form-group">
+                <label for="file">City</label>
+                <br>
+                <input type="text" placeholder="Enter City here..." class="form-control" name="city" >
+            </div>
+            <div class="form-group">
+                <label for="file">Country</label>
+                <br>
+                <input type="text" placeholder="Enter Country here..." class="form-control" name="country" >
+            </div>
+            <div class="form-group">
+                <label for="file">Cancellation fee</label>
+                <br>
+                <input type="text" placeholder="Enter Cancellation fee here..." class="form-control" name="cancellation_fee" >
+            </div>
+            <div class="form-group">
+                <label for="file">Stars</label>
+                <br>
+                <input type="text" placeholder="Enter Stars here..." class="form-control" name="stars" >
+            </div>
+            <div class="form-group">
+                <label>Facilities</label><br>
+                <label style="font-size:15px;">Bar <input type="checkbox" name="facilities[]" value="Bar"></label>
+                <label style="font-size:15px;">Swimming Pool<input type="checkbox" name="facilities[]" value="Swimming Pool"></label>
+                <label style="font-size:15px;">GYM <input type="checkbox" name="facilities[]" value="GYM"></label>
+                <label style="font-size:15px;">SPA <input type="checkbox" name="facilities[]" value="SPA"></label>
+                <label style="font-size:15px;">Banquet Hall <input type="checkbox" name="facilities[]" value="Banquet Hall"></label>
+                <label style="font-size:15px;">Meeting Room <input type="checkbox" name="facilities[]" value="Meeting Room"></label>
+                <label style="font-size:15px;">Garden <input type="checkbox" name="facilities[]" value="Garden"></label>
+                <label style="font-size:15px;">Doctor On Call <input type="checkbox" name="facilities[]" value="Doctor On Call"></label>
+                <label style="font-size:15px;">Free Parking <input type="checkbox" name="facilities[]" value="Free Parking"></label>
+                <label style="font-size:15px;">Entertainment & Adventure Center <input type="checkbox" name="facilities[]" value="Entertainment & Adventure Center"></label>
+            </div>
+            <div class="form-group">
+                <label for="file">Description</label>
+                <br>
+                <textarea  class="form-control" name="description"></textarea>
+            </div>
+            <!-- <div class="form-group">
+                <label for="file">Facebook URL</label>
+                <br>
+                <input type="text" placeholder="Enter Facebook URL here..." class="form-control" name="fb" >
+            </div>
+            <div class="form-group">
+                <label for="file">Instagram URL</label>
+                <br>
+                <input type="text" placeholder="Enter Instagram URL here..." class="form-control" name="insta" >
+            </div>
+            <div class="form-group">
+                <label for="file">Twitter URL</label>
+                <br>
+                <input type="text" placeholder="Enter Twitter URL here..." class="form-control" name="twitter" >
+            </div> -->
+                <center>
+                    <button type="submit" class="btn"  style="background:#000;color:#fff;">Submit</button>
+                </center>
+      </form>
+         </div>
+     </div>
+      </div> 
+        </div>
+    </div>
+  </section>
+</div>
+
+
+ 
+<%- include('foot'); -%>
+</body>
+</html>

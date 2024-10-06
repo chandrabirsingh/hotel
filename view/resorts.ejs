@@ -1,0 +1,53 @@
+<%- include('head'); -%>
+<%- include('nav'); -%>
+<div style="height:100px;"></div>
+    <!-- ======= About Section ======= -->
+    <section id="about" >
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-6">
+            <h2 style="color:white">Resort’s</h2>
+            <span style="color:rgb(255, 255, 255); font-size: large; font-weight: 800;">Our Brand that's delight
+              everyone in to a happiness through an amazing experiential journey.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <main id="main" class="main-page">
+    <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200" >
+      <div class="container-fluide">
+              <div class=" text-center">
+                    <div class="container">
+                  <h1>Resort’s</h1>
+                  <div class="row">
+                    <% hotels.forEach((hotel,index) => { %>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card mb-2">
+                        <div class="hotel">
+                          <div class="hotel-img">
+                            <img src="<%=APP_URL%>uploads/<%=hotel.hotel_images%>" alt="Hotel 1"
+                              class="img-fluid" style="height:250px;">
+                          </div>
+                          <h4><a href="<%=APP_URL%>hotelroomdetail?hotel=<%=hotel.id%>"><%=hotel.hotel_name%></a></h4>
+                          <br>
+                          
+                            <b>Facilities :</b><br>
+                            <!-- <div class="row"> -->
+                            <% let facs = hotel.facilities.split(","); facs.forEach((fac) => { %>
+                                    <div style="float: left;">
+                                        <br><span style="margin: 10px;"><%=fac%></span>
+                                    </div>
+                            <% }) %>
+                        <!-- </div> -->
+                        </div>
+                        </div>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+      </div>
+    </section>
+    </main>
+  <!-- ======= Footer ======= -->
+  <%- include('foot'); -%>

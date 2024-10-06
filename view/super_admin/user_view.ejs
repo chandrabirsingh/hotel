@@ -1,0 +1,218 @@
+<?php
+include_once 'head.php';
+/*$nowdate = date('Y-m-d H:i:s');
+if(isset($_GET['date']) and isset($_GET['datee'])){
+    $date = towreal($_GET['date']);
+    $datee = towreal($_GET['datee']);
+    $date = date("Y-m-d", strtotime($date));
+    $datee = date("Y-m-d", strtotime($datee));
+    $sdate = "$date 00:00:00";
+    $edate = "$datee 23:59:59";
+    $a = towquery("SELECT * FROM `user` WHERE date BETWEEN ('$sdate') AND ('$edate') ORDER BY `id` DESC");
+}else{
+$a = towquery("SELECT * FROM `user` ORDER BY `id` DESC");
+}*/
+?>
+  <div class="content-wrapper">
+    <!-- <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <section class="content">
+      <div class="container-fluid">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Orders <small style="color:gray">Id L125HV</small>
+    </h1>
+  </section>
+<style>
+  th{
+    cursor: pointer;
+  }
+  .status_td{
+      display: flex;
+    justify-content: center;
+  }
+  .status{
+      padding:5px 15px;
+      color:#fff;
+      border-radius:5px;
+      font-size:13px;
+      
+  }
+</style>
+  <!-- Main content -->
+  <section class="content">
+    <div class="box hidden" id="add_edit_form">
+      <div id="display_update_form">
+
+      </div>
+    </div>
+    <div class="box">
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered table-striped" data-add-new="categories" data-control="categories" id="myTable">
+          <thead>
+            <tr>
+               <th>Product</th>
+                <th>Frame</th>
+                <th>Size</th>
+                <th>Unit</th>
+               <th>Price</th>
+               <th>Date</th>
+                <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+                     
+                <tr>
+                   <td><img src="https://images.saatchiart.com/saatchi/1637468/art/7838762/additional_3de8a47746aabcd53224af4cbbbc8dad0153cb5d-AICC2-8.jpg" style="width:80px;"></td>
+                  <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk4Jn4_kQlEnf0KOIr4L9MhUt_pyNJ2CG6Mw&usqp=CAU" style="width:80px;"></td>
+                  <td>160cm * 200cm</td>
+                  <td>2</td>
+                 <td>2000 ₹ </td>
+                <td>01/11/2021</td>
+                
+               <td>
+                   <select class="form-control" name="status">
+                   <option value="Completed">
+                       Completed
+                   </option>
+                   <option value="cancel">
+                       cancel
+                   </option>
+                   <option value="pending">
+                       pending
+                   </option>
+               </select>
+               </td>
+                
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    <div class="card">
+        <div class="card-header">
+          <h4>Name  <small style="color:gray;font-size:15px;">Mukesh Shantilal</small></h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <section>
+                    <b>Billing</b>
+                    <br>
+                    <span style="font-size:13px;color:gray">Address:-</span><br>
+                    sidhu
+Harkirat singh
+# 89 Maharaja Yadavindra Enclave
+Patiala 147001
+Punjab
+</section>
+
+                </div>
+                <div class="col-md-6">
+                    <b>Shipping</b>
+                    <br>
+                    <span style="font-size:13px;color:gray">Address:-</span><br>
+                    No shipping address set.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                 <br>
+<section>
+    <b>Email</b><br>
+    demo@gmail.com
+    <br>
+    <b>Phone</b><br>
+    xxxxxx-xxx
+    
+</section>
+
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>    </section>
+    </div>
+<?php include 'foot.php';?>
+
+
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</body>
+</html>

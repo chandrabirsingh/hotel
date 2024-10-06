@@ -1,0 +1,72 @@
+<%- include('head'); -%>
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="container-fluid">
+  <br><br>
+<style>
+  th{
+    cursor: pointer;
+  }
+  .status_td{
+      display: flex;
+    justify-content: center;
+  }
+  .status{
+      padding:5px 15px;
+      color:#fff;
+      border-radius:5px;
+      font-size:13px;
+      
+  }
+</style>
+  <section class="content">
+    <div class="card">
+      <div class="card-header">
+          Users
+      </div>
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped" data-add-new="categories" data-control="categories" id="myTable">
+          <thead>
+            <tr>
+               <th >Name</th>
+               <th >Email</th>
+               <th >Mobile</th>
+               <th >Status</th>
+               <th >Action</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% users.forEach(function(user,index){ %>
+                <tr>
+                 <td><%=user.name%></td>
+                 <td><%=user.email%></td>
+                 <td><%=user.phone%></td>
+                 <td><%=user.status%></td>
+                 <td>
+                   <a href="user_view.php" class="btn btn-info btn-sm view_btn" data-header="Product Details" data-id="67" data-method="#"><i class="fa fa-eye"></i></a>
+                   <a href="<%=APP_URL%>admin/" class="btn btn-warning btn-sm">Process</a>
+                   <a onclick="a($user.id)" class="btn btn-danger btn-sm delete_btn">Cancel</a>
+                 </td>
+               </tr>
+              <% });%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  </div>
+  </section>
+</div>
+<%- include('foot'); -%>
+<script>
+        function a(id){
+         var r = confirm("Are you sure");
+         if (r == true) {
+         location.replace("{{env('APP_URL').'super_admin/delete_clients/'}}"+id)
+         } else {
+         }
+         }
+</script>
+</body>
+</body>
+</html>

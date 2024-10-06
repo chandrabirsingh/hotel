@@ -1,0 +1,49 @@
+<body>
+  <div style="position:fixed;left: 0px;right: 0px;z-index: 9999;">
+    <% if(typeof(cowin) !== 'undefined'){ %>
+  <div style="width:100%;height:40px; line-height:40px; background:#000;color:#fff;z-index:999" id="cowin" align="center">
+          <span class="atguidlid" style="width:90%; float:left;font-size: 13px;"><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a href="<%=APP_URL%>food-delivery">Food delivery</a> | <a 
+          href="<%=APP_URL%>download-brochure">Download brochure</a> | <a href="<%=APP_URL%>partner-with-us">Partner with us</a> </span>
+          <span class="atguidlim" style="width:90%; float:left;"><marquee><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a href="<%=APP_URL%>food-delivery">Food delivery</a> | <a 
+            href="<%=APP_URL%>download-brochure">Download brochure</a> | <a href="<%=APP_URL%>partner-with-us">Partner with us</a></marquee></span>
+              <span style="background-color:#fff0;width:10%;font-size:25px;float:right;line-height: 30px;cursor: pointer;margin-top: 5px;" onclick="document.getElementById('cowin').style.display = 'none';">x</span>
+  </div>
+  <% } %>
+  <header class="atheader">
+          <div class="athefdiv">
+              <div class="athelodiv"><img src="<%=APP_URL%>logo.png" style="height: 70%;width: auto;"></div>
+              <div class="atherifdiv">
+        <nav class="navbar1 order-last order-lg-0" style="">
+          <ul>
+            <li><a class="nav-link scrollto" href="#membership">MEMBERSHIP</a></li>
+            <li><a class="nav-link scrollto" href="<%=APP_URL%>loyalty-program">LOYALTY PROGRAM</a></li>
+            <li><div id="google_translate_element"></div></li>
+            <li><a class="nav-link scrollto" href="tel:+919971695346"><i class="fa fa-phone" aria-hidden="true" style="font-size:30px;"></i></a></li>
+            <li><a class="nav-link scrollto" href="mailto:chandrabir.singh@skydoorhotels.com"><i class="fa fa-envelope" aria-hidden="true" style="font-size:30px;"></i></a></li>
+            <li><a class="nav-link scrollto" href="https://wa.me/+919971695346"><i class="fa fa-whatsapp" aria-hidden="true" style="font-size:30px;"></i></a></li>
+            <% if(user !== ''){ %>
+            <li><a class="nav-link scrollto" href="#"><%=user.name%></a></li>
+            <li><a class="nav-link scrollto" href="/logout"><i class="fa fa-sign-out" aria-hidden="true" style="font-size:30px;"></i></a></li><% }else{ %>
+            <li><a class="nav-link scrollto" href="#"><i class="fa fa-user" aria-hidden="true" style="font-size:30px;" data-bs-toggle="modal" data-bs-target="#loginmodal"></i></a></li><% } %>
+          </ul>
+        </nav>
+              </div><hr class="navhr">
+              <div class="atherisdiv">
+                  <nav id="navbar" class="navbar order-last order-lg-0" style="padding:0px;float: right;box-shadow: 1px 1px 3px rgb(0 0 0 / 0%);margin-right: 10px;">
+          <ul>
+            <li><a class="nav-link scrollto active" href="<%=APP_URL%>">HOME</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>hotels">HOTElS</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>resorts">RESORTS</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>private-luxary-residency">PRIVATE LUXARY RESIDENCY</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>service-apartments">SERVICE APARTMENTS</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>meet-and-events">MEETING &#38; EVENTS</a></li>
+              <li><a class="nav-link scrollto" href="#">SPECIAL OFFERS</a></li>
+              <li><a class="nav-link scrollto" href="<%=APP_URL%>e-gift-coupon">E- GIFT COUPONS</a></li>
+              <li><a class="nav-link scrollto" style="border:solid #fff 1px;" href="<% if (typeof hid !== 'undefined') { %>#top<% }else{ %><%=APP_URL%><% } %>" onclick="booknowshow()">BOOK NOW</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle" style="color:#000; margin-right:10px;"></i>
+        </nav>
+              </div>
+          </div>
+  </header>
+</div>

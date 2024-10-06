@@ -1,0 +1,96 @@
+<%- include('head'); -%>
+<div class="container">
+    <center>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="card" style="background-image: linear-gradient(#009bff, #88dd85);">
+                    <div class="card-header">
+                        <img src="https://image-charts.com/chart?chs=200x200&cht=qr&chl=<%=coupondata.coupon_code%>&choe=UTF-8" alt="QR code">
+                    </div>
+                    <div class="card-body">
+                        <p><b>Coupon code</b> : <%=coupondata.coupon_code%></p>
+                        <p><b>Amount</b> : <%=coupondata.amount%></p>
+                        <p><b>Validity</b> : <%=coupondata.valid_date%></p>
+                    </div>
+                    <div class="card-body">
+                        <span style="font-size:10px;">Terms: Valid till 31st march’2025 for entire group. Voucher can be used against any value-added service at once/per billing/per hotel. Remaining un used amount is not refundable nor transferable.</span>
+                    </div>
+                    <div class="card-footer">
+                        <button id="rzp-button1" class="btn btn-success">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Razorpay Checkout script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<%- include('head'); -%>
+<div class="container">
+    <center>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="card" style="background-image: linear-gradient(#009bff, #88dd85);">
+                    <div class="card-header">
+                        <img src="https://image-charts.com/chart?chs=200x200&cht=qr&chl=<%=coupondata.coupon_code%>&choe=UTF-8" alt="QR code">
+                    </div>
+                    <div class="card-body">
+                        <p><b>Coupon code</b>: <%=coupondata.coupon_code%></p>
+                        <p><b>Amount</b>: <%=coupondata.amount%></p>
+                        <p><b>Validity</b>: <%=coupondata.valid_date%></p>
+                    </div>
+                    <div class="card-body">
+                        <span style="font-size:10px;">Terms: Valid till 31st March 2025. Voucher can be used against any value-added service at once/per billing/per hotel. Remaining unused amount is not refundable or transferable.</span>
+                    </div>
+                    <div class="card-footer">
+                        <button id="rzp-button1" class="btn btn-success">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </center>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Razorpay Checkout script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Set default values for testing
+    var orderId = "order_test_123456";  // Dummy order ID for testing
+    var amount = 10000;  // Set default amount (in paise, 10000 paise = 100 INR)
+
+    // Directly open Razorpay checkout without AJAX calls
+    $("#rzp-button1").click(function(e) {
+        var options = {
+            "key": "rzp_test_1HYbglgcDS6vZg",  // Test Razorpay Key
+            "amount": amount,
+            "currency": "INR",
+            "name": "SKY DOOR HOTELS & RESORTS",
+            "description": "Coupon Purchase",
+            "image": "http://skydoorhotels.com/logo.png",  // Replace with your logo
+            "order_id": orderId,  // Pass the dummy order ID for testing
+            "handler": function(response) {
+                alert("Payment successful. Razorpay Payment ID: " + response.razorpay_payment_id);
+            },
+            "prefill": {
+                "name": "Test User",  // Prefill with test data
+                "email": "test@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+    });
+});
+</script>
