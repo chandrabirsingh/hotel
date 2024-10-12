@@ -124,24 +124,26 @@
 
             .grid-container {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 /* 4 equal columns */
                 gap: 10px;
                 /* Space between items */
             }
 
             .grid-item {
-                background: linear-gradient(0deg, #f0f0f0 15%, #f5f6fa 20%);
-                border-radius: 26px;
+                /* background: linear-gradient(0deg, #f0f0f0 15%, #f5f6fa 20%); */
+                border-radius: 10px;
                 padding: 10px;
                 transition: transform 0.2s;
-                text-align: center;
+                /* text-align: center; */
+                position: relative;
+                background: transparent;
             }
 
             .grid-item img {
                 width: 100%;
                 height: auto;
-                border-radius: 21px;
+                border-radius: 10px;
             }
 
             /* Specific item sizes and spans horizontally */
@@ -256,13 +258,198 @@
             .offcanvas {
                 width: 552px !important;
             }
+
+            .my-micro-menu {
+                background: #70c9a9a3;
+                backdrop-filter: blur(1px);
+                z-index: 2;
+                position: sticky;
+                top: 92px;
+            }
+
+            .my-micro-menu a {
+                font-size: 18px;
+                padding: 20px 10px;
+                font-weight: bold;
+            }
+
+            .smatxt {
+                font-size: 14px;
+            }
+
+            .bagde-flag-wrap {
+                position: absolute;
+                top: 20px;
+                left: -12px;
+            }
+
+            .bagde-flag {
+                text-transform: capitalize;
+                color: #ffffff;
+                background: #0CB2A7;
+                letter-spacing: 0;
+                font-size: 14px;
+                line-height: 15px;
+                font-weight: 600;
+                padding: 10px 15px;
+                display: block;
+                text-decoration: none;
+            }
+
+            .bagde-flag-wrap::before {
+                content: "";
+                position: absolute;
+                top: 35px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 12px 12px 0;
+                border-color: transparent #0CB2A7 transparent transparent;
+            }
+
+            input[type="date"] {
+                position: relative;
+            }
+
+            input[type="date"]::-webkit-calendar-picker-indicator {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: auto;
+                height: auto;
+                color: transparent;
+                background: transparent;
+            }
+
+            .spdiv {
+                --radius: 10px;
+                --inset: 2rem;
+                --inset-right: 0;
+                --offset: -0rem;
+                background: #ebebec;
+                display: inline-block;
+                z-index: -1;
+                content: "";
+                position: absolute;
+                margin: var(--offset);
+                border-radius: var(--radius);
+                overflow: hidden;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                contain: strict;
+                clip-path: inset(var(--inset-top, var(--inset)) var(--inset-right, var(--inset)) var(--inset-bottom, var(--inset)) var(--inset-left, var(--inset)) round var(--radius));
+                transition: clip-path .3s ease .1s;
+            }
+            .grid-item:hover .spdiv {
+    clip-path: inset(0 0 0 0 round var(--radius));
+    transition-delay: 0s;
+}
         </style>
-        <div style="height:100px;"></div>
-        <!-- hotel page -->
+        ` <!-- hotel page -->
 
         <body>
             <section>
-                <h1 class="text-center">himanshu Hotel</h1>
+                <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
+                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                        class="h-100 w-100" style="object-fit: cover;" alt="">
+                    <div class="position-absolute bottom-0 w-100" style="background-color: #005f96;">
+                        <form action="">
+                            <div class="d-flex align-items-center gap-3 container py-2">
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="check_in" class="text-white">Check In:
+                                        <div class="border p-2 text-white d-flex align-items-center">
+                                            <input type="date" class="bg-transparent border-0 text-white"
+                                                name="check_in" id="">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="check_in" class="text-white">Check Out:
+                                        <div class="border p-2 text-white d-flex align-items-center">
+                                            <input type="date" class="bg-transparent border-0 text-white"
+                                                name="check_out" id="">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="" class="text-white">Room
+                                        <div class="w-100 border p-2 text-white">
+                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                                <option value="" class="text-black">1</option>
+                                                <option value="" class="text-black">2</option>
+                                                <option value="" class="text-black">3</option>
+                                                <option value="" class="text-black">4</option>
+                                                <option value="" class="text-black">5</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="check_in" class="text-white">Location
+                                        <div class="border p-2 text-white">
+                                            <input type="text" class="bg-transparent border-0 text-white"
+                                                name="check_out" id="" readonly value="Himanshu hotel himasnhu hotel">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="" class="text-white">Adults:
+                                        <div class="w-100 border p-2 text-white">
+                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                                <option value="" class="text-black">1</option>
+                                                <option value="" class="text-black">2</option>
+                                                <option value="" class="text-black">3</option>
+                                                <option value="" class="text-black">4</option>
+                                                <option value="" class="text-black">5</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="" class="text-white">Children
+                                        <div class="w-100 border p-2 text-white">
+                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                                <option value="" class="text-black">1</option>
+                                                <option value="" class="text-black">2</option>
+                                                <option value="" class="text-black">3</option>
+                                                <option value="" class="text-black">4</option>
+                                                <option value="" class="text-black">5</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="check_in">
+                                        <span style="visibility: hidden;">Submit</span>
+                                        <div class="border p-2 text-white w-100">
+                                            <input type="submit"
+                                                class="bg-transparent w-100 text-center border-0 text-white"
+                                                name="check_out" id="">
+                                        </div>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="my-micro-menu d-flex justify-content-center align-items-center gap-3">
+                    <a href="#hotelrooms"><span class="item_text">Rooms</span></a>
+                    <a href="#dineInOption"><span class="item_text">Dining </span></a>
+                    <a href="#gallery"><span class="item_text">Gallery</span></a>
+                    <a href="#experience"><span class="item_text">Experience</span></a>
+                    <a href="#meet_and_event"><span class="item_text">Meet & Events</span></a>
+                    <a href="https://www.google.com/maps/place/Howard+Plaza+-+The+Fern/@27.1628803,78.0344622,17z/data=!3m1!4b1!4m8!3m7!1s0x397471f9553f525d:0x7c6a8f93575f75c!5m2!4m1!1i2!8m2!3d27.1628803!4d78.0366509"
+                        target="_blank"><span class="item_text">Location</span></a>
+                    <a href="#contactUs"><span class="item_text">Contact</span></a>
+                </div>
+                <h1 class="text-center">Himanshu Hotel</h1>
                 <p class="text-center">
                     <a class="text-primary text-decoration-none VsmaTxt text-center fw-light" target="_blank"
                         href=""><span><i class="fa-solid fa-map-location-dot"></i></span> 23, HAL Old Airport Road, HAL
@@ -270,7 +457,7 @@
                         Stage, Kodihalli, Bengaluru, Karnataka, India, 560008</a>
                 </p>
                 <!-- image gallry -->
-                <section class="card-grid pt-0">
+                <section class="card-grid pt-0" id="gallery">
                     <div class="container">
                         <div class="row g-2">
                             <!-- Image -->
@@ -292,350 +479,222 @@
                                 <div class="row g-2">
                                     <!-- Image -->
                                     <div class="col-12">
-                                        <a href="#" class="open-slider" data-index="0"">
-                                        <div class=" card card-grid-sm rounded-4 card-element-hover card-overlay-hover
+                                        <a href="#" class="open-slider" data-index="0">
+                                            <div class=" card card-grid-sm rounded-4 card-element-hover card-overlay-hover
                                             overflow-hidden"
-                                            style="background-image:url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
-                                            <!-- Card hover element -->
-                                            <div class="hover-element position-absolute w-100 h-100">
-                                                <i
-                                                    class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                                style="background-image:url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
+                                                <!-- Card hover element -->
+                                                <div class="hover-element position-absolute w-100 h-100">
+                                                    <i
+                                                        class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                                </div>
                                             </div>
+                                        </a>
                                     </div>
-                                    </a>
-                                </div>
 
-                                <!-- Image -->
-                                <div class="col-md-6">
-                                    <a href="#" class="open-slider" data-index="0">
-                                        <div class="card card-grid-sm rounded-4 card-element-hover card-overlay-hover overflow-hidden"
+                                    <!-- Image -->
+                                    <div class="col-md-6">
+                                        <a href="#" class="open-slider" data-index="0">
+                                            <div class="card card-grid-sm rounded-4 card-element-hover card-overlay-hover overflow-hidden"
+                                                style="background-image:url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
+                                                <!-- Card hover element -->
+                                                <div class="hover-element position-absolute w-100 h-100">
+                                                    <i
+                                                        class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!-- Images -->
+                                    <div class="col-md-6">
+                                        <div class="card card-grid-sm rounded-4 overflow-hidden"
                                             style="background-image:url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
-                                            <!-- Card hover element -->
-                                            <div class="hover-element position-absolute w-100 h-100">
-                                                <i
-                                                    class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                            <!-- Background overlay -->
+                                            <div class="bg-overlay bg-dark"></div>
+
+                                            <!-- Popup Images -->
+                                            <a href="#" class="open-slider stretched-link z-index-9" data-index="0"></a>
+                                            <a href="#" class="open-slider" data-index="0"></a>
+                                            <a href="#" class="open-slider" data-index="0"></a>
+
+                                            <!-- Overlay text -->
+                                            <div class="card-img-overlay d-flex h-100 w-100">
+                                                <h6 class="card-title m-auto fw-light"
+                                                    style="text-decoration:underline;text-decoration-color:white;"><a
+                                                        href="#" class="text-white inter">View all</a></h6>
                                             </div>
                                         </div>
-                                    </a>
-                                </div>
-
-                                <!-- Images -->
-                                <div class="col-md-6">
-                                    <div class="card card-grid-sm rounded-4 overflow-hidden"
-                                        style="background-image:url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
-                                        <!-- Background overlay -->
-                                        <div class="bg-overlay bg-dark"></div>
-
-                                        <!-- Popup Images -->
-                                        <a href="#" class="open-slider stretched-link z-index-9" data-index="0"></a>
-                                        <a href="#" class="open-slider" data-index="0"></a>
-                                        <a href="#" class="open-slider" data-index="0"></a>
-
-                                        <!-- Overlay text -->
-                                        <div class="card-img-overlay d-flex h-100 w-100">
-                                            <h6 class="card-title m-auto fw-light"
-                                                style="text-decoration:underline;text-decoration-color:white;"><a
-                                                    href="#" class="text-white inter">View all</a></h6>
-                                        </div>
                                     </div>
                                 </div>
+                                <!-- Card item END -->
                             </div>
-                            <!-- Card item END -->
                         </div>
-                    </div>
                 </section>
+                <!-- micro nav -->
+
                 <div class="container mb-5" id="hotelAboutSection">
-                    <div class="row">
-                        <div class="col-md-8 col-12">
+                    <div class="">
+                        <div class="">
                             <div id="hotelAbout">
-                                <h3 class="fw-bold border-bottom pb-3">About himanshu hotel</h3>
-                                <div class="features">
-                                    <p class="fw-bold" style="font-size: 18px;">Features</p>
-                                    <div class="hstack gap-3 mb-3">
-                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" aria-label="Free wifi" data-bs-title="Free wifi">
-                                            <i class="fa-solid fa-wifi"></i>
+                                <div class="row">
+                                    <div class="col-6" id="descriptionHotel">
+                                        <h2 class="fw-bold  py-4"> himanshu hotel</h2>
+
+                                        <div class="description">
+                                            <p class="mb-3">Demesne far-hearted suppose venture excited see had has.
+                                                Dependent
+                                                on so
+                                                extremely delivered by. Yet no jokes worse her why. <b>Bed one supposing
+                                                    breakfast
+                                                    day fulfilled off depending questions.</b></p>
+
+                                            <p class="mb-0">Delivered dejection necessary objection do Mr prevailed. Mr
+                                                feeling
+                                                does
+                                                chiefly cordial in do. Water timed folly right aware if oh truth. Large
+                                                above be
+                                                to
+                                                means. Dashwood does provide stronger is.</p>
+
+                                            <p class="my-3">We focus a great deal on the understanding of behavioral
+                                                psychology
+                                                and
+                                                influence triggers which are crucial for becoming a well rounded Digital
+                                                Marketer.
+                                                We understand that theory is important to build a solid foundation, we
+                                                understand
+                                                that theory alone isn't going to get the job done so that's why this
+                                                rickets
+                                                is
+                                                packed with practical hands-on examples that you can follow step by
+                                                step.
+                                            </p>
+
+                                            <p class="mb-0">Behavioral psychology and influence triggers which are
+                                                crucial
+                                                for
+                                                becoming a well rounded Digital Marketer. We understand that theory is
+                                                important
+                                                to
+                                                build a solid foundation, we understand that theory alone isn't going to
+                                                get
+                                                the
+                                                job
+                                                done so that's why this tickets is packed with practical hands-on
+                                                examples
+                                                that
+                                                you
+                                                can follow step by step.</p>
+                                            <a href="#" class="btn rounded-0 p-3 px-3 btnHover" type="submit"
+                                                fdprocessedid="f5h81t"> Download Factsheet
+                                            </a>
                                         </div>
-                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" aria-label="Swimming Pool"
-                                            data-bs-title="Swimming Pool">
-                                            <i class="fa-solid fa-swimming-pool"></i>
-                                        </div>
-                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" aria-label="Central AC" data-bs-title="Central AC">
-                                            <i class="fa-solid fa-snowflake"></i>
-                                        </div>
-                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" aria-label="Free Service"
-                                            data-bs-title="Free Service">
-                                            <i class="fa-solid fa-concierge-bell"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="descriptionHotel">
-                                    <p class="mb-3">Demesne far-hearted suppose venture excited see had has. Dependent
-                                        on so
-                                        extremely delivered by. Yet no jokes worse her why. <b>Bed one supposing
-                                            breakfast
-                                            day fulfilled off depending questions.</b></p>
-
-                                    <p class="mb-0">Delivered dejection necessary objection do Mr prevailed. Mr feeling
-                                        does
-                                        chiefly cordial in do. Water timed folly right aware if oh truth. Large above be
-                                        to
-                                        means. Dashwood does provide stronger is.</p>
-
-                                    <p class="my-3">We focus a great deal on the understanding of behavioral psychology
-                                        and
-                                        influence triggers which are crucial for becoming a well rounded Digital
-                                        Marketer.
-                                        We understand that theory is important to build a solid foundation, we
-                                        understand
-                                        that theory alone isn't going to get the job done so that's why this rickets is
-                                        packed with practical hands-on examples that you can follow step by step.</p>
-
-                                    <p class="mb-0">Behavioral psychology and influence triggers which are crucial for
-                                        becoming a well rounded Digital Marketer. We understand that theory is important
-                                        to
-                                        build a solid foundation, we understand that theory alone isn't going to get the
-                                        job
-                                        done so that's why this tickets is packed with practical hands-on examples that
-                                        you
-                                        can follow step by step.</p>
-                                    step.
-                                </div>
-                            </div>
-                            <div class="amenitiesHotel">
-                                <ul class="nav nav-pills mb-3 border-bottom py-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-Amenities-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-Amenities" type="button" role="tab"
-                                            aria-controls="pills-Amenities" aria-selected="true">
-                                            <h3 class="fw-bold ">Amenities</h3>
-                                        </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-places-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-places" type="button" role="tab"
-                                            aria-controls="pills-places" aria-selected="false">
-                                            <h3 class="fw-bold ">Near by places</h3>
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-Amenities" role="tabpanel"
-                                        aria-labelledby="pills-home-tab" tabindex="0">
-                                        <div class="card-body pt-4 p-0">
-                                            <div class="row g-4">
-                                                <!-- Activities -->
-                                                <div class="col-sm-6">
-                                                    <h6 class="inter"><i class="fa-solid fa-biking me-2"></i>Activities
-                                                    </h6>
-                                                    <!-- List -->
-                                                    <ul class="list-group list-group-borderless mt-2 mb-0">
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Swimming
-                                                            pool
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Spa
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Kids'
-                                                            play
-                                                            area
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Gym
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <!-- <h6 class="inter"><i class="bi bi-shield-fill-check me-2"></i>Safety &amp; Security</h6>
-                                                <ul class="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
-                                                    <li class="list-group-item inter">
-                                                        <i class="fa-solid fa-check-circle text-success me-2"></i>Doctor on Call
-                                                    </li>
-                                                </ul> -->
-
-                                                    <h6 class="inter"><i class="fa-solid fa-volume-up me-2"></i>Staff
-                                                        Language</h6>
-                                                    <!-- List -->
-                                                    <ul class="list-group list-group-borderless mt-2 mb-0">
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>English
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Spanish
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Hindi
-                                                        </li>
-                                                    </ul>
-                                                </div>
 
 
-                                                <!-- Services -->
-                                                <div class="col-sm-6">
-                                                    <h6 class="inter"><i
-                                                            class="fa-solid fa-concierge-bell me-2"></i>Services</h6>
-                                                    <!-- List -->
-                                                    <ul class="list-group list-group-borderless mt-2 mb-0">
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Dry
-                                                            cleaning
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Room
-                                                            Service
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Special
-                                                            service
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Waiting
-                                                            Area
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Secrete
-                                                            smoking area
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Concierge
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Laundry
-                                                            facilities
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Ironing
-                                                            Service
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Lift
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <!-- Safety & Security -->
-                                                <div class="col-sm-6">
-                                                    <h6 class="inter"><i class="bi bi-shield-fill-check me-2"></i>Safety
-                                                        &amp;
-                                                        Security</h6>
-                                                    <!-- List -->
-                                                    <ul class="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Doctor
-                                                            on Call
-                                                        </li>
-                                                    </ul>
-
-                                                    <h6 class="inter"><i class="fa-solid fa-volume-up me-2"></i>Staff
-                                                        Language</h6>
-                                                    <!-- List -->
-                                                    <ul class="list-group list-group-borderless mt-2 mb-0">
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>English
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Spanish
-                                                        </li>
-                                                        <li class="list-group-item inter">
-                                                            <i
-                                                                class="fa-solid fa-check-circle text-success me-2"></i>Hindi
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
+                                        <div class="hstack gap-3 my-3 justify-content-center">
+                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" aria-label="Free wifi"
+                                                data-bs-title="Free wifi">
+                                                <i class="fa-solid fa-wifi"></i>
+                                            </div>
+                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" aria-label="Swimming Pool"
+                                                data-bs-title="Swimming Pool">
+                                                <i class="fa-solid fa-swimming-pool"></i>
+                                            </div>
+                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" aria-label="Central AC"
+                                                data-bs-title="Central AC">
+                                                <i class="fa-solid fa-snowflake"></i>
+                                            </div>
+                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" aria-label="Free Service"
+                                                data-bs-title="Free Service">
+                                                <i class="fa-solid fa-concierge-bell"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-places" role="tabpanel"
-                                        aria-labelledby="pills-profile-tab" tabindex="0">
-                                        <div id="nearByPlace">
-                                            <div class="grid-container">
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                        alt="Place Name 4">
-                                                    <div class="d-flex">
-                                                        <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                            class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                            <span>(See on Map)</span></a>
-                                                    </div>
-                                                </div>
+                                    <div class="col-md-6 col-12">
+                                        <div style="
+                                        background-image: url('http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg');
+                                        height: 100%;
+                                        background-size: contain;
+                                        mask-image: url('http://192.168.1.44:5003/assets/hotelpics/realistic-torn-ripper-orange-paper-frame-background.png');
+                                        mask-size: contain;
+                                        mask-repeat: no-repeat;
+                                        mask-position: center;
+                                    ">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" id="experience">
+                                <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Experience</h3>
+                                <div id="nearByPlace">
+                                    <div class="grid-container">
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="d-flex">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    <span>(See on Map)</span></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="hotelrooms">
-                                <h3 class="fw-bold mb-3 border-bottom py-3">Rooms</h3>
-                                <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
+                                <h3 class="fw-bold mb-3 py-4">Rooms</h3>
+
+                                <!-- <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active room" id="pills-home-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-home" type="button" role="tab"
@@ -651,200 +710,119 @@
                                             data-bs-target="#pills-contact" type="button" role="tab"
                                             aria-controls="pills-contact" aria-selected="false">Suite room</button>
                                     </li>
-                                </ul>
-                                <div class="tab-content px-3" id="pills-tabContent">
-                                    <div class="tab-pane fade show active " id="pills-home" role="tabpanel"
-                                        aria-labelledby="pills-home-tab" tabindex="0">
-                                        <div class="vstack gap-4">
-                                            <div class="w-100 p-2 border rounded">
-                                                <div class="d-flex flex-md-row flex-column gap-3">
+                                </ul> -->
+
+                                <div class="row ">
+                                    <div class="col-6 p-2">
+                                        <div class=" border rounded">
+                                            <div class="d-flex flex-md-row flex-column">
+                                                <div>
+                                                    <div class="sty position-relative"
+                                                        style="width: 340px; aspect-ratio: 1.5/1;">
+                                                        <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                            alt="Place Name 4" class="w-100 h-100">
+                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
+                                                            <h6 class="m-0">Deluxe Room</h6>
+                                                        </div>
+                                                        <div class="bagde-flag-wrap">
+                                                            <p class="bagde-flag">Get 10% OFF</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <span class="mb-0">~350 sq.ft</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span class="mb-0">3 people</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span>1 extra bed</span>
+                                                    </div>
                                                     <div>
-                                                        <div class="sty" style="width: 340px; aspect-ratio: 1.5/1;">
-                                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                                alt="Place Name 4" class="w-100 h-100">
+                                                        <div class="my-2">
+                                                            <span
+                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
+                                                                pool</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                Conditioner</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
+                                                                play
+                                                                area</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                many more</span>
                                                         </div>
 
                                                     </div>
-
                                                     <div class="flex-grow-1">
-
-                                                        <h3 class="mt-0">Luxury Room with Balcony</h3>
-                                                        <div class="d-flex gap-2 align-items-center">
-                                                            <p class="mb-0">Air Conditioning</p>
-                                                            <span><i class="fa-solid fa-circle"
-                                                                    style="font-size: 7PX;color: #c4c4c4;"></i></span>
-                                                            <p class="mb-0">Wifi</p>
-                                                            <span><i class="fa-solid fa-circle"
-                                                                    style="font-size: 7PX;color: #c4c4c4;"></i></span>
-                                                            <p class="mb-0">Kitchen</p>
-
-                                                        </div>
-                                                        <div>
-                                                            <p class="fw-bold mb-0 text-muted">Room feature</p>
-                                                            <ul class=" mt-2 mb-0 ps-1 text-muted"
-                                                                style="list-style: none;">
-                                                                <li class=" inter">
-                                                                    <i
-                                                                        class="fa-solid fa-check-circle text-success me-2"></i>Swimming
-                                                                    pool
-                                                                </li>
-                                                                <li class=" inter">
-                                                                    <i
-                                                                        class="fa-solid fa-check-circle text-success me-2"></i>Spa
-                                                                </li>
-                                                                <li class=" inter">
-                                                                    <i
-                                                                        class="fa-solid fa-check-circle text-success me-2"></i>Kids'
-                                                                    play
-                                                                    area
-                                                                </li>
-                                                        </div>
-                                                        <p class="mb-0" style="font-size: 26px;" class="gowun">2000 Rs
+                                                        <p class="mb-0 gowun" style="font-size: 26px;">2000 Rs
                                                             /<span class=" inter" style="font-size: 16px;">Night</span>
                                                         </p>
                                                         <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
                                                     </div>
-                                                </div>
-                                                <div class="d-flex justify-content-end gap-2 align-items-center">
-                                                    <a href="#" type="button" data-bs-toggle="offcanvas"
-                                                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-                                                        style="color: #005f96;">view more detail</a>
-                                                    <button
-                                                        class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
-                                                        Book now</button>
+
+                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasRight"
+                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
+                                                            more detail</a>
+                                                        <button
+                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
+                                                            Book now</button>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                        aria-labelledby="pills-profile-tab" tabindex="0">Room type 2</div>
-                                    <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                                        aria-labelledby="pills-contact-tab" tabindex="0">Room type 3</div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="border bg-white booking-form-container">
-                                <form class="booking-form">
-                                    <h2 class="mb-0">himanshu Hotel</h2>
-                                    <p class="mb-2 fs-5">Bengaluru</p>
-
-                                    <!-- Room Type (Select input) -->
-                                    <div class="">
-                                        <label for="room-type" class="me-3">Room Type</label>
-                                        <select id="room-type" name="room-type"
-                                            class="form-group rounded border px-2 py-2">
-                                            <option value="single">Single Room</option>
-                                            <option value="double">Double Room</option>
-                                            <option value="suite">Suite</option>
-                                        </select>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <!-- Number of Rooms -->
-                                        <div class="form-group d-flex flex-column">
-                                            <label for="room-count" class="me-2 flex-grow-1">Number of Rooms</label>
-                                            <div class="input-group mt-2">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="decreaseValue('room-count', 1)">-</button>
-                                                <input type="text" id="room-count" name="room-count" min="1" value="1"
-                                                    class="form-control text-center">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="increaseValue('room-count', 10)">+</button>
+                            <div class="" id="meet_and_event">
+                                <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Meets & Events</h3>
+                                <div id="nearByPlace">
+                                    <div class="grid-container">
+                                        <div class="grid-item">
+                                            <div class="spdiv"></div>
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class=" p-2">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Club & Bar</span>
+                                                    <span></a>
+                                                        <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                             </div>
                                         </div>
-
-                                        <!-- Number of Adults -->
-                                        <div class="form-group d-flex flex-column">
-                                            <label for="adult-count" class="me-2 flex-grow-1">Adults (Max 6 per
-                                                room)</label>
-                                            <div class="input-group mt-2">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="decreaseValue('adult-count', 1)">-</button>
-                                                <input type="text" id="adult-count" name="adult-count" min="1" value="1"
-                                                    max="6" class="form-control text-center">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="increaseValue('adult-count', 6)">+</button>
+                                        <div class="grid-item">
+                                            <div class="spdiv"></div>
+                                            <img src="http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                alt="Place Name 4">
+                                            <div class="p-2">
+                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                    class="map-link vsmatxt inter mt-1"><span>Banquet Hall</span>
+                                                    </a>
+                                                    <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="d-flex justify-content-between">
-                                        <!-- Children (5 to 11 years) -->
-                                        <div class="form-group d-flex flex-column">
-                                            <label for="children-5-11" class="me-2 flex-grow-1">Children (5 to 11
-                                                years)</label>
-                                            <div class="input-group mt-2">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="decreaseValue('children-5-11', 0)">-</button>
-                                                <input type="text" id="children-5-11" name="children-5-11" min="0"
-                                                    value="0" class="form-control text-center">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="increaseValue('children-5-11', 10)">+</button>
-                                            </div>
-                                        </div>
-
-                                        <!-- Children (Under 5 years) -->
-                                        <div class="form-group d-flex flex-column">
-                                            <label for="children-under-5" class="me-2 flex-grow-1">Children (Under 5
-                                                years)</label>
-                                            <div class="input-group mt-2">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="decreaseValue('children-under-5', 0)">-</button>
-                                                <input type="text" id="children-under-5" name="children-under-5" min="0"
-                                                    value="0" class="form-control text-center">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    onclick="increaseValue('children-under-5', 10)">+</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 my-3" style="background: #f1f1f1;border-radius: 5px;">
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-0 gowun fw-bold">Room Price</p>
-                                            <p class="mb-0">20000 Rs
-                                                /<span class=" inter" style="font-size: 16px;">Night</span></p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-0 gowun fw-bold">Tax and services</p>
-                                            <p class="mb-0">3000 Rs</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-0 gowun fw-bold">Total Pricing</p>
-                                            <p class="mb-0">23000 Rs</p>
-                                        </div>
-                                    </div>
-                                    <!-- Offers (Select input) -->
-                                    <div class="form-group  d-flex flex-column">
-                                        <label for="offer">Choose your special Offer</label>
-                                        <div class="d-flex flex-wrap">
-                                            <!-- No Offer -->
-                                            <!-- 10% Discount -->
-                                            <label class="offer-option me-2">
-                                                <input type="radio" name="offer" value="discount10">
-                                                <span>10% Discount</span>
-                                            </label>
-                                            <!-- Free Breakfast -->
-                                            <label class="offer-option me-2">
-                                                <input type="radio" name="offer" value="free-meal">
-                                                <span>Free Breakfast</span>
-                                            </label>
-                                            <!-- Free Spa Access -->
-                                            <label class="offer-option me-2">
-                                                <input type="radio" name="offer" value="spa-access">
-                                                <span>Free Spa Access</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Confirm Booking Button -->
-                                    <button type="submit" class="btn rounded-0 p-3 px-3 btnHover border"
-                                        id="confirm-booking">Confirm Booking</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="container" id="dineInOption">
-                    <h2 class="text-center py-4 border-top">Dine In Reservations
+                    <h2 class="text-center py-4">Dine In Reservations
                     </h2>
                     <div class="row">
                         <div class="col-lg-6">
@@ -915,6 +893,40 @@
                             <div class="info-wrap w-100 p-5 img"
                                 style="background-image: url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);">
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="contactUs" class="container">
+                    <h2 class="text-center py-4 ">Contact us to book your staycation
+                    </h2>
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="mb-0 fw-bold fs-6">Address</p>
+                            <p class="mb-0">
+                                Plot No. 66, Royal Rivera Farm, Survey No. 258, Anjar Bhuj Highway, Opp. Shriji Petrol
+                                Pump, Anjar – Kutch, 370 110, Gujarat, India
+                            </p>
+                            <div>
+                                <a class="btn rounded-0 py-2 px-3 btnHover border border-black" href="#">Enquir Now</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
+                            <p class="mb-0">
+                                <a href="#">
+                                    fom.fr.anjar@fernhotels.com
+                                </a>
+                            </p>
+                            <p class="mb-0"> <a href="#" class="">res.fr.anjar@fernhotels.com</a></p>
+                            <p class="mb-0">
+                                <a href="#">+91 9458734435</a>
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
+                            <p class="mb-0"><a href="#">Email:crs@hotel.com</a></p>
+                            <p class="mb-0"><a href="#">Phone:9350234535</a></p>
+                            <p class="mb-0">09:30 am to 06:30 pm, Monday to Saturday.</p>
                         </div>
                     </div>
                 </div>
