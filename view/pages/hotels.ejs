@@ -2,7 +2,7 @@
     <%- include('../partial/nav'); -%>
         <style>
             #about {
-                background-image: linear-gradient(to bottom, rgb(80 81 88 / 52%), rgb(0 0 0 / 73%)), url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);
+                background-image: linear-gradient(to bottom, rgb(80 81 88 / 52%), rgb(0 0 0 / 73%)), url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);
                 background-size: cover;
                 background-position: center;
                 overflow: hidden;
@@ -80,14 +80,14 @@
                                                 </div>
                                                 <div class="position-relative">
 
-                                                    <h4 class="text-start" style="font-size: 18px;">
+                                                    <h4 class="text-start fw-bold mb-0 mt-2" style="font-size: 18px;">
                                                         <%=hotel.hotel_name%>
                                                     </h4>
-                                                    <p class="text-muted my-2" style="font-size: 14px;">Location : <i
+                                                    <p class="text-muted my-2 text-start" style="font-size: 14px;">Location : <i
                                                             class="fa fa-user mx-2" aria-hidden="true"></i>
                                                         <%=hotel.location%>
                                                     </p>
-                                                    <p class="text-muted my-2" style="font-size: 14px;">Rang : <i
+                                                    <p class="text-muted my-2 text-start" style="font-size: 14px;">Rang : <i
                                                             class="fa-solid fa-indian-rupee-sign"></i> 5000 - <i
                                                             class="fa-solid fa-indian-rupee-sign"></i> 12000</p>
                                                     <div class="overflow-auto">

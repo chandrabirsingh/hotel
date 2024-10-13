@@ -144,6 +144,7 @@
                 width: 100%;
                 height: auto;
                 border-radius: 10px;
+                aspect-ratio: 1.5 / 1;
             }
 
             /* Specific item sizes and spans horizontally */
@@ -344,17 +345,18 @@
                 clip-path: inset(var(--inset-top, var(--inset)) var(--inset-right, var(--inset)) var(--inset-bottom, var(--inset)) var(--inset-left, var(--inset)) round var(--radius));
                 transition: clip-path .3s ease .1s;
             }
+
             .grid-item:hover .spdiv {
-    clip-path: inset(0 0 0 0 round var(--radius));
-    transition-delay: 0s;
-}
+                clip-path: inset(0 0 0 0 round var(--radius));
+                transition-delay: 0s;
+            }
         </style>
         ` <!-- hotel page -->
 
         <body>
             <section>
                 <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
-                    <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                    <img loading="lazy"src="<%=APP_URL%>uploads/hotels/hoteldemo.jpg"
                         class="h-100 w-100" style="object-fit: cover;" alt="">
                     <div class="position-absolute bottom-0 w-100" style="background-color: #005f96;">
                         <form action="">
@@ -464,7 +466,7 @@
                             <div class="col-md-6">
                                 <a href="#" class="open-slider" data-index="0">
                                     <div class="card card-grid-lg rounded-4 card-element-hover card-overlay-hover overflow-hidden"
-                                        style="background-image:url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
+                                        style="background-image:url(<%=APP_URL%>uploads/hotels/hoteldemo.jpg); background-position: center left; background-size: cover;">
                                         <!-- Card hover element -->
                                         <div class="hover-element position-absolute w-100 h-100">
                                             <i
@@ -482,7 +484,7 @@
                                         <a href="#" class="open-slider" data-index="0">
                                             <div class=" card card-grid-sm rounded-4 card-element-hover card-overlay-hover
                                             overflow-hidden"
-                                                style="background-image:url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
+                                                style="background-image:url(<%=APP_URL%>assets/img/bar.jpg); background-position: center left; background-size: cover;">
                                                 <!-- Card hover element -->
                                                 <div class="hover-element position-absolute w-100 h-100">
                                                     <i
@@ -496,7 +498,7 @@
                                     <div class="col-md-6">
                                         <a href="#" class="open-slider" data-index="0">
                                             <div class="card card-grid-sm rounded-4 card-element-hover card-overlay-hover overflow-hidden"
-                                                style="background-image:url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
+                                                style="background-image:url(<%=APP_URL%>assets/img/restaurant.jpg); background-position: center left; background-size: cover;">
                                                 <!-- Card hover element -->
                                                 <div class="hover-element position-absolute w-100 h-100">
                                                     <i
@@ -586,7 +588,7 @@
                                                 that
                                                 you
                                                 can follow step by step.</p>
-                                            <a href="#" class="btn rounded-0 p-3 px-3 btnHover" type="submit"
+                                            <a href="<%=APP_URL%>Sky Door Hospitality Final_compressed.pdf" class="btn rounded-0 p-3 px-3 btnHover" type="submit"
                                                 fdprocessedid="f5h81t"> Download Factsheet
                                             </a>
                                         </div>
@@ -617,7 +619,7 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div style="
-                                        background-image: url('<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg');
+                                        background-image: url('<%=APP_URL%>uploads/hotels/hoteldemo.jpg');
                                         height: 100%;
                                         background-size: contain;
                                         mask-image: url('<%=APP_URL%>assets/hotelpics/realistic-torn-ripper-orange-paper-frame-background.png');
@@ -635,8 +637,7 @@
                                 <div id="nearByPlace">
                                     <div class="grid-container">
                                         <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
+                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/qutubminar.jpg" alt="Place Name 4">
                                             <div class="d-flex">
                                                 <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
                                                     class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
@@ -644,50 +645,22 @@
                                             </div>
                                         </div>
                                         <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
+                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/redfort.jpg" alt="Place Name 4">
                                             <div class="d-flex">
                                                 <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    class="map-link vsmatxt inter mt-1"><span>Red Fortr</span>
                                                     <span>(See on Map)</span></a>
                                             </div>
                                         </div>
                                         <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
+                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/lotus.jpg" alt="Place Name 4">
                                             <div class="d-flex">
                                                 <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
+                                                    class="map-link vsmatxt inter mt-1"><span>Lotus Temple</span>
                                                     <span>(See on Map)</span></a>
                                             </div>
                                         </div>
-                                        <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="grid-item">
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
-                                                alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -719,7 +692,7 @@
                                                 <div>
                                                     <div class="sty position-relative"
                                                         style="width: 340px; aspect-ratio: 1.5/1;">
-                                                        <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
                                                             alt="Place Name 4" class="w-100 h-100">
                                                         <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
                                                             <h6 class="m-0">Deluxe Room</h6>
@@ -766,7 +739,153 @@
 
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <p class="mb-0 gowun" style="font-size: 26px;">2000 Rs
+                                                        <p class="mb-0 gowun" style="font-size: 26px;">3000 Rs
+                                                            /<span class=" inter" style="font-size: 16px;">Night</span>
+                                                        </p>
+                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasRight"
+                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
+                                                            more detail</a>
+                                                        <button
+                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
+                                                            Book now</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-2">
+                                        <div class=" border rounded">
+                                            <div class="d-flex flex-md-row flex-column">
+                                                <div>
+                                                    <div class="sty position-relative"
+                                                        style="width: 340px; aspect-ratio: 1.5/1;">
+                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/club_room.jpg"
+                                                            alt="Place Name 4" class="w-100 h-100">
+                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
+                                                            <h6 class="m-0">Club Room</h6>
+                                                        </div>
+                                                        <div class="bagde-flag-wrap">
+                                                            <p class="bagde-flag">Get 10% OFF</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <span class="mb-0">~350 sq.ft</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span class="mb-0">3 people</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span>1 extra bed</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="my-2">
+                                                            <span
+                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
+                                                                pool</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                Conditioner</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
+                                                                play
+                                                                area</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                many more</span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <p class="mb-0 gowun" style="font-size: 26px;">4000 Rs
+                                                            /<span class=" inter" style="font-size: 16px;">Night</span>
+                                                        </p>
+                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasRight"
+                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
+                                                            more detail</a>
+                                                        <button
+                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
+                                                            Book now</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-2">
+                                        <div class=" border rounded">
+                                            <div class="d-flex flex-md-row flex-column">
+                                                <div>
+                                                    <div class="sty position-relative"
+                                                        style="width: 340px; aspect-ratio: 1.5/1;">
+                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/suite_room.jpg"
+                                                            alt="Place Name 4" class="w-100 h-100">
+                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
+                                                            <h6 class="m-0">Suite Room</h6>
+                                                        </div>
+                                                        <div class="bagde-flag-wrap">
+                                                            <p class="bagde-flag">Get 10% OFF</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <span class="mb-0">~350 sq.ft</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span class="mb-0">3 people</span>
+                                                        <span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
+                                                        </span>
+                                                        <span>1 extra bed</span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="my-2">
+                                                            <span
+                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
+                                                                pool</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                Conditioner</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
+                                                                play
+                                                                area</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                many more</span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <p class="mb-0 gowun" style="font-size: 26px;">8000 Rs
                                                             /<span class=" inter" style="font-size: 16px;">Night</span>
                                                         </p>
                                                         <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
@@ -795,24 +914,24 @@
                                     <div class="grid-container">
                                         <div class="grid-item">
                                             <div class="spdiv"></div>
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                            <img loading="lazy"src="<%=APP_URL%>assets/img/bar.jpg"
                                                 alt="Place Name 4">
                                             <div class=" p-2">
                                                 <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
                                                     class="map-link vsmatxt inter mt-1"><span>Club & Bar</span>
                                                     <span></a>
-                                                        <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
+                                                <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                             </div>
                                         </div>
                                         <div class="grid-item">
                                             <div class="spdiv"></div>
-                                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                            <img loading="lazy"src="<%=APP_URL%>assets/img/restaurant.jpg"
                                                 alt="Place Name 4">
                                             <div class="p-2">
                                                 <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
                                                     class="map-link vsmatxt inter mt-1"><span>Banquet Hall</span>
-                                                    </a>
-                                                    <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
+                                                </a>
+                                                <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                             </div>
                                         </div>
                                     </div>
@@ -891,7 +1010,7 @@
                         </div>
                         <div class="col-lg-6 d-flex align-items-stretch">
                             <div class="info-wrap w-100 p-5 img"
-                                style="background-image: url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);">
+                                style="background-image: url(<%=APP_URL%>assets/img/dinning.jpg);">
                             </div>
                         </div>
                     </div>
@@ -903,29 +1022,29 @@
                         <div class="col-4">
                             <p class="mb-0 fw-bold fs-6">Address</p>
                             <p class="mb-0">
-                                Plot No. 66, Royal Rivera Farm, Survey No. 258, Anjar Bhuj Highway, Opp. Shriji Petrol
-                                Pump, Anjar – Kutch, 370 110, Gujarat, India
+                                Alembic Urban Forest, Kadugodi,
+                                Whitefield, Bengaluru-560067 Karnataka, India
                             </p>
                             <div>
-                                <a class="btn rounded-0 py-2 px-3 btnHover border border-black" href="#">Enquir Now</a>
+                                <a class="btn rounded-0 py-2 px-3 btnHover border border-black" href="<%APP_URL%>contact">Enquir Now</a>
                             </div>
                         </div>
                         <div class="col-4">
                             <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
                             <p class="mb-0">
                                 <a href="#">
-                                    fom.fr.anjar@fernhotels.com
+                                    chandrabir.singh@skydoorhotels.com
                                 </a>
                             </p>
-                            <p class="mb-0"> <a href="#" class="">res.fr.anjar@fernhotels.com</a></p>
+                            <p class="mb-0"> <a href="#" class="">chandrabir.singh@skydoorhotels.com</a></p>
                             <p class="mb-0">
-                                <a href="#">+91 9458734435</a>
+                                <a href="#">+91 99716 95346</a>
                             </p>
                         </div>
                         <div class="col-4">
                             <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
-                            <p class="mb-0"><a href="#">Email:crs@hotel.com</a></p>
-                            <p class="mb-0"><a href="#">Phone:9350234535</a></p>
+                            <p class="mb-0"><a href="#">Email:chandrabir.singh@skydoorhotels.com</a></p>
+                            <p class="mb-0"><a href="#">Phone:99716 95346</a></p>
                             <p class="mb-0">09:30 am to 06:30 pm, Monday to Saturday.</p>
                         </div>
                     </div>
@@ -934,7 +1053,7 @@
                     style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000;padding: 50px 0; background: black;">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                            <img loading="lazy"src="<%=APP_URL%>assets/img/restaurant.jpg"
                                 style="width:100%; height:100%; object-fit:contain;">
                         </div>
                     </div>
@@ -961,7 +1080,7 @@
                         <div class="swiper-container mySwiper overflow-hidden position-relative" style="height:400px;">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide"><img
-                                        src="<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg"
+                                        src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
                                         alt="Room Image 1" class="h-100 w-100" /></div>
                                 <!-- Add more slides as needed -->
                             </div>
@@ -971,19 +1090,30 @@
 
                         <!-- Room Description -->
                         <h6 class="mt-3">Room Description</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id ligula porta felis
-                            euismod semper.</p>
+                        <p>Area ~ 250 saft., blend of rich interiors and modern
+                            amenities. The Deluxe room is a spacious and fantastic
+                            experience for your stay.</p>
 
                         <!-- Features and Services -->
                         <h6 class="mt-3">Features & Services</h6>
                         <ul>
-                            <li>Free Wi-Fi</li>
-                            <li>Air Conditioning</li>
-                            <li>Room Service</li>
-                            <li>Mini Bar</li>
-                            <li>Flat-Screen TV</li>
-                            <li>Swimming Pool Access</li>
-                        </ul>
+                            <li>High speed Wi-Fi internet</li>
+                            <li>Air conditioner</li>
+                            <li>Digital in-room safe</li>
+                            <li>LED television</li>
+                            <li>Satellite TV connection for entertainment & international news</li>
+                            <li>Bottled drinking water in-room</li>
+                            <li>Complimentary in-room tea & coffee facility</li>
+                            <li>Guest amenities on request</li>
+                            <li>Daily newspaper on request</li>
+                            <li>Pillow menu</li>
+                            <li>Eco-friendly bathroom amenities</li>
+                            <li>24-hrs hot & cold water</li>
+                            <li>Hair dryer</li>
+                            <li>Iron & ironing board on request</li>
+                            <li>Wakeup call on request</li>
+                          </ul>
+                          
 
                         <!-- Book Now Button -->
                         <div class="mt-4">
