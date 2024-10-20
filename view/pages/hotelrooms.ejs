@@ -350,96 +350,103 @@
                 clip-path: inset(0 0 0 0 round var(--radius));
                 transition-delay: 0s;
             }
+            @media(max-width:768px) {
+                .grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+}
+            }
         </style>
         ` <!-- hotel page -->
 
-        <body>
             <section>
                 <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
                     <img loading="lazy"src="<%=APP_URL%>uploads/hotels/hoteldemo.jpg"
                         class="h-100 w-100" style="object-fit: cover;" alt="">
-                    <div class="position-absolute bottom-0 w-100" style="background-color: #005f96;">
-                        <form action="">
-                            <div class="d-flex align-items-center gap-3 container py-2">
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="check_in" class="text-white">Check In:
-                                        <div class="border p-2 text-white d-flex align-items-center">
-                                            <input type="date" class="bg-transparent border-0 text-white"
-                                                name="check_in" id="">
-                                            <i class="fa-regular fa-calendar-days"></i>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="check_in" class="text-white">Check Out:
-                                        <div class="border p-2 text-white d-flex align-items-center">
-                                            <input type="date" class="bg-transparent border-0 text-white"
-                                                name="check_out" id="">
-                                            <i class="fa-regular fa-calendar-days"></i>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="" class="text-white">Room
-                                        <div class="w-100 border p-2 text-white">
-                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                                <option value="" class="text-black">1</option>
-                                                <option value="" class="text-black">2</option>
-                                                <option value="" class="text-black">3</option>
-                                                <option value="" class="text-black">4</option>
-                                                <option value="" class="text-black">5</option>
-                                            </select>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="check_in" class="text-white">Location
-                                        <div class="border p-2 text-white">
-                                            <input type="text" class="bg-transparent border-0 text-white"
-                                                name="check_out" id="" readonly value="Himanshu hotel himasnhu hotel">
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="" class="text-white">Adults:
-                                        <div class="w-100 border p-2 text-white">
-                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                                <option value="" class="text-black">1</option>
-                                                <option value="" class="text-black">2</option>
-                                                <option value="" class="text-black">3</option>
-                                                <option value="" class="text-black">4</option>
-                                                <option value="" class="text-black">5</option>
-                                            </select>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="" class="text-white">Children
-                                        <div class="w-100 border p-2 text-white">
-                                            <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                                <option value="" class="text-black">1</option>
-                                                <option value="" class="text-black">2</option>
-                                                <option value="" class="text-black">3</option>
-                                                <option value="" class="text-black">4</option>
-                                                <option value="" class="text-black">5</option>
-                                            </select>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="flex-grow-1 w-100 d-flex flex-column">
-                                    <label for="check_in">
-                                        <span style="visibility: hidden;">Submit</span>
-                                        <div class="border p-2 text-white w-100">
-                                            <input type="submit"
-                                                class="bg-transparent w-100 text-center border-0 text-white"
-                                                name="check_out" id="">
-                                        </div>
-                                    </label>
-                                </div>
-
+                    
+                </div>
+                <div class=" w-100" style="background-color: #005f96;">
+                    <form action="">
+                        <div class="d-flex align-items-center gap-3 container py-2">
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="check_in" class="text-white">Check In:
+                                    <div class="border p-2 text-white d-flex align-items-center">
+                                        <input type="date" class="bg-transparent border-0 text-white"
+                                            name="check_in" id="">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </div>
+                                </label>
                             </div>
-                        </form>
-                    </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="check_in" class="text-white">Check Out:
+                                    <div class="border p-2 text-white d-flex align-items-center">
+                                        <input type="date" class="bg-transparent border-0 text-white"
+                                            name="check_out" id="">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="" class="text-white">Room
+                                    <div class="w-100 border p-2 text-white">
+                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="" class="text-black">1</option>
+                                            <option value="" class="text-black">2</option>
+                                            <option value="" class="text-black">3</option>
+                                            <option value="" class="text-black">4</option>
+                                            <option value="" class="text-black">5</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="check_in" class="text-white">Location
+                                    <div class="border p-2 text-white">
+                                        <input type="text" class="bg-transparent border-0 text-white"
+                                            name="check_out" id="" readonly value="Himanshu hotel himasnhu hotel">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="" class="text-white">Adults:
+                                    <div class="w-100 border p-2 text-white">
+                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="" class="text-black">1</option>
+                                            <option value="" class="text-black">2</option>
+                                            <option value="" class="text-black">3</option>
+                                            <option value="" class="text-black">4</option>
+                                            <option value="" class="text-black">5</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="" class="text-white">Children
+                                    <div class="w-100 border p-2 text-white">
+                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="" class="text-black">1</option>
+                                            <option value="" class="text-black">2</option>
+                                            <option value="" class="text-black">3</option>
+                                            <option value="" class="text-black">4</option>
+                                            <option value="" class="text-black">5</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="check_in">
+                                    <span style="visibility: hidden;">Submit</span>
+                                    <div class="border p-2 text-white w-100">
+                                        <input type="submit"
+                                            class="bg-transparent w-100 text-center border-0 text-white"
+                                            name="check_out" id="">
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
                 <div class="my-micro-menu d-flex justify-content-center align-items-center gap-3">
                     <a href="#hotelrooms"><span class="item_text">Rooms</span></a>
@@ -540,7 +547,7 @@
                         <div class="">
                             <div id="hotelAbout">
                                 <div class="row">
-                                    <div class="col-6" id="descriptionHotel">
+                                    <div class="col-md-6 col-12" id="descriptionHotel">
                                         <h2 class="fw-bold  py-4"> himanshu hotel</h2>
 
                                         <div class="description">
@@ -686,7 +693,7 @@
                                 </ul> -->
 
                                 <div class="row ">
-                                    <div class="col-6 p-2">
+                                    <div class="col-md-6 col-12 p-2 ">
                                         <div class=" border rounded">
                                             <div class="d-flex flex-md-row flex-column">
                                                 <div>
@@ -759,7 +766,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-6 p-2">
+                                    <div class="col-md-6 col-12 p-2">
                                         <div class=" border rounded">
                                             <div class="d-flex flex-md-row flex-column">
                                                 <div>
@@ -832,7 +839,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-6 p-2">
+                                    <div class="col-md-6 col-12 p-2">
                                         <div class=" border rounded">
                                             <div class="d-flex flex-md-row flex-column">
                                                 <div>
@@ -944,7 +951,7 @@
                     <h2 class="text-center py-4">Dine In Reservations
                     </h2>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-12">
                             <form method="post" action="meet-and-events" class="m-0">
                                 <div class="ajaxMsg"></div>
                                 <div class="row">
@@ -1008,7 +1015,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-6 d-flex align-items-stretch">
+                        <div class="col-lg-6 col-12 d-flex align-items-stretch">
                             <div class="info-wrap w-100 p-5 img"
                                 style="background-image: url(<%=APP_URL%>assets/img/dinning.jpg);">
                             </div>
@@ -1019,7 +1026,7 @@
                     <h2 class="text-center py-4 ">Contact us to book your staycation
                     </h2>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4 col-12">
                             <p class="mb-0 fw-bold fs-6">Address</p>
                             <p class="mb-0">
                                 Alembic Urban Forest, Kadugodi,
@@ -1029,7 +1036,7 @@
                                 <a class="btn rounded-0 py-2 px-3 btnHover border border-black" href="<%APP_URL%>contact">Enquir Now</a>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-12">
                             <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
                             <p class="mb-0">
                                 <a href="#">
@@ -1041,7 +1048,7 @@
                                 <a href="#">+91 99716 95346</a>
                             </p>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-12">
                             <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
                             <p class="mb-0"><a href="#">Email:chandrabir.singh@skydoorhotels.com</a></p>
                             <p class="mb-0"><a href="#">Phone:99716 95346</a></p>

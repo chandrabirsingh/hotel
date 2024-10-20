@@ -259,7 +259,7 @@ exports.booknow = function (req, res) {
                             return res.redirect('/logout');
                         }
 
-                        res.render('booknow', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels, crypto: crypto });
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels, crypto: crypto });
                     });
                 } else {
                     const date1 = new Date(req.query.checkin);
@@ -267,7 +267,7 @@ exports.booknow = function (req, res) {
                     const diffTime = Math.abs(date2 - date1);
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(user + 'hello')
-                    res.render('booknow', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels[0], crypto: crypto, diffDays: diffDays });
+                    res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels[0], crypto: crypto, diffDays: diffDays });
                 }
             });
         }
