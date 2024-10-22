@@ -32,14 +32,12 @@
                 style="object-fit: cover;" alt="">
             <div class="container">
                 <div class="hero-image_hotelDetails">
-                    <p id="heroTitle" class="app_modalTitle hero-image_hotelName gowun fs-5 fw-bold mb-2">Howard Plaza
-                        The Fern-An Ecotel Hotel,
-                        Agra</p>
+                    <p id="heroTitle" class="app_modalTitle hero-image_hotelName gowun fs-5 fw-bold mb-2"><%=hotel.hotel_name%></p>
                     <p class="hero-image_address d-flex gap-2 mb-1" style="
                         align-items: baseline;
-                    "><i class="fa-solid fa-hotel"></i><span>Fatehabad Road, Agra-282001, ., Agra,
+                    "><i class="fa-solid fa-hotel"></i><span><%= hotel.full_address ? hotel.full_address : `Fatehabad Road, Agra-282001, ., Agra,
                             Uttar
-                            Pradesh, India, 282001</span></p>
+                            Pradesh, India, 282001`%></span></p>
                     <p class="hero-image_phone d-flex gap-2 mb-1" style="
                     align-items: baseline;">
                         <i class="fa-solid fa-phone-volume"></i>
@@ -49,7 +47,7 @@
                     align-items: baseline;">
                         <i class="fa-solid fa-globe"></i>
                         <a href="https://www.skydoor.com/hotels/hotel-name" target="_blank"
-                            rel="noopener noreferrer">https://www.skydoor.com/hotels/hotel-name</a>
+                            rel="noopener noreferrer"><%= hotelURL%></a>
                     </p>
                 </div>
             </div>
@@ -60,53 +58,65 @@
                     <form action="">
                         <div class="d-flex align-items-center gap-3 container py-2 px-0">
                             <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="">Adults:
-                                    <div class="w-100 border p-2 ">
-                                        <select name="" id="" class="bg-transparent  border-0 w-100"
-                                            fdprocessedid="5sg2s">
-                                            <option value="" class="text-black">1</option>
-                                            <option value="" class="text-black">2</option>
-                                            <option value="" class="text-black">3</option>
-                                            <option value="" class="text-black">4</option>
-                                            <option value="" class="text-black">5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="">Children
-                                    <div class="w-100 border p-2 ">
-                                        <select name="" id="" class="bg-transparent  border-0 w-100"
-                                            fdprocessedid="zykgtx">
-                                            <option value="" class="text-black">0</option>
-                                            <option value="" class="text-black">1</option>
-                                            <option value="" class="text-black">2</option>
-                                            <option value="" class="text-black">3</option>
-                                            <option value="" class="text-black">4</option>
-                                            <option value="" class="text-black">5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="check_in" class="">Check In:
-                                    <div class="border p-2  d-flex align-items-center">
-                                        <input type="date" class="bg-transparent border-0 " name="check_in" id="">
+                                    <div class="border p-2 d-flex align-items-center">
+                                        <input type="date" class="bg-transparent border-0" name="check_in"
+                                            value="<%= queryData.check_in %>" id="">
                                         <i class="fa-regular fa-calendar-days"></i>
                                     </div>
                                 </label>
                             </div>
                             <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="check_in" class="">Check Out:
-                                    <div class="border p-2  d-flex align-items-center">
-                                        <input type="date" class="bg-transparent border-0 " name="check_out" id="">
+                                <label for="check_out" class="">Check Out:
+                                    <div class="border p-2 d-flex align-items-center">
+                                        <input type="date" class="bg-transparent border-0" name="check_out"
+                                            value="<%= queryData.check_out %>" id="">
                                         <i class="fa-regular fa-calendar-days"></i>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="" class="">Adults:
+                                    <div class="w-100 border p-2">
+                                        <select name="adults" id="" class="bg-transparent border-0 w-100">
+                                            <option value="1" class="text-black" <%=queryData.adults=="1" ? 'selected'
+                                                : '' %>>1</option>
+                                            <option value="2" class="text-black" <%=queryData.adults=="2" ? 'selected'
+                                                : '' %>>2</option>
+                                            <option value="3" class="text-black" <%=queryData.adults=="3" ? 'selected'
+                                                : '' %>>3</option>
+                                            <option value="4" class="text-black" <%=queryData.adults=="4" ? 'selected'
+                                                : '' %>>4</option>
+                                            <option value="5" class="text-black" <%=queryData.adults=="5" ? 'selected'
+                                                : '' %>>5</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="flex-grow-1 w-100 d-flex flex-column">
+                                <label for="" class="">Children:
+                                    <div class="w-100 border p-2">
+                                        <select name="children" id="" class="bg-transparent border-0 w-100">
+                                            <option value="0" class="text-black" <%=queryData.children=="0" ? 'selected'
+                                                : '' %>>0</option>
+                                            <option value="1" class="text-black" <%=queryData.children=="1" ? 'selected'
+                                                : '' %>>1</option>
+                                            <option value="2" class="text-black" <%=queryData.children=="2" ? 'selected'
+                                                : '' %>>2</option>
+                                            <option value="3" class="text-black" <%=queryData.children=="3" ? 'selected'
+                                                : '' %>>3</option>
+                                            <option value="4" class="text-black" <%=queryData.children=="4" ? 'selected'
+                                                : '' %>>4</option>
+                                            <option value="5" class="text-black" <%=queryData.children=="5" ? 'selected'
+                                                : '' %>>5</option>
+                                        </select>
                                     </div>
                                 </label>
                             </div>
 
                         </div>
                     </form>
+
                     <!-- rooms -->
                     <div class="mt-4">
                         <h3>Rooms</h3>
@@ -183,8 +193,7 @@
 
                                         <div class="d-flex justify-content-end gap-2 align-items-center">
 
-                                            <button class="btn rounded-0 py-2 px-3 btnHover rounded-pill border"
-                                                fdprocessedid="zp9ke">
+                                            <button class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
                                                 Book Now</button>
                                         </div>
                                     </div>
@@ -223,7 +232,7 @@
                                         Taxes and Fees</p>
                                     <p class="mb-0">₹780.20</p>
                                 </div>
-                              
+
 
                                 <!-- Date & Guests -->
                                 <p class="text-muted small mt-2 mb-1 fw-bold">Fri, Nov 1 2024 - Sat, Nov 2 2024</p>

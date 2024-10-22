@@ -224,52 +224,80 @@ exports.booked = function (req, res) {
 exports.booknow = function (req, res) {
     session = req.session;
     let user = '';
-    console.log(22);
-
+    let queryData = req.query;
+    console.log(req.query)
     try {
-        if (req.body.body !== undefined) {
+        if (req.method === 'POST') {
             // Handle booking
             var myreq = req.body;
-            config.con.query("INSERT INTO `booking`(`name`, `email`, `mobile`, `country`, `address`, `city`, `additional`, `destination`, `hotel_id`, `checkin`, `checkout`, `room`, `room_id`, `status`, `payment_status`,`payment_amount`) VALUES ('" + myreq.body.name + "','" + myreq.body.email + "','" + myreq.body.mobile + "','" + myreq.body.country + "','" + myreq.body.address + "','" + myreq.body.city + "','" + myreq.body.additional + "','" + myreq.query.destination + "','" + myreq.query.hotel + "','" + myreq.query.checkin + "','" + myreq.query.checkout + "','" + myreq.query.room + "','" + myreq.query.room_id + "','pending','paid','" + myreq.body.amount / 100 + "')", (err, result) => {
-                if (err) {
-                    console.error('Error during booking:', err);
-                    return res.status(500).send('Internal Server Error');
+            config.con.query(
+                "INSERT INTO `booking`(`name`, `email`, `mobile`, `country`, `address`, `city`, `additional`, `destination`, `hotel_id`, `checkin`, `checkout`, `room`, `room_id`, `status`, `payment_status`,`payment_amount`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'paid', ?)",
+                [
+                    'hello',
+                    myreq.email || null,
+                    myreq.mobile || null,
+                    myreq.country || null,
+                    myreq.address || null,
+                    myreq.city || null,
+                    myreq.additional || null,
+                    req.query.destination || null,
+                    req.query.hotel || null,
+                    req.query.checkin || null,
+                    req.query.checkout || null,
+                    req.query.room || null,
+                    req.query.room_id || null,
+                    myreq.amount / 100 || null
+                ],
+                (err, result) => {
+                    if (err) {
+                        console.error('Error during booking:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    res.send({ reurl: 'booked/' + result.insertId });
                 }
-                res.send({ reurl: 'booked/' + result.insertId });
-            });
-        } else {
+            );
+        }
+        else {
             const date = require('date-and-time');
-            config.con.query("SELECT hotel_room.*,hotel.hotel_name,hotel.facilities,hotel.city,hotel.location FROM hotel_room INNER JOIN hotel ON hotel_room.hotel_id=hotel.id WHERE hotel_room.id='" + req.query.room_id + "'", (err, hotels) => {
-                if (err) {
-                    console.error('Error fetching hotel data:', err);
-                    return res.status(500).send('Internal Server Error');
-                }
+            config.con.query(
+                "SELECT hotel_room.*, hotel.hotel_name, hotel.facilities, hotel.city, hotel.location FROM hotel INNER JOIN hotel_room ON hotel.id = hotel_room.hotel_id WHERE hotel.id = ?",
+                [req.query.hotel_id], // Use the hotel_id from the query
+                (err, result) => {
+                    if (err) {
+                        console.error('Error fetching hotel data:', err);
+                        return res.status(500).send('Internal Server Error');
+                    }
+                    const hotel = result.length > 0 ? result[0] : {};
+                    const hotelRooms = result;
+                    const hotelName = hotel.hotel_name
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')      
+                        .replace(/[^a-z0-9-]/g, '');
+                    const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
+                    if (session.user_id !== undefined) {
+                        config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
+                            if (err) {
+                                console.error('Error fetching user:', err);
+                                return res.status(500).send('Internal Server Error');
+                            }
+                            if (result.length > 0) {
+                                user = result[0];
+                                console.log('User:', JSON.stringify(user));
+                            } else {
+                                return res.redirect('/logout');
+                            }
 
-                if (session.user_id !== undefined) {
-                    config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
-                        if (err) {
-                            console.error('Error fetching user:', err);
-                            return res.status(500).send('Internal Server Error');
-                        }
-
-                        if (result.length > 0) {
-                            user = result[0];
-                            console.log('User:', JSON.stringify(user));
-                        } else {
-                            return res.redirect('/logout');
-                        }
-
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels, crypto: crypto });
-                    });
-                } else {
-                    const date1 = new Date(req.query.checkin);
-                    const date2 = new Date(req.query.checkout);
-                    const diffTime = Math.abs(date2 - date1);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    console.log(user + 'hello')
-                    res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user: user, date: date, rebo: req.query, hotels: hotels[0], crypto: crypto, diffDays: diffDays });
-                }
-            });
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel,hotelURL, crypto });
+                        });
+                    } else {
+                        const date1 = new Date(queryData.check_in);
+                        const date2 = new Date(queryData.check_out);
+                        const diffTime = Math.abs(date2 - date1);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        console.log(hotel);
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel,hotelURL, crypto , diffDays: diffDays });
+                    }
+                });
         }
     } catch (error) {
         console.error('Unexpected Error:', error);

@@ -367,7 +367,8 @@
                     
                 </div>
                 <div class=" w-100" style="background-color: #005f96;">
-                    <form action="">
+                    <form action="<%=APP_URL%>book-now %>">
+                        <input type="hidden" name="hotel_id" value="2">
                         <div class="d-flex align-items-center gap-3 container py-2">
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="check_in" class="text-white">Check In:
@@ -390,12 +391,12 @@
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="" class="text-white">Room
                                     <div class="w-100 border p-2 text-white">
-                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="" class="text-black">1</option>
-                                            <option value="" class="text-black">2</option>
-                                            <option value="" class="text-black">3</option>
-                                            <option value="" class="text-black">4</option>
-                                            <option value="" class="text-black">5</option>
+                                        <select name="rooms" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="1" class="text-black">1</option>
+                                            <option value="2" class="text-black">2</option>
+                                            <option value="3" class="text-black">3</option>
+                                            <option value="4" class="text-black">4</option>
+                                            <option value="5" class="text-black">5</option>
                                         </select>
                                     </div>
                                 </label>
@@ -404,19 +405,19 @@
                                 <label for="check_in" class="text-white">Location
                                     <div class="border p-2 text-white">
                                         <input type="text" class="bg-transparent border-0 text-white"
-                                            name="check_out" id="" readonly value="Himanshu hotel himasnhu hotel">
+                                            name="hotel" readonly value="Himanshu hotel himasnhu hotel">
                                     </div>
                                 </label>
                             </div>
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="" class="text-white">Adults:
                                     <div class="w-100 border p-2 text-white">
-                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="" class="text-black">1</option>
-                                            <option value="" class="text-black">2</option>
-                                            <option value="" class="text-black">3</option>
-                                            <option value="" class="text-black">4</option>
-                                            <option value="" class="text-black">5</option>
+                                        <select name="adult" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="1" class="text-black">1</option>
+                                            <option value="2" class="text-black">2</option>
+                                            <option value="3" class="text-black">3</option>
+                                            <option value="4" class="text-black">4</option>
+                                            <option value="5" class="text-black">5</option>
                                         </select>
                                     </div>
                                 </label>
@@ -424,12 +425,13 @@
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="" class="text-white">Children
                                     <div class="w-100 border p-2 text-white">
-                                        <select name="" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="" class="text-black">1</option>
-                                            <option value="" class="text-black">2</option>
-                                            <option value="" class="text-black">3</option>
-                                            <option value="" class="text-black">4</option>
-                                            <option value="" class="text-black">5</option>
+                                        <select name="children" id="" class="bg-transparent text-white border-0 w-100">
+                                            <option value="0" class="text-black">0</option>
+                                            <option value="1" class="text-black">1</option>
+                                            <option value="2" class="text-black">2</option>
+                                            <option value="3" class="text-black">3</option>
+                                            <option value="4" class="text-black">4</option>
+                                            <option value="5" class="text-black">5</option>
                                         </select>
                                     </div>
                                 </label>
@@ -440,7 +442,7 @@
                                     <div class="border p-2 text-white w-100">
                                         <input type="submit"
                                             class="bg-transparent w-100 text-center border-0 text-white"
-                                            name="check_out" id="">
+                                            name="submit">
                                     </div>
                                 </label>
                             </div>
