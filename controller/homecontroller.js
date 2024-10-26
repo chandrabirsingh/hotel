@@ -10,18 +10,18 @@ const nodemailer = require("nodemailer");
 
 exports.index = function (req, res) {
     PSession = req.session || {}
-    config.con.query("SELECT city FROM hotel GROUP BY city", (err, cities) => {
+    config.con.query("SELECT city FROM hotels GROUP BY city", (err, cities) => {
         if (err) {
             console.error("Error fetching cities:", err);
             return res.status(500).send("Error fetching cities");
         }
 
-        config.con.query("SELECT * FROM hotel", (err, hotels) => {
+        config.con.query("SELECT hotels.city,hotels.status FROM hotels GROUP BY city", (err, hotels) => {
             if (err) {
                 console.error("Error fetching hotels:", err);
                 return res.status(500).send("Error fetching hotels");
             }
-
+            console.log(hotels)
             let user = '';
             if (PSession.user_id !== undefined) {
 
@@ -69,7 +69,7 @@ exports.hotels = function (req, res) {
     session = req.session;
     console.log(session);
 
-    config.con.query("SELECT * FROM hotel", (err, hotels) => {
+    config.con.query("SELECT * FROM hotels", (err, hotels) => {
         if (err) {
             console.error("Error fetching hotels:", err);
             return res.status(500).send("Error fetching hotels");
@@ -104,9 +104,8 @@ exports.hotelroomdetail = function (req, res) {
     const hotelSlug = req.params.hotel_slug; // Get the slug from the URL
 
     const hotelName = hotelSlug.replace(/-/g, ' ');
-    // console.log(session)
-    const hotelQuery = "SELECT * FROM hotel WHERE hotel_name = ?";
-    // return res.send(req.url)
+    const hotelQuery = "SELECT * FROM hotels WHERE name = ?";
+
     config.con.query(hotelQuery, [hotelName], (err, hotelResult) => {
         if (err || hotelResult.length === 0) {
             return res.status(404).send("Hotel not found.");
@@ -114,32 +113,94 @@ exports.hotelroomdetail = function (req, res) {
 
         const hotelId = hotelResult[0].id;
 
-        const roomsQuery = "SELECT hotel_room.*, hotel.hotel_name, hotel.facilities, hotel.city, hotel.location FROM hotel_room INNER JOIN hotel ON hotel_room.hotel_id = hotel.id WHERE hotel.id = ?";
+        // Query to get rooms with room type for the specific hotel
+        const roomsQuery = `
+            SELECT hotel_rooms.*, room_types.room_name, hotels.name, hotels.city, hotels.map_link, hotels.full_address 
+            FROM hotel_rooms
+            INNER JOIN hotels ON hotel_rooms.hotel_id = hotels.id
+            INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+            WHERE hotels.id = ?
+        `;
+
+        // Query to get nearby places for the hotel
+        const nearbyPlacesQuery = "SELECT * FROM nearby_places WHERE hotel_id = ? AND status = 'active'";
+
+        // Execute both queries
         config.con.query(roomsQuery, [hotelId], (err, roomsResult) => {
             if (err) {
                 return res.status(500).send("Error fetching hotel rooms.");
             }
 
-            let user = '';
-            let reurl = `${hotelSlug}`;
-            // return res.send(reurl);
-            const book = roomsResult.length > 0 ? 1 : 0;
-            if (session.user_id !== undefined) {
-                config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
-                    if (err) {
-                        return res.redirect('/logout');
-                    }
-                    user = result.length > 0 ? result[0] : '';
-                    // return res.send(user)
-                    console.log('user' + user);
-                    res.render('pages/hotelrooms', { APP_URL: config.APP_URL, hotels: roomsResult, url: reurl, user: user, book: book, hotelName: hotelResult[0].hotel_name });
-                });
-            } else {
-                // return res.send(roomsResult);
-                // console.log(user + 'hello')
-                res.render('pages/hotelrooms', { APP_URL: config.APP_URL, hotels: roomsResult, url: reurl, user: user, book: book, hotelName: hotelResult[0].hotel_name });
-            }
+            config.con.query(nearbyPlacesQuery, [hotelId], (err, nearbyPlacesResult) => {
+                if (err) {
+                    return res.status(500).send("Error fetching nearby places.");
+                }
+
+                let user = '';
+                let reurl = `${hotelSlug}`;
+                const book = roomsResult.length > 0 ? 1 : 0;
+
+                // Check if user is logged in
+                if (session.user_id !== undefined) {
+                    config.con.query("SELECT * FROM user WHERE id = ?", [session.user_id], (err, result) => {
+                        if (err) {
+                            return res.redirect('/logout');
+                        }
+                        user = result.length > 0 ? result[0] : '';
+
+                        // Render the page with hotel, rooms, nearby places, and user details
+                        res.render('pages/hotelrooms', {
+                            APP_URL: config.APP_URL,
+                            rooms: roomsResult,
+                            nearbyPlaces: nearbyPlacesResult,
+                            url: reurl,
+                            user: user,
+                            book: book,
+                            hotel: hotelResult[0]
+                        });
+                    });
+                } else {
+                    // Render without user details if not logged in
+                    console.log(roomsResult, nearbyPlacesResult, hotelResult)
+                    res.render('pages/hotelrooms', {
+                        APP_URL: config.APP_URL,
+                        rooms: roomsResult,
+                        nearbyPlaces: nearbyPlacesResult,
+                        url: reurl,
+                        user: user,
+                        book: book,
+                        hotel: hotelResult[0]
+                    });
+                }
+            });
         });
+    });
+};
+exports.getRoomDetail = function (req, res) {
+    const roomId = req.params.roomId; // Get the room ID from the URL
+    const roomsQuery = `
+            SELECT hotel_rooms.*, room_types.room_name
+            FROM hotel_rooms
+            INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+            WHERE hotel_rooms.id = ?
+        `;
+    // Query to get room details based on roomId
+    config.con.query(roomsQuery, [roomId], (err, result) => {
+        if (err) {
+            console.error('Error fetching room details:', err);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+
+        // Check if room exists
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'Room not found' });
+        }
+
+        // Assuming result[0] contains the room details
+        const room = result[0];
+        room.images = room.images ? room.images.split(',').map(image => image.trim()) : [];
+        // Prepare response object
+        res.json(room);
     });
 };
 
@@ -225,7 +286,6 @@ exports.booknow = function (req, res) {
     session = req.session;
     let user = '';
     let queryData = req.query;
-    console.log(req.query)
     try {
         if (req.method === 'POST') {
             // Handle booking
@@ -259,8 +319,11 @@ exports.booknow = function (req, res) {
         }
         else {
             const date = require('date-and-time');
+            const hotelRoomsQuery =`SELECT hotel_rooms.*, hotels.name, hotels.city 
+            FROM hotels 
+            INNER JOIN hotel_rooms ON hotels.id = hotel_rooms.hotel_id WHERE hotels.id = ?` 
             config.con.query(
-                "SELECT hotel_room.*, hotel.hotel_name, hotel.facilities, hotel.city, hotel.location FROM hotel INNER JOIN hotel_room ON hotel.id = hotel_room.hotel_id WHERE hotel.id = ?",
+                hotelRoomsQuery,
                 [req.query.hotel_id], // Use the hotel_id from the query
                 (err, result) => {
                     if (err) {
@@ -269,9 +332,9 @@ exports.booknow = function (req, res) {
                     }
                     const hotel = result.length > 0 ? result[0] : {};
                     const hotelRooms = result;
-                    const hotelName = hotel.hotel_name
+                    const hotelName = hotel.name
                         .toLowerCase()
-                        .replace(/\s+/g, '-')      
+                        .replace(/\s+/g, '-')
                         .replace(/[^a-z0-9-]/g, '');
                     const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
                     if (session.user_id !== undefined) {
@@ -282,20 +345,19 @@ exports.booknow = function (req, res) {
                             }
                             if (result.length > 0) {
                                 user = result[0];
-                                console.log('User:', JSON.stringify(user));
                             } else {
                                 return res.redirect('/logout');
                             }
 
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel,hotelURL, crypto });
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms,hotelURL, crypto });
                         });
                     } else {
                         const date1 = new Date(queryData.check_in);
                         const date2 = new Date(queryData.check_out);
                         const diffTime = Math.abs(date2 - date1);
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        console.log(hotel);
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel,hotelURL, crypto , diffDays: diffDays });
+                        console.log(hotelRooms)
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms,hotelURL, crypto, diffDays: diffDays });
                     }
                 });
         }

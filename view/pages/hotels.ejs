@@ -24,10 +24,11 @@
                 font-size: 12px;
             }
 
-            .hotel-img img{ height: 250px;
-            width: 100%;
-            object-fit: cover;
-            object-position: top;
+            .hotel-img img {
+                height: 250px;
+                width: 100%;
+                object-fit: cover;
+                object-position: top;
             }
         </style>
         <div style="height:100px;"></div>
@@ -42,79 +43,52 @@
         <main id="main" class="main-page">
             <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">
                 <div class="container-fluide">
-                    <div class=" text-center">
+                    <div class="">
                         <div class="mx-4">
                             <div class="eleven">
                                 <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Hotels
                                 </h1>
                             </div>
-                            <div class="row">
-                                <% hotels.forEach((hotel,index)=> { %>
-                                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 py-2"
-                                        onclick="window.location.href='<%=APP_URL%>hotel/<%= hotel.hotel_name ? hotel.hotel_name.toLowerCase().replace(/\s+/g, '-') : 'not-exist' %>'">
-                                        <div class="card mb-2 p-3 bg-white shadow-sm" style="
+                            <div class="container">
+                                <div class="row">
+                                    <% hotels.forEach((hotel,index)=> { %>
+                                        <div class="col-xl-4 col-lg-4 col-sm-6 col-12 py-2"
+                                            onclick="window.location.href='<%=APP_URL%>hotel/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>'">
+                                            <div class="card mb-2 bg-white shadow-sm" style="
                                         cursor: pointer;
                                     ">
-                                            <div class="hotel">
-                                                <div class="hotel-img positon-relative">
-                                                    <img src="<%= hotel.hotel_images ? APP_URL + 'uploads/' + hotel.hotel_images : APP_URL + 'uploads/default-image.jpg' %>"
-                                                        alt=" <%=hotel.hotel_name%>" style="height:250px;">
-                                                    <div class="position-absolute p-2 d-flex align-items-center gap-2"
-                                                        style="top: 5px;background: #ffffff;right: 13px;border-radius: 0px 21px;">
-                                                        <div class="fs-6"><i class="fa fa-star checked"
-                                                                aria-hidden="true" style="color: orange;"></i></div>
-                                                        <p class="mb-0 fs-6"><span style="color: orange;">
-                                                                <%=hotel.stars ?? 5%>
-                                                            </span><span class="text-muted mx-1">/</span><span
-                                                                style="color: #fecc6f;">10</span></p>
+                                                <div class="hotel rounded-2 overflow-hidden">
+                                                    <div class="hotel-img positon-relative">
+                                                        <img src="<%= hotel.main_image ? APP_URL + 'uploads/' + hotel.main_image : APP_URL + 'assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg' %>"
+                                                            alt=" <%=hotel.name%>"
+                                                            style="height:250px;border-radius:0 0 8px 8px;">
                                                     </div>
-                                                    <!-- <div class="position-absolute p-2 rounded-bottom"
-                                                        style="top: 15px;background: black;right: 17px;">
-                                                        <div class="fs-5"><i class="fa fa-star checked"
-                                                                aria-hidden="true" style="color: orange;"></i></div>
-                                                        <p class="mb-0 fs-6"><span style="color: orange;">
-                                                                <%=hotel.stars ?? 5%>
-                                                            </span><span class="text-white mx-2">/</span><span
-                                                                style="color: #fecc6f;">5</span></p>
-                                                    </div> -->
-                                                </div>
-                                                <div class="position-relative">
+                                                    <div class="position-relative px-3 py-4">
 
-                                                    <h4 class="text-start fw-bold mb-0 mt-2" style="font-size: 18px;">
-                                                        <%=hotel.hotel_name%>
-                                                    </h4>
-                                                    <p class="text-muted my-2 text-start" style="font-size: 14px;">Location : <i
-                                                            class="fa fa-user mx-2" aria-hidden="true"></i>
-                                                        <%=hotel.location%>
-                                                    </p>
-                                                    <p class="text-muted my-2 text-start" style="font-size: 14px;">Rang : <i
-                                                            class="fa-solid fa-indian-rupee-sign"></i> 5000 - <i
-                                                            class="fa-solid fa-indian-rupee-sign"></i> 12000</p>
-                                                    <div class="overflow-auto">
-                                                        <div class="d-flex gap-2">
-                                                            <% let facs=hotel.facilities.split(",");
-                                                                facs.forEach((fac)=> { %>
-                                                                <span
-                                                                    class="border rounded-pill px-2  bg-body-tertiary d-flex gap-2 align-items-center VsmaTxt VsmaTxt ic_color"
-                                                                    style="
-                                                                min-width: fit-content;
-                                                            ">
-                                                                    <i class="fa-solid fa-wine-bottle"></i>
-                                                                    <%=fac%>
-                                                                </span>
-                                                                <!-- <span
-                                                                class="border rounded-pill px-2  bg-body-tertiary d-flex gap-2 align-items-center VsmaTxt VsmaTxt ic_color">
-                                                                <i class="fa-solid fa-dumbbell"></i> GYM</span>
-                                                            <span
-                                                                class="border rounded-pill px-2  bg-body-tertiary d-flex gap-2 align-items-center VsmaTxt VsmaTxt ic_color"><i class="fa-solid fa-person-swimming"></i>Pool</span> -->
-                                                                <% }) %>
-                                                        </div>
+                                                        <h4 class="text-start fw-bold mb-0"
+                                                            style="font-size: 18px;">
+                                                            <%=hotel.name%>
+                                                        </h4>
+                                                        <p class="text-muted text-start" style="font-size: 14px;">
+                                                            <%=hotel.city%>
+                                                        </p>
+                                                        <p class="text-start" style="font-size: 14px;">Beautiful
+                                                            property. You feel you are in midst of nature despite being
+                                                            in the heart of the city view from balcony of the garden
+                                                            facing room is amazing excellent hospitality n service i
+                                                            requested for an avacado toast n choc shake which was not in
+                                                            the breakfast buffet but was made available in couple of
+                                                            mins free of any additional charges
+                                                        </p>
+
+                                                        <a href="<%=APP_URL%>hotel/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>" target="_blank" class="pr_color fw-bold inter fw-bold" tabindex="0">View
+                                                            Property</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <% }) %>
+                                        <% }) %>
+                                </div>
                             </div>
                         </div>
                     </div>

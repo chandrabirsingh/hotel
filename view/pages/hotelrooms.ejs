@@ -350,284 +350,243 @@
                 clip-path: inset(0 0 0 0 round var(--radius));
                 transition-delay: 0s;
             }
+
             @media(max-width:768px) {
                 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
-}
+                    display: grid;
+                    grid-template-columns: repeat(1, 1fr);
+                    gap: 10px;
+                }
             }
         </style>
         ` <!-- hotel page -->
 
-            <section>
-                <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
-                    <img loading="lazy"src="<%=APP_URL%>uploads/hotels/hoteldemo.jpg"
-                        class="h-100 w-100" style="object-fit: cover;" alt="">
-                    
-                </div>
-                <div class=" w-100" style="background-color: #005f96;">
-                    <form action="<%=APP_URL%>book-now %>">
-                        <input type="hidden" name="hotel_id" value="2">
-                        <div class="d-flex align-items-center gap-3 container py-2">
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="check_in" class="text-white">Check In:
-                                    <div class="border p-2 text-white d-flex align-items-center">
-                                        <input type="date" class="bg-transparent border-0 text-white"
-                                            name="check_in" id="">
-                                        <i class="fa-regular fa-calendar-days"></i>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="check_in" class="text-white">Check Out:
-                                    <div class="border p-2 text-white d-flex align-items-center">
-                                        <input type="date" class="bg-transparent border-0 text-white"
-                                            name="check_out" id="">
-                                        <i class="fa-regular fa-calendar-days"></i>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="text-white">Room
-                                    <div class="w-100 border p-2 text-white">
-                                        <select name="rooms" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="1" class="text-black">1</option>
-                                            <option value="2" class="text-black">2</option>
-                                            <option value="3" class="text-black">3</option>
-                                            <option value="4" class="text-black">4</option>
-                                            <option value="5" class="text-black">5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="check_in" class="text-white">Location
-                                    <div class="border p-2 text-white">
-                                        <input type="text" class="bg-transparent border-0 text-white"
-                                            name="hotel" readonly value="Himanshu hotel himasnhu hotel">
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="text-white">Adults:
-                                    <div class="w-100 border p-2 text-white">
-                                        <select name="adult" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="1" class="text-black">1</option>
-                                            <option value="2" class="text-black">2</option>
-                                            <option value="3" class="text-black">3</option>
-                                            <option value="4" class="text-black">4</option>
-                                            <option value="5" class="text-black">5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="text-white">Children
-                                    <div class="w-100 border p-2 text-white">
-                                        <select name="children" id="" class="bg-transparent text-white border-0 w-100">
-                                            <option value="0" class="text-black">0</option>
-                                            <option value="1" class="text-black">1</option>
-                                            <option value="2" class="text-black">2</option>
-                                            <option value="3" class="text-black">3</option>
-                                            <option value="4" class="text-black">4</option>
-                                            <option value="5" class="text-black">5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="check_in">
-                                    <span style="visibility: hidden;">Submit</span>
-                                    <div class="border p-2 text-white w-100">
-                                        <input type="submit"
-                                            class="bg-transparent w-100 text-center border-0 text-white"
-                                            name="submit">
-                                    </div>
-                                </label>
-                            </div>
+        <section>
+            <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
+                <img loading="lazy" src="<%=APP_URL%><%= hotel.main_image %>" class="h-100 w-100"
+                    style="object-fit: cover;" alt="">
 
+            </div>
+            <div class=" w-100" style="background-color: #005f96;">
+                <form action="<%=APP_URL%>book-now %>">
+                    <input type="hidden" name="hotel_id" value="2">
+                    <div class="d-flex align-items-center gap-3 container py-2">
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="check_in" class="text-white">Check In:
+                                <div class="border p-2 text-white d-flex align-items-center">
+                                    <input type="date" class="bg-transparent border-0 text-white" name="check_in" id="">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                </div>
+                            </label>
                         </div>
-                    </form>
-                </div>
-                <div class="my-micro-menu d-flex justify-content-center align-items-center gap-3">
-                    <a href="#hotelrooms"><span class="item_text">Rooms</span></a>
-                    <a href="#dineInOption"><span class="item_text">Dining </span></a>
-                    <a href="#gallery"><span class="item_text">Gallery</span></a>
-                    <a href="#experience"><span class="item_text">Experience</span></a>
-                    <a href="#meet_and_event"><span class="item_text">Meet & Events</span></a>
-                    <a href="https://www.google.com/maps/place/Howard+Plaza+-+The+Fern/@27.1628803,78.0344622,17z/data=!3m1!4b1!4m8!3m7!1s0x397471f9553f525d:0x7c6a8f93575f75c!5m2!4m1!1i2!8m2!3d27.1628803!4d78.0366509"
-                        target="_blank"><span class="item_text">Location</span></a>
-                    <a href="#contactUs"><span class="item_text">Contact</span></a>
-                </div>
-                <h1 class="text-center">Himanshu Hotel</h1>
-                <p class="text-center">
-                    <a class="text-primary text-decoration-none VsmaTxt text-center fw-light" target="_blank"
-                        href=""><span><i class="fa-solid fa-map-location-dot"></i></span> 23, HAL Old Airport Road, HAL
-                        2nd
-                        Stage, Kodihalli, Bengaluru, Karnataka, India, 560008</a>
-                </p>
-                <!-- image gallry -->
-                <section class="card-grid pt-0" id="gallery">
-                    <div class="container">
-                        <div class="row g-2">
-                            <!-- Image -->
-                            <div class="col-md-6">
-                                <a href="#" class="open-slider" data-index="0">
-                                    <div class="card card-grid-lg rounded-4 card-element-hover card-overlay-hover overflow-hidden"
-                                        style="background-image:url(<%=APP_URL%>uploads/hotels/hoteldemo.jpg); background-position: center left; background-size: cover;">
-                                        <!-- Card hover element -->
-                                        <div class="hover-element position-absolute w-100 h-100">
-                                            <i
-                                                class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="check_in" class="text-white">Check Out:
+                                <div class="border p-2 text-white d-flex align-items-center">
+                                    <input type="date" class="bg-transparent border-0 text-white" name="check_out"
+                                        id="">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="" class="text-white">Room
+                                <div class="w-100 border p-2 text-white">
+                                    <select name="rooms" id="" class="bg-transparent text-white border-0 w-100">
+                                        <option value="1" class="text-black">1</option>
+                                        <option value="2" class="text-black">2</option>
+                                        <option value="3" class="text-black">3</option>
+                                        <option value="4" class="text-black">4</option>
+                                        <option value="5" class="text-black">5</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="check_in" class="text-white">Location
+                                <div class="border p-2 text-white">
+                                    <input type="text" class="bg-transparent border-0 text-white" name="hotel" readonly
+                                        value="<%= hotel.name%>,<%= hotel.city %>">
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="" class="text-white">Adults:
+                                <div class="w-100 border p-2 text-white">
+                                    <select name="adult" id="" class="bg-transparent text-white border-0 w-100">
+                                        <option value="1" class="text-black">1</option>
+                                        <option value="2" class="text-black">2</option>
+                                        <option value="3" class="text-black">3</option>
+                                        <option value="4" class="text-black">4</option>
+                                        <option value="5" class="text-black">5</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="" class="text-white">Children
+                                <div class="w-100 border p-2 text-white">
+                                    <select name="children" id="" class="bg-transparent text-white border-0 w-100">
+                                        <option value="0" class="text-black">0</option>
+                                        <option value="1" class="text-black">1</option>
+                                        <option value="2" class="text-black">2</option>
+                                        <option value="3" class="text-black">3</option>
+                                        <option value="4" class="text-black">4</option>
+                                        <option value="5" class="text-black">5</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="flex-grow-1 w-100 d-flex flex-column">
+                            <label for="check_in">
+                                <span style="visibility: hidden;">Submit</span>
+                                <div class="border p-2 text-white w-100">
+                                    <input type="submit" class="bg-transparent w-100 text-center border-0 text-white"
+                                        name="submit">
+                                </div>
+                            </label>
+                        </div>
 
-                            <div class="col-md-6">
-                                <!-- Card item START -->
-                                <div class="row g-2">
-                                    <!-- Image -->
-                                    <div class="col-12">
-                                        <a href="#" class="open-slider" data-index="0">
-                                            <div class=" card card-grid-sm rounded-4 card-element-hover card-overlay-hover
+                    </div>
+                </form>
+            </div>
+            <div class="my-micro-menu d-flex justify-content-center align-items-center gap-3">
+                <a href="#hotelrooms"><span class="item_text">Rooms</span></a>
+                <a href="#dineInOption"><span class="item_text">Dining </span></a>
+                <a href="#gallery"><span class="item_text">Gallery</span></a>
+                <a href="#experience"><span class="item_text">Experience</span></a>
+                <a href="#meet_and_event"><span class="item_text">Meet & Events</span></a>
+                <a href="<%= hotel.map_link %>" target="_blank"><span class="item_text">Location</span></a>
+                <a href="#contactUs"><span class="item_text">Contact</span></a>
+            </div>
+            <h1 class="text-center">
+                <%= hotel.name %>
+            </h1>
+            <p class="text-center">
+                <a class="text-primary text-decoration-none VsmaTxt text-center fw-light" target="_blank"
+                    href="<%= hotel.map_link %>"><span><i class="fa-solid fa-map-location-dot"></i></span>
+                    <%= hotel.full_address %>
+                </a>
+            </p>
+            <!-- image gallry -->
+            <section class="card-grid pt-0" id="gallery">
+                <div class="container">
+                    <div class="row g-2">
+                        <!-- Image -->
+                        <div class="col-md-6">
+                            <a href="#" class="open-slider" data-index="0">
+                                <div class="card card-grid-lg rounded-4 card-element-hover card-overlay-hover overflow-hidden"
+                                    style="background-image:url(<%= APP_URL %><%= hotel.images.split(',')[0].trim() %>); background-position: center left; background-size: cover;">
+                                    <!-- Card hover element -->
+                                    <div class="hover-element position-absolute w-100 h-100">
+                                        <i
+                                            class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Card item START -->
+                            <div class="row g-2">
+                                <!-- Image -->
+                                <div class="col-12">
+                                    <a href="#" class="open-slider" data-index="0">
+                                        <div class=" card card-grid-sm rounded-4 card-element-hover card-overlay-hover
                                             overflow-hidden"
-                                                style="background-image:url(<%=APP_URL%>assets/img/bar.jpg); background-position: center left; background-size: cover;">
-                                                <!-- Card hover element -->
-                                                <div class="hover-element position-absolute w-100 h-100">
-                                                    <i
-                                                        class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-                                                </div>
+                                            style="background-image:url(<%= APP_URL %><%= hotel.images.split(',')[1].trim() %>); background-position: center left; background-size: cover;">
+                                            <!-- Card hover element -->
+                                            <div class="hover-element position-absolute w-100 h-100">
+                                                <i
+                                                    class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
                                             </div>
-                                        </a>
-                                    </div>
+                                        </div>
+                                    </a>
+                                </div>
 
-                                    <!-- Image -->
-                                    <div class="col-md-6">
-                                        <a href="#" class="open-slider" data-index="0">
-                                            <div class="card card-grid-sm rounded-4 card-element-hover card-overlay-hover overflow-hidden"
-                                                style="background-image:url(<%=APP_URL%>assets/img/restaurant.jpg); background-position: center left; background-size: cover;">
-                                                <!-- Card hover element -->
-                                                <div class="hover-element position-absolute w-100 h-100">
-                                                    <i
-                                                        class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-                                                </div>
+                                <!-- Image -->
+                                <div class="col-md-6">
+                                    <a href="#" class="open-slider" data-index="0">
+                                        <div class="card card-grid-sm rounded-4 card-element-hover card-overlay-hover overflow-hidden"
+                                            style="background-image:url(<%= APP_URL %><%= hotel.images.split(',')[2].trim() %>); background-position: center left; background-size: cover;">
+                                            <!-- Card hover element -->
+                                            <div class="hover-element position-absolute w-100 h-100">
+                                                <i
+                                                    class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
                                             </div>
-                                        </a>
-                                    </div>
+                                        </div>
+                                    </a>
+                                </div>
 
-                                    <!-- Images -->
-                                    <div class="col-md-6">
-                                        <div class="card card-grid-sm rounded-4 overflow-hidden"
-                                            style="background-image:url(<%=APP_URL%>assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg); background-position: center left; background-size: cover;">
-                                            <!-- Background overlay -->
-                                            <div class="bg-overlay bg-dark"></div>
+                                <!-- Images -->
+                                <div class="col-md-6">
+                                    <div class="card card-grid-sm rounded-4 overflow-hidden"
+                                        style="background-image:url(<%= APP_URL %><%= hotel.images.split(',')[3].trim() %>); background-position: center left; background-size: cover;">
+                                        <!-- Background overlay -->
+                                        <div class="bg-overlay bg-dark"></div>
 
-                                            <!-- Popup Images -->
-                                            <a href="#" class="open-slider stretched-link z-index-9" data-index="0"></a>
-                                            <a href="#" class="open-slider" data-index="0"></a>
-                                            <a href="#" class="open-slider" data-index="0"></a>
+                                        <!-- Popup Images -->
+                                        <a href="#" class="open-slider stretched-link z-index-9" data-index="0"></a>
+                                        <a href="#" class="open-slider" data-index="0"></a>
+                                        <a href="#" class="open-slider" data-index="0"></a>
 
-                                            <!-- Overlay text -->
-                                            <div class="card-img-overlay d-flex h-100 w-100">
-                                                <h6 class="card-title m-auto fw-light"
-                                                    style="text-decoration:underline;text-decoration-color:white;"><a
-                                                        href="#" class="text-white inter">View all</a></h6>
-                                            </div>
+                                        <!-- Overlay text -->
+                                        <div class="card-img-overlay d-flex h-100 w-100">
+                                            <h6 class="card-title m-auto fw-light"
+                                                style="text-decoration:underline;text-decoration-color:white;"><a
+                                                    href="#" class="text-white inter">View all</a></h6>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Card item END -->
                             </div>
+                            <!-- Card item END -->
                         </div>
-                </section>
-                <!-- micro nav -->
+                    </div>
+            </section>
+            <!-- micro nav -->
 
-                <div class="container mb-5" id="hotelAboutSection">
+            <div class="container mb-5" id="hotelAboutSection">
+                <div class="">
                     <div class="">
-                        <div class="">
-                            <div id="hotelAbout">
-                                <div class="row">
-                                    <div class="col-md-6 col-12" id="descriptionHotel">
-                                        <h2 class="fw-bold  py-4"> himanshu hotel</h2>
+                        <div id="hotelAbout">
+                            <div class="row">
+                                <div class="col-md-6 col-12" id="descriptionHotel">
+                                    <h2 class="fw-bold  py-4">
+                                        <%= hotel.name %>
+                                    </h2>
 
-                                        <div class="description">
-                                            <p class="mb-3">Demesne far-hearted suppose venture excited see had has.
-                                                Dependent
-                                                on so
-                                                extremely delivered by. Yet no jokes worse her why. <b>Bed one supposing
-                                                    breakfast
-                                                    day fulfilled off depending questions.</b></p>
-
-                                            <p class="mb-0">Delivered dejection necessary objection do Mr prevailed. Mr
-                                                feeling
-                                                does
-                                                chiefly cordial in do. Water timed folly right aware if oh truth. Large
-                                                above be
-                                                to
-                                                means. Dashwood does provide stronger is.</p>
-
-                                            <p class="my-3">We focus a great deal on the understanding of behavioral
-                                                psychology
-                                                and
-                                                influence triggers which are crucial for becoming a well rounded Digital
-                                                Marketer.
-                                                We understand that theory is important to build a solid foundation, we
-                                                understand
-                                                that theory alone isn't going to get the job done so that's why this
-                                                rickets
-                                                is
-                                                packed with practical hands-on examples that you can follow step by
-                                                step.
-                                            </p>
-
-                                            <p class="mb-0">Behavioral psychology and influence triggers which are
-                                                crucial
-                                                for
-                                                becoming a well rounded Digital Marketer. We understand that theory is
-                                                important
-                                                to
-                                                build a solid foundation, we understand that theory alone isn't going to
-                                                get
-                                                the
-                                                job
-                                                done so that's why this tickets is packed with practical hands-on
-                                                examples
-                                                that
-                                                you
-                                                can follow step by step.</p>
-                                            <a href="<%=APP_URL%>Sky Door Hospitality Final_compressed.pdf" class="btn rounded-0 p-3 px-3 btnHover" type="submit"
+                                    <div class="description">
+                                        <%- hotel.about %>
+                                            <a href="<%=APP_URL%>Sky Door Hospitality Final_compressed.pdf"
+                                                class="btn rounded-0 p-3 px-3 btnHover" type="submit"
                                                 fdprocessedid="f5h81t"> Download Factsheet
                                             </a>
-                                        </div>
-
-
-                                        <div class="hstack gap-3 my-3 justify-content-center">
-                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" aria-label="Free wifi"
-                                                data-bs-title="Free wifi">
-                                                <i class="fa-solid fa-wifi"></i>
-                                            </div>
-                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" aria-label="Swimming Pool"
-                                                data-bs-title="Swimming Pool">
-                                                <i class="fa-solid fa-swimming-pool"></i>
-                                            </div>
-                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" aria-label="Central AC"
-                                                data-bs-title="Central AC">
-                                                <i class="fa-solid fa-snowflake"></i>
-                                            </div>
-                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" aria-label="Free Service"
-                                                data-bs-title="Free Service">
-                                                <i class="fa-solid fa-concierge-bell"></i>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div style="
+
+
+                                    <!-- <div class="hstack gap-3 my-3 justify-content-center">
+                                        // hotel fatures
+                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" aria-label="Free wifi" data-bs-title="Free wifi">
+                                            <i class="fa-solid fa-wifi"></i>
+                                        </div>
+                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" aria-label="Swimming Pool"
+                                            data-bs-title="Swimming Pool">
+                                            <i class="fa-solid fa-swimming-pool"></i>
+                                        </div>
+                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" aria-label="Central AC" data-bs-title="Central AC">
+                                            <i class="fa-solid fa-snowflake"></i>
+                                        </div>
+                                        <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" aria-label="Free Service"
+                                            data-bs-title="Free Service">
+                                            <i class="fa-solid fa-concierge-bell"></i>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div style="
                                         background-image: url('<%=APP_URL%>uploads/hotels/hoteldemo.jpg');
                                         height: 100%;
                                         background-size: contain;
@@ -636,312 +595,155 @@
                                         mask-repeat: no-repeat;
                                         mask-position: center;
                                     ">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="" id="experience">
-                                <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Experience</h3>
-                                <div id="nearByPlace">
-                                    <div class="grid-container">
-                                        <div class="grid-item">
-                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/qutubminar.jpg" alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Qutab Minar</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="grid-item">
-                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/redfort.jpg" alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Red Fortr</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="grid-item">
-                                            <img loading="lazy"src="<%=APP_URL%>uploads/nearby/lotus.jpg" alt="Place Name 4">
-                                            <div class="d-flex">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Lotus Temple</span>
-                                                    <span>(See on Map)</span></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="hotelrooms">
-                                <h3 class="fw-bold mb-3 py-4">Rooms</h3>
-
-                                <!-- <ul class="nav nav-pills mb-3 gap-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active room" id="pills-home-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-home" type="button" role="tab"
-                                            aria-controls="pills-home" aria-selected="true">Deluxe room</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link room" id="pills-profile-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-profile" type="button" role="tab"
-                                            aria-controls="pills-profile" aria-selected="false">Club room</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link room" id="pills-contact-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-contact" type="button" role="tab"
-                                            aria-controls="pills-contact" aria-selected="false">Suite room</button>
-                                    </li>
-                                </ul> -->
-
-                                <div class="row ">
-                                    <div class="col-md-6 col-12 p-2 ">
-                                        <div class=" border rounded">
-                                            <div class="d-flex flex-md-row flex-column">
-                                                <div>
-                                                    <div class="sty position-relative"
-                                                        style="width: 340px; aspect-ratio: 1.5/1;">
-                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
-                                                            alt="Place Name 4" class="w-100 h-100">
-                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
-                                                            <h6 class="m-0">Deluxe Room</h6>
-                                                        </div>
-                                                        <div class="bagde-flag-wrap">
-                                                            <p class="bagde-flag">Get 10% OFF</p>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <span class="mb-0">~350 sq.ft</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span class="mb-0">3 people</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span>1 extra bed</span>
-                                                    </div>
-                                                    <div>
-                                                        <div class="my-2">
-                                                            <span
-                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
-                                                                pool</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
-                                                                Conditioner</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
-                                                                play
-                                                                area</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
-                                                                many more</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="mb-0 gowun" style="font-size: 26px;">3000 Rs
-                                                            /<span class=" inter" style="font-size: 16px;">Night</span>
-                                                        </p>
-                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
-                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
-                                                            data-bs-target="#offcanvasRight"
-                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
-                                                            more detail</a>
-                                                        <button
-                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
-                                                            Book now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12 p-2">
-                                        <div class=" border rounded">
-                                            <div class="d-flex flex-md-row flex-column">
-                                                <div>
-                                                    <div class="sty position-relative"
-                                                        style="width: 340px; aspect-ratio: 1.5/1;">
-                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/club_room.jpg"
-                                                            alt="Place Name 4" class="w-100 h-100">
-                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
-                                                            <h6 class="m-0">Club Room</h6>
-                                                        </div>
-                                                        <div class="bagde-flag-wrap">
-                                                            <p class="bagde-flag">Get 10% OFF</p>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <span class="mb-0">~350 sq.ft</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span class="mb-0">3 people</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span>1 extra bed</span>
-                                                    </div>
-                                                    <div>
-                                                        <div class="my-2">
-                                                            <span
-                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
-                                                                pool</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
-                                                                Conditioner</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
-                                                                play
-                                                                area</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
-                                                                many more</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="mb-0 gowun" style="font-size: 26px;">4000 Rs
-                                                            /<span class=" inter" style="font-size: 16px;">Night</span>
-                                                        </p>
-                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
-                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
-                                                            data-bs-target="#offcanvasRight"
-                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
-                                                            more detail</a>
-                                                        <button
-                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
-                                                            Book now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12 p-2">
-                                        <div class=" border rounded">
-                                            <div class="d-flex flex-md-row flex-column">
-                                                <div>
-                                                    <div class="sty position-relative"
-                                                        style="width: 340px; aspect-ratio: 1.5/1;">
-                                                        <img loading="lazy"src="<%=APP_URL%>uploads/rooms/suite_room.jpg"
-                                                            alt="Place Name 4" class="w-100 h-100">
-                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
-                                                            <h6 class="m-0">Suite Room</h6>
-                                                        </div>
-                                                        <div class="bagde-flag-wrap">
-                                                            <p class="bagde-flag">Get 10% OFF</p>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <span class="mb-0">~350 sq.ft</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span class="mb-0">3 people</span>
-                                                        <span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 7PX;color: #c4c4c4;"></i>
-                                                        </span>
-                                                        <span>1 extra bed</span>
-                                                    </div>
-                                                    <div>
-                                                        <div class="my-2">
-                                                            <span
-                                                                class="badge rounded-pill bg-white border text-muted  inter ">Swimming
-                                                                pool</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Spa</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
-                                                                Conditioner</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  text-muted inter ">Kids'
-                                                                play
-                                                                area</span>
-                                                            <span
-                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
-                                                                many more</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="mb-0 gowun" style="font-size: 26px;">8000 Rs
-                                                            /<span class=" inter" style="font-size: 16px;">Night</span>
-                                                        </p>
-                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
-                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
-                                                            data-bs-target="#offcanvasRight"
-                                                            aria-controls="offcanvasRight" style="color: #005f96;">view
-                                                            more detail</a>
-                                                        <button
-                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">
-                                                            Book now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="" id="meet_and_event">
-                                <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Meets & Events</h3>
-                                <div id="nearByPlace">
-                                    <div class="grid-container">
+                        </div>
+                        <div class="" id="experience">
+                            <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Experience</h3>
+                            <div id="nearByPlace">
+                                <div class="grid-container">
+                                    <% nearbyPlaces.forEach(place=> { %>
                                         <div class="grid-item">
-                                            <div class="spdiv"></div>
-                                            <img loading="lazy"src="<%=APP_URL%>assets/img/bar.jpg"
-                                                alt="Place Name 4">
-                                            <div class=" p-2">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Club & Bar</span>
-                                                    <span></a>
-                                                <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
-                                            </div>
-                                        </div>
-                                        <div class="grid-item">
-                                            <div class="spdiv"></div>
-                                            <img loading="lazy"src="<%=APP_URL%>assets/img/restaurant.jpg"
-                                                alt="Place Name 4">
-                                            <div class="p-2">
-                                                <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
-                                                    class="map-link vsmatxt inter mt-1"><span>Banquet Hall</span>
+                                            <img loading="lazy" src="<%= APP_URL %><%= place.image %>"
+                                                alt="<%= place.place_name %>">
+                                            <div class="d-flex">
+                                                <a href="<%= place.map_link %>" class="map-link vsmatxt inter mt-1">
+                                                    <span>
+                                                        <%= place.place_name %>
+                                                    </span>
+                                                    <span>(See on Map)</span>
                                                 </a>
-                                                <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                             </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="hotelrooms">
+                            <h3 class="fw-bold mb-3 py-4">Rooms</h3>
+                            <div class="row ">
+                                <div class="row">
+                                    <% rooms.forEach(room=> { %>
+                                        <div class="col-md-6 col-12 p-2">
+                                            <div class="border">
+                                                <div class="d-flex flex-md-row flex-column" style="
+                                                    background-image: linear-gradient(266deg, #ffffff 58%, transparent 69%), url(<%= APP_URL %><%= room.main_image %>);
+                                                    background-size: contain;
+                                                    background-repeat: no-repeat;
+                                                ">
+                                                    <div>
+                                                        <div class="sty position-relative"
+                                                            style="width: 246px; height: 100%;">
+                                                            <img loading="lazy"
+                                                                src="<%= APP_URL %><%= room.main_image %>"
+                                                                alt="<%= room.name %>" class="w-100 h-100"
+                                                                style="visibility: collapse;">
+                                                            <div
+                                                                class="position-absolute bottom-0 start-0 m-3 bg-white p-2">
+                                                                <h6 class="m-0">
+                                                                    <%= room.room_name %>
+                                                                </h6>
+                                                            </div>
+                                                            <div class="bagde-flag-wrap">
+                                                                <p class="bagde-flag">
+                                                                    Get <%= room.discount ?? 10 %> % off
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                        <div class="d-flex gap-2 align-items-center">
+                                                            <span class="mb-0">
+                                                                ~<%= room.room_size %> sq.ft
+                                                            </span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 5px; color: #c4c4c4;"></i>
+                                                            <span class="mb-0">
+                                                                <%= room.accommodation %>
+                                                            </span>
+                                                            <i class="fa-solid fa-circle"
+                                                                style="font-size: 5px; color: #c4c4c4;"></i>
+                                                            <span>
+                                                                <%= (room.has_king && room.has_twin)
+                                                                    ? 'King bed or Twin bed' : room.has_king
+                                                                    ? 'King bed' : room.has_twin ? 'Twin bed'
+                                                                    : 'No specific bed type' %>
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="my-2">
+                                                                <span
+                                                                    class="badge rounded-pill bg-white border text-muted  inter ">Wi-Fi</span>
+                                                                <span
+                                                                    class="badge rounded-pill bg-white border  text-muted inter ">hot
+                                                                    & cold water</span>
+                                                                <span
+                                                                    class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                    Conditioner</span>
+                                                                <span
+                                                                    class="badge rounded-pill bg-white border  text-muted inter ">Daily
+                                                                    newspaper</span>
+                                                                <span
+                                                                    class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                    many more</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <p class="mb-0 gowun" style="font-size: 26px;">
+                                                                <%= room.price %> /<span class="inter"
+                                                                        style="font-size: 16px;">Night</span>
+                                                            </p>
+                                                            <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-end gap-2 align-items-center">
+                                                            <a href="#" type="button" data-bs-toggle="offcanvas"
+                                                                data-bs-target="#offcanvasRight"
+                                                                aria-controls="offcanvasRight" style="color: #005f96;"
+                                                                onclick="openRoomDetail(<%=room.id%>)">view more
+                                                                detail</a>
+                                                            <button
+                                                                class="btn rounded-0 py-2 px-3 btnHover rounded-pill border">Book
+                                                                now</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="" id="meet_and_event">
+                            <h3 class="fw-bold text-center my-4" style="font-size: 32px;">Meets & Events</h3>
+                            <div id="nearByPlace">
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <div class="spdiv"></div>
+                                        <img loading="lazy" src="<%=APP_URL%>assets/img/bar.jpg" alt="Place Name 4">
+                                        <div class=" p-2">
+                                            <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                class="map-link vsmatxt inter mt-1"><span>Club & Bar</span>
+                                                <span></a>
+                                            <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item">
+                                        <div class="spdiv"></div>
+                                        <img loading="lazy" src="<%=APP_URL%>assets/img/restaurant.jpg"
+                                            alt="Place Name 4">
+                                        <div class="p-2">
+                                            <a href="https://www.google.com/maps/search/?api=1&amp;query=place4-location"
+                                                class="map-link vsmatxt inter mt-1"><span>Banquet Hall</span>
+                                            </a>
+                                            <p class="mb-0 fw-bold">Timming: 12pm to 11pm</p>
                                         </div>
                                     </div>
                                 </div>
@@ -949,329 +751,362 @@
                         </div>
                     </div>
                 </div>
-                <div class="container" id="dineInOption">
-                    <h2 class="text-center py-4">Dine In Reservations
-                    </h2>
-                    <div class="row">
-                        <div class="col-lg-6 col-12">
-                            <form method="post" action="meet-and-events" class="m-0">
-                                <div class="ajaxMsg"></div>
-                                <div class="row">
+            </div>
+            <div class="container" id="dineInOption">
+                <h2 class="text-center py-4">Dine In Reservations
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <form method="post" action="meet-and-events" class="m-0">
+                            <div class="ajaxMsg"></div>
+                            <div class="row">
 
-                                    <div class="col-md-12 my-2"><input placeholder="Name" name="name"
-                                            class="form-control in-text" type="text" required="" fdprocessedid="919mb">
-                                    </div>
-                                    <div class="col-md-12 my-2"><input placeholder="Email" name="email"
-                                            class="form-control in-text" type="text" required="" fdprocessedid="7hlbpv">
-                                    </div>
-                                    <div class="col-md-12 my-2"><input placeholder="Phone" name="phone"
-                                            class="form-control in-text" type="text" min="0" required=""
-                                            fdprocessedid="83ce4g">
-                                    </div>
-                                    <div class="col-md-12 my-2">
-                                        <input placeholder="Date" class="form-control " name="booking_date" type="text"
-                                            onfocus="(this.type='date')" id="date" required="" fdprocessedid="782ue9">
-                                    </div>
-                                    <div class="col-md-12 my-2">
-                                        <select style="text-transform: none;" name="booking_time" class="form-control"
-                                            fdprocessedid="osuwh9">
-                                            <option value="">Time</option>
-                                            <option value="1 AM">1 AM</option>
-                                            <option value="2 AM">2 AM</option>
-                                            <option value="3 AM">3 AM</option>
-                                            <option value="4 AM">4 AM</option>
-                                            <option value="5 AM">5 AM</option>
-                                            <option value="6 AM">6 AM</option>
-                                            <option value="7 AM">7 AM</option>
-                                            <option value="8 AM">8 AM</option>
-                                            <option value="9 AM">9 AM</option>
-                                            <option value="10 AM">10 AM</option>
-                                            <option value="11 AM">11 AM</option>
-                                            <option value="12 PM">12 PM</option>
-                                            <option value="1 PM">1 PM</option>
-                                            <option value="2 PM">2 PM</option>
-                                            <option value="3 PM">3 PM</option>
-                                            <option value="4 PM">4 PM</option>
-                                            <option value="5 PM">5 PM</option>
-                                            <option value="6 PM">6 PM</option>
-                                            <option value="7 PM">7 PM</option>
-                                            <option value="8 PM">8 PM</option>
-                                            <option value="9 PM">9 PM</option>
-                                            <option value="10 PM">10 PM</option>
-                                            <option value="11 PM">11 PM</option>
-                                            <option value="12 AM">12 AM</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 my-2"><input placeholder="No. of Guests" name="no_of_guest"
-                                            class="form-control in-text" type="text" min="0" required=""
-                                            fdprocessedid="3y6f05j"></div>
-
-                                    <div class="col-md-12 my-2">
-                                        <textarea class="form-control in-text" name="comment" style="height:100px;"
-                                            placeholder="Comments"></textarea>
-                                    </div>
-                                    <div class="col-md-12 d-flex justify-content-end mt-3">
-                                        <button class="btn rounded-0 p-3 px-3 btnHover" type="submit"> Secure Your Table
-                                        </button>
-                                    </div>
+                                <div class="col-md-12 my-2"><input placeholder="Name" name="name"
+                                        class="form-control in-text" type="text" required="" fdprocessedid="919mb">
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-lg-6 col-12 d-flex align-items-stretch">
-                            <div class="info-wrap w-100 p-5 img"
-                                style="background-image: url(<%=APP_URL%>assets/img/dinning.jpg);">
+                                <div class="col-md-12 my-2"><input placeholder="Email" name="email"
+                                        class="form-control in-text" type="text" required="" fdprocessedid="7hlbpv">
+                                </div>
+                                <div class="col-md-12 my-2"><input placeholder="Phone" name="phone"
+                                        class="form-control in-text" type="text" min="0" required=""
+                                        fdprocessedid="83ce4g">
+                                </div>
+                                <div class="col-md-12 my-2">
+                                    <input placeholder="Date" class="form-control " name="booking_date" type="text"
+                                        onfocus="(this.type='date')" id="date" required="" fdprocessedid="782ue9">
+                                </div>
+                                <div class="col-md-12 my-2">
+                                    <select style="text-transform: none;" name="booking_time" class="form-control"
+                                        fdprocessedid="osuwh9">
+                                        <option value="">Time</option>
+                                        <option value="1 AM">1 AM</option>
+                                        <option value="2 AM">2 AM</option>
+                                        <option value="3 AM">3 AM</option>
+                                        <option value="4 AM">4 AM</option>
+                                        <option value="5 AM">5 AM</option>
+                                        <option value="6 AM">6 AM</option>
+                                        <option value="7 AM">7 AM</option>
+                                        <option value="8 AM">8 AM</option>
+                                        <option value="9 AM">9 AM</option>
+                                        <option value="10 AM">10 AM</option>
+                                        <option value="11 AM">11 AM</option>
+                                        <option value="12 PM">12 PM</option>
+                                        <option value="1 PM">1 PM</option>
+                                        <option value="2 PM">2 PM</option>
+                                        <option value="3 PM">3 PM</option>
+                                        <option value="4 PM">4 PM</option>
+                                        <option value="5 PM">5 PM</option>
+                                        <option value="6 PM">6 PM</option>
+                                        <option value="7 PM">7 PM</option>
+                                        <option value="8 PM">8 PM</option>
+                                        <option value="9 PM">9 PM</option>
+                                        <option value="10 PM">10 PM</option>
+                                        <option value="11 PM">11 PM</option>
+                                        <option value="12 AM">12 AM</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 my-2"><input placeholder="No. of Guests" name="no_of_guest"
+                                        class="form-control in-text" type="text" min="0" required=""
+                                        fdprocessedid="3y6f05j"></div>
+
+                                <div class="col-md-12 my-2">
+                                    <textarea class="form-control in-text" name="comment" style="height:100px;"
+                                        placeholder="Comments"></textarea>
+                                </div>
+                                <div class="col-md-12 d-flex justify-content-end mt-3">
+                                    <button class="btn rounded-0 p-3 px-3 btnHover" type="submit"> Secure Your Table
+                                    </button>
+                                </div>
                             </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-12 d-flex align-items-stretch">
+                        <div class="info-wrap w-100 p-5 img"
+                            style="background-image: url(<%=APP_URL%>assets/img/dinning.jpg);">
                         </div>
                     </div>
                 </div>
-                <div id="contactUs" class="container">
-                    <h2 class="text-center py-4 ">Contact us to book your staycation
-                    </h2>
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <p class="mb-0 fw-bold fs-6">Address</p>
-                            <p class="mb-0">
-                                Alembic Urban Forest, Kadugodi,
-                                Whitefield, Bengaluru-560067 Karnataka, India
-                            </p>
-                            <div>
-                                <a class="btn rounded-0 py-2 px-3 btnHover border border-black" href="<%APP_URL%>contact">Enquir Now</a>
+            </div>
+            <div id="contactUs" class="container">
+                <h2 class="text-center py-4 ">Contact us to book your staycation
+                </h2>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <p class="mb-0 fw-bold fs-6">Address</p>
+                        <p class="mb-0">
+                            Alembic Urban Forest, Kadugodi,
+                            Whitefield, Bengaluru-560067 Karnataka, India
+                        </p>
+                        <div>
+                            <a class="btn rounded-0 py-2 px-3 btnHover border border-black"
+                                href="<%APP_URL%>contact">Enquir Now</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
+                        <p class="mb-0">
+                            <a href="#">
+                                chandrabir.singh@skydoorhotels.com
+                            </a>
+                        </p>
+                        <p class="mb-0"> <a href="#" class="">chandrabir.singh@skydoorhotels.com</a></p>
+                        <p class="mb-0">
+                            <a href="#">+91 99716 95346</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
+                        <p class="mb-0"><a href="#">Email:chandrabir.singh@skydoorhotels.com</a></p>
+                        <p class="mb-0"><a href="#">Phone:99716 95346</a></p>
+                        <p class="mb-0">09:30 am to 06:30 pm, Monday to Saturday.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-container" id="image-slider"
+                style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000;padding: 50px 0; background: black;">
+                <div class="swiper-wrapper">
+                    <% const imageArray=hotel.images.split(','); %>
+                        <% for (let i=1; i < imageArray.length; i++) { %>
+                            <div class="swiper-slide">
+                                <img loading="lazy" src="<%=APP_URL%><%= imageArray[i].trim() %>"
+                                    style="width:100%; height:100%; object-fit:contain;">
                             </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
-                            <p class="mb-0">
-                                <a href="#">
-                                    chandrabir.singh@skydoorhotels.com
-                                </a>
-                            </p>
-                            <p class="mb-0"> <a href="#" class="">chandrabir.singh@skydoorhotels.com</a></p>
-                            <p class="mb-0">
-                                <a href="#">+91 99716 95346</a>
-                            </p>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
-                            <p class="mb-0"><a href="#">Email:chandrabir.singh@skydoorhotels.com</a></p>
-                            <p class="mb-0"><a href="#">Phone:99716 95346</a></p>
-                            <p class="mb-0">09:30 am to 06:30 pm, Monday to Saturday.</p>
-                        </div>
-                    </div>
+                            <% } %>
                 </div>
-                <div class="swiper-container" id="image-slider"
-                    style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000;padding: 50px 0; background: black;">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img loading="lazy"src="<%=APP_URL%>assets/img/restaurant.jpg"
-                                style="width:100%; height:100%; object-fit:contain;">
-                        </div>
-                    </div>
-                    <!-- Swiper Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <!-- Swiper Pagination -->
-                    <div class="swiper-pagination"></div>
-                    <button id="close-slider"
-                        style="position: absolute; top: 20px; right: 20px; z-index: 1001; background-color: transparent; color: white; border: none; padding: 10px; cursor: pointer;font-size: 30px;"><i
-                            class="fa-solid fa-xmark"></i></button>
+                <!-- Swiper Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <!-- Swiper Pagination -->
+                <div class="swiper-pagination"></div>
+                <button id="close-slider"
+                    style="position: absolute; top: 20px; right: 20px; z-index: 1001; background-color: transparent; color: white; border: none; padding: 10px; cursor: pointer;font-size: 30px;"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <!-- offcanvs -->
+            <!-- Offcanvas Component -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="roomContainer" aria-labelledby="roomName">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="roomName">
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <!-- offcanvs -->
-                <!-- Offcanvas Component -->
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
-                    aria-labelledby="offcanvasRightLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                            Luxury Room with Balcony</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body" style="overflow-x:hidden;">
-                        <!-- Swiper Slider -->
+                <div class="offcanvas-body" style="overflow-x:hidden;">
+                    <!-- Swiper Slider -->
+                    <div id="imageContainer">
                         <div class="swiper-container mySwiper overflow-hidden position-relative" style="height:400px;">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img
-                                        src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
+                            <div class="swiper-wrapper" id="roomImages">
+                                <div class="swiper-slide"><img src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
                                         alt="Room Image 1" class="h-100 w-100" /></div>
                                 <!-- Add more slides as needed -->
                             </div>
                             <div class="swiper-button-next"></div>
                             <div class="swiper-button-prev"></div>
                         </div>
+                    </div>
+                    <!-- Room Description -->
+                    <h6 class="mt-3">Room Description</h6>
+                    <p>Area ~ 250 saft., blend of rich interiors and modern
+                        amenities. The Deluxe room is a spacious and fantastic
+                        experience for your stay.</p>
 
-                        <!-- Room Description -->
-                        <h6 class="mt-3">Room Description</h6>
-                        <p>Area ~ 250 saft., blend of rich interiors and modern
-                            amenities. The Deluxe room is a spacious and fantastic
-                            experience for your stay.</p>
+                    <!-- Features and Services -->
+                    <h6 class="mt-3">Features & Services</h6>
+                    <ul>
+                        <li>High speed Wi-Fi internet</li>
+                        <li>Air conditioner</li>
+                        <li>Digital in-room safe</li>
+                        <li>LED television</li>
+                        <li>Satellite TV connection for entertainment & international news</li>
+                        <li>Bottled drinking water in-room</li>
+                        <li>Complimentary in-room tea & coffee facility</li>
+                        <li>Guest amenities on request</li>
+                        <li>Daily newspaper on request</li>
+                        <li>Pillow menu</li>
+                        <li>Eco-friendly bathroom amenities</li>
+                        <li>24-hrs hot & cold water</li>
+                        <li>Hair dryer</li>
+                        <li>Iron & ironing board on request</li>
+                        <li>Wakeup call on request</li>
+                    </ul>
 
-                        <!-- Features and Services -->
-                        <h6 class="mt-3">Features & Services</h6>
-                        <ul>
-                            <li>High speed Wi-Fi internet</li>
-                            <li>Air conditioner</li>
-                            <li>Digital in-room safe</li>
-                            <li>LED television</li>
-                            <li>Satellite TV connection for entertainment & international news</li>
-                            <li>Bottled drinking water in-room</li>
-                            <li>Complimentary in-room tea & coffee facility</li>
-                            <li>Guest amenities on request</li>
-                            <li>Daily newspaper on request</li>
-                            <li>Pillow menu</li>
-                            <li>Eco-friendly bathroom amenities</li>
-                            <li>24-hrs hot & cold water</li>
-                            <li>Hair dryer</li>
-                            <li>Iron & ironing board on request</li>
-                            <li>Wakeup call on request</li>
-                          </ul>
-                          
 
-                        <!-- Book Now Button -->
-                        <div class="mt-4">
-                            <button class="btn rounded-0 p-3 px-3 btnHover border">Book Now</button>
-                        </div>
+                    <!-- Book Now Button -->
+                    <div class="mt-4">
+                        <button class="btn rounded-0 p-3 px-3 btnHover border">Book Now</button>
                     </div>
                 </div>
+            </div>
 
-            </section>
-            <%- include('../partial/foot'); -%>
-                <script>
-                    function handleBookNow(roomId) {
-                        // Check if user is logged in using session
-                        const isLoggedIn = <%= session.user_id ? true : false %>;
+        </section>
+        <%- include('../partial/foot'); -%>
+            <script>
+                function himanshuBookRoom(roomId) {
 
-                        if (isLoggedIn) {
-                            // If logged in, redirect to booking page
-                            window.location.href = `<%= APP_URL %>book-now?<%=url%>&room_id=${roomId}`;
+                }
+                async function openRoomDetail(roomId) {
+                    try {
+                        // Make an API call to get room details
+                        const response = await fetch(`<%= APP_URL %>api/rooms/${roomId}`); // Ensure the endpoint is correct
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        const roomDetails = await response.json();
+                        console.log(roomDetails); // Check the structure of roomDetails in the console
+
+                        // Populate the offcanvas with room details
+                        document.querySelector('#roomName').textContent = roomDetails.room_name; // Set the room title
+
+                        // Assuming roomDetails.images is an array of image filenames
+                        if (Array.isArray(roomDetails.images) && roomDetails.images.length > 0) {
+                            document.querySelector('#roomImages').innerHTML = roomDetails.images.map(image => `
+                            <div class="swiper-slide"><img src="${APP_URL}${image}" alt="${roomDetails.room_name}" class="h-100 w-100" /></div>
+                        `).join('');
                         } else {
-                            // If not logged in, show login modal
-                            var loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
-                            loginModal.show();
+                            document.querySelector('#imageContainer').innerHTML = '<div>No images available</div>';
                         }
+
+                        // Set room description
+                        document.querySelector('.offcanvas-body h6 + p').textContent = roomDetails.description;
+
+                        // Uncomment and ensure the features list exists in your roomDetails
+                        // const featuresList = document.querySelector('.offcanvas-body ul');
+                        // featuresList.innerHTML = roomDetails.features.map(feature => `<li>${feature}</li>`).join(''); // Populate features dynamically
+
+                        // Show the offcanvas
+                        const offcanvas = new bootstrap.Offcanvas(document.getElementById('roomContainer')); // Ensure this matches your offcanvas ID
+                        offcanvas.show();
+                    } catch (error) {
+                        console.error('Error fetching room details:', error);
                     }
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                            return new bootstrap.Tooltip(tooltipTriggerEl);
-                        });
+                }
+
+
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl);
                     });
-                </script>
+                });
+            </script>
 
-                <script>
-                    // Initialize Swiper
-                    var swiper = new Swiper('.swiper-container', {
-                        spaceBetween: 10,
-                        slidesPerView: 1,
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                        },
-                        loop: true,
+            <script>
+                // Initialize Swiper
+                var swiper = new Swiper('.swiper-container', {
+                    spaceBetween: 10,
+                    slidesPerView: 1,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    loop: true,
+                });
+
+                // Function to open the slider
+                document.querySelectorAll('.open-slider').forEach((thumbnail, index) => {
+                    thumbnail.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        // Set the clicked slide as active
+                        swiper.slideTo(index);
+
+                        // Show the Swiper container
+                        document.getElementById('image-slider').style.display = 'block';
                     });
+                });
 
-                    // Function to open the slider
-                    document.querySelectorAll('.open-slider').forEach((thumbnail, index) => {
-                        thumbnail.addEventListener('click', function (e) {
-                            e.preventDefault();
-
-                            // Set the clicked slide as active
-                            swiper.slideTo(index);
-
-                            // Show the Swiper container
-                            document.getElementById('image-slider').style.display = 'block';
-                        });
-                    });
-
-                    // Optionally, you can add a way to close the slider, e.g., clicking outside the slider or a close button.
-                    document.getElementById('image-slider').addEventListener('click', function (e) {
-                        if (e.target.classList.contains('swiper-container')) {
-                            this.style.display = 'none';  // Hide slider if clicked outside the image
-                        }
-                    });
-                    // Close the slider when clicking on the close button
-                    document.getElementById('close-slider').addEventListener('click', function () {
-                        document.getElementById('image-slider').style.display = 'none'; // Hide the slider
-                    });
-
-                    // Optional: Close the slider if user clicks outside the image (on the background)
-                    document.getElementById('image-slider').addEventListener('click', function (e) {
-                        if (e.target.classList.contains('swiper-container')) {
-                            this.style.display = 'none';
-                        }
-                    });
-
-                </script>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const formElement = document.querySelector('.booking-form-container');
-                        const hotelAboutSection = document.getElementById('hotelAboutSection');
-
-                        window.addEventListener('scroll', function () {
-                            let sectionRect = hotelAboutSection.getBoundingClientRect();
-                            let formHeight = formElement.offsetHeight;
-                            let sectionTop = sectionRect.top + window.pageYOffset;
-                            let sectionBottom = sectionTop + sectionRect.height;
-                            let scrollPosition = window.pageYOffset;
-
-                            let distanceFromBottom = sectionBottom - scrollPosition;
-
-                            if (scrollPosition > sectionTop && distanceFromBottom > formHeight) {
-                                formElement.style.position = 'fixed';
-                                formElement.style.top = '120px';
-                            }
-                            else if (distanceFromBottom <= formHeight) {
-                                formElement.style.position = 'fixed';
-                                formElement.style.top = (distanceFromBottom - formHeight) + 'px';
-                            }
-                            else {
-                                formElement.style.position = 'relative';
-                                formElement.style.top = 'auto';
-                            }
-                        });
-                    });
-
-
-
-                </script>
-                <script>
-                    function decreaseValue(id, min) {
-                        const input = document.getElementById(id);
-                        let value = parseInt(input.value);
-                        if (value > min) {
-                            value--;
-                            input.value = value;
-                        }
+                // Optionally, you can add a way to close the slider, e.g., clicking outside the slider or a close button.
+                document.getElementById('image-slider').addEventListener('click', function (e) {
+                    if (e.target.classList.contains('swiper-container')) {
+                        this.style.display = 'none';  // Hide slider if clicked outside the image
                     }
+                });
+                // Close the slider when clicking on the close button
+                document.getElementById('close-slider').addEventListener('click', function () {
+                    document.getElementById('image-slider').style.display = 'none'; // Hide the slider
+                });
 
-                    function increaseValue(id, max) {
-                        const input = document.getElementById(id);
-                        let value = parseInt(input.value);
-                        if (value < max) {
-                            value++;
-                            input.value = value;
-                        }
+                // Optional: Close the slider if user clicks outside the image (on the background)
+                document.getElementById('image-slider').addEventListener('click', function (e) {
+                    if (e.target.classList.contains('swiper-container')) {
+                        this.style.display = 'none';
                     }
-                </script>
-                <script>
-                    var swiper = new Swiper('.mySwiper', {
-                        slidesPerView: 1,
-                        spaceBetween: 10,
-                        loop: true,
-                        autoplay: {
-                            delay: 3000,
-                            disableOnInteraction: false,
-                        },
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                        },
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
+                });
+
+            </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const formElement = document.querySelector('.booking-form-container');
+                    const hotelAboutSection = document.getElementById('hotelAboutSection');
+
+                    window.addEventListener('scroll', function () {
+                        let sectionRect = hotelAboutSection.getBoundingClientRect();
+                        let formHeight = formElement.offsetHeight;
+                        let sectionTop = sectionRect.top + window.pageYOffset;
+                        let sectionBottom = sectionTop + sectionRect.height;
+                        let scrollPosition = window.pageYOffset;
+
+                        let distanceFromBottom = sectionBottom - scrollPosition;
+
+                        if (scrollPosition > sectionTop && distanceFromBottom > formHeight) {
+                            formElement.style.position = 'fixed';
+                            formElement.style.top = '120px';
+                        }
+                        else if (distanceFromBottom <= formHeight) {
+                            formElement.style.position = 'fixed';
+                            formElement.style.top = (distanceFromBottom - formHeight) + 'px';
+                        }
+                        else {
+                            formElement.style.position = 'relative';
+                            formElement.style.top = 'auto';
+                        }
                     });
-                </script>
+                });
+
+
+
+            </script>
+            <script>
+                function decreaseValue(id, min) {
+                    const input = document.getElementById(id);
+                    let value = parseInt(input.value);
+                    if (value > min) {
+                        value--;
+                        input.value = value;
+                    }
+                }
+
+                function increaseValue(id, max) {
+                    const input = document.getElementById(id);
+                    let value = parseInt(input.value);
+                    if (value < max) {
+                        value++;
+                        input.value = value;
+                    }
+                }
+            </script>
+            <script>
+                var swiper = new Swiper('.mySwiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            </script>
