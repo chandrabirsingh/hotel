@@ -286,57 +286,87 @@ exports.booknow = function (req, res) {
     session = req.session;
     let user = '';
     let queryData = req.query;
+
     try {
         if (req.method === 'POST') {
             // Handle booking
-            var myreq = req.body;
-            config.con.query(
-                "INSERT INTO `booking`(`name`, `email`, `mobile`, `country`, `address`, `city`, `additional`, `destination`, `hotel_id`, `checkin`, `checkout`, `room`, `room_id`, `status`, `payment_status`,`payment_amount`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'paid', ?)",
-                [
-                    'hello',
-                    myreq.email || null,
-                    myreq.mobile || null,
-                    myreq.country || null,
-                    myreq.address || null,
-                    myreq.city || null,
-                    myreq.additional || null,
-                    req.query.destination || null,
-                    req.query.hotel || null,
-                    req.query.checkin || null,
-                    req.query.checkout || null,
-                    req.query.room || null,
-                    req.query.room_id || null,
-                    myreq.amount / 100 || null
-                ],
-                (err, result) => {
-                    if (err) {
-                        console.error('Error during booking:', err);
-                        return res.status(500).send('Internal Server Error');
-                    }
-                    res.send({ reurl: 'booked/' + result.insertId });
+            const myreq = req.body;
+
+            // Calculate the discounted price based on active discount
+            config.con.query("SELECT discount_percentage FROM discounts WHERE is_active = 1 LIMIT 1", (discountErr, discountResult) => {
+                if (discountErr) {
+                    console.error('Error fetching discount:', discountErr);
+                    return res.status(500).send('Internal Server Error');
                 }
-            );
-        }
-        else {
+                const discount = discountResult.length > 0 ? discountResult[0].discount_percentage : 0;
+                const discountedAmount = myreq.amount * (1 - discount / 100) || null;
+
+                // Insert booking data with discounted amount
+                config.con.query(
+                    "INSERT INTO `booking`(`name`, `email`, `mobile`, `country`, `address`, `city`, `additional`, `destination`, `hotel_id`, `checkin`, `checkout`, `room`, `room_id`, `status`, `payment_status`, `payment_amount`, `discount_applied`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'paid', ?, ?)",
+                    [
+                        'hello',
+                        myreq.email || null,
+                        myreq.mobile || null,
+                        myreq.country || null,
+                        myreq.address || null,
+                        myreq.city || null,
+                        myreq.additional || null,
+                        req.query.destination || null,
+                        req.query.hotel || null,
+                        req.query.checkin || null,
+                        req.query.checkout || null,
+                        req.query.room || null,
+                        req.query.room_id || null,
+                        discountedAmount,
+                        discount  // Store applied discount for reference
+                    ],
+                    (err, result) => {
+                        if (err) {
+                            console.error('Error during booking:', err);
+                            return res.status(500).send('Internal Server Error');
+                        }
+                        res.send({ reurl: 'booked/' + result.insertId });
+                    }
+                );
+            });
+
+        } else {
+            // Get hotel and room details
             const date = require('date-and-time');
-            const hotelRoomsQuery =`SELECT hotel_rooms.*, hotels.name, hotels.city 
-            FROM hotels 
-            INNER JOIN hotel_rooms ON hotels.id = hotel_rooms.hotel_id WHERE hotels.id = ?` 
-            config.con.query(
-                hotelRoomsQuery,
-                [req.query.hotel_id], // Use the hotel_id from the query
-                (err, result) => {
-                    if (err) {
-                        console.error('Error fetching hotel data:', err);
+            const hotelRoomsQuery = `
+                SELECT hotel_rooms.*, hotels.name, hotels.city,room_types.room_name,hotels.full_address,hotels.main_image AS hotels_image
+                FROM hotels 
+                INNER JOIN hotel_rooms ON hotels.id = hotel_rooms.hotel_id 
+                INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+                WHERE hotels.id = ?`;
+
+            config.con.query(hotelRoomsQuery, [req.query.hotel_id], (err, result) => {
+                if (err) {
+                    console.error('Error fetching hotel data:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+
+                const hotel = result.length > 0 ? result[0] : {};
+                const hotelRooms = result;
+                const hotelName = hotel.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
+
+                // Fetch active discount
+                config.con.query("SELECT discount_percentage FROM discounts WHERE is_active = 1 LIMIT 1", (discountErr, discountResult) => {
+                    if (discountErr) {
+                        console.error('Error fetching discount:', discountErr);
                         return res.status(500).send('Internal Server Error');
                     }
-                    const hotel = result.length > 0 ? result[0] : {};
-                    const hotelRooms = result;
-                    const hotelName = hotel.name
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')
-                        .replace(/[^a-z0-9-]/g, '');
-                    const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
+
+                    const discount = discountResult.length > 0 ? discountResult[0].discount_percentage : 0;
+
+                    // Calculate discounted price for each room
+                    hotelRooms.forEach(room => {
+                        room.original_price = room.price; // Assuming price is the original price from DB
+                        room.discounted_price = room.price - (room.price * (discount / 100));
+                    });
+
                     if (session.user_id !== undefined) {
                         config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
                             if (err) {
@@ -349,17 +379,18 @@ exports.booknow = function (req, res) {
                                 return res.redirect('/logout');
                             }
 
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms,hotelURL, crypto });
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto });
                         });
                     } else {
                         const date1 = new Date(queryData.check_in);
                         const date2 = new Date(queryData.check_out);
                         const diffTime = Math.abs(date2 - date1);
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        console.log(hotelRooms)
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms,hotelURL, crypto, diffDays: diffDays });
+                        console.log(hotel)
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays });
                     }
                 });
+            });
         }
     } catch (error) {
         console.error('Unexpected Error:', error);
@@ -367,6 +398,36 @@ exports.booknow = function (req, res) {
     }
 };
 
+exports.getRoomDetailsById = (req, res) => {
+    const roomId = req.query.room_id;
+
+    // SQL query to fetch room details
+    const query = `
+        SELECT hotel_rooms.*, room_types.room_name, 
+            (hotel_rooms.price * (1 - discounts.discount_percentage / 100)) AS discounted_price,
+            (hotel_rooms.price * 0.12) AS tax 
+        FROM hotel_rooms 
+        INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+        LEFT JOIN discounts ON discounts.is_active = 1
+        WHERE hotel_rooms.id = ?;
+    `;
+
+    // Execute the query
+    config.con.query(query, [roomId], (err, result) => {
+        if (err) {
+            console.error('Error fetching room details:', err);
+            return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
+
+        if (result.length > 0) {
+            const room = result[0];
+            // Send room data in JSON format
+            res.json({ success: true, room });
+        } else {
+            res.status(404).json({ success: false, message: 'Room not found' });
+        }
+    });
+};
 exports.booking = function (req, res) {
     session = req.session;
     let user = '';

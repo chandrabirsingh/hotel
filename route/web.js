@@ -57,6 +57,7 @@ app.post('/testpay', homecontroller.testpay);
 app.get('/testpaypage', homecontroller.testpaypage);
 app.get('/mail', homecontroller.mail);
 app.get('/api/rooms/:roomId', homecontroller.getRoomDetail);
+app.get('/api/getRoomDetails', homecontroller.getRoomDetailsById);
 // app.get('/h', homecontroller.helloFunction);
 // app.get('/h',(req,res)=>{
 //     console.log('hello');
