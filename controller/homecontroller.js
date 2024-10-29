@@ -403,13 +403,18 @@ exports.getRoomDetailsById = (req, res) => {
 
     // SQL query to fetch room details
     const query = `
-        SELECT hotel_rooms.*, room_types.room_name, 
-            (hotel_rooms.price * (1 - discounts.discount_percentage / 100)) AS discounted_price,
-            (hotel_rooms.price * 0.12) AS tax 
-        FROM hotel_rooms 
-        INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
-        LEFT JOIN discounts ON discounts.is_active = 1
-        WHERE hotel_rooms.id = ?;
+       SELECT hotel_rooms.*, 
+       room_types.room_name, 
+       (hotel_rooms.price * (1 - IFNULL(discounts.discount_percentage, 0) / 100)) AS discounted_price,
+       (CASE 
+            WHEN discounts.discount_percentage IS NULL THEN hotel_rooms.price * 0.12  -- Tax on original price if no discount
+            ELSE (hotel_rooms.price * (1 - discounts.discount_percentage / 100)) * 0.12  -- Tax on discounted price if discount exists
+        END) AS tax
+FROM hotel_rooms 
+INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+LEFT JOIN discounts ON discounts.is_active = 1
+WHERE hotel_rooms.id = ?;
+
     `;
 
     // Execute the query
