@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 
 exports.index = function (req, res) {
     PSession = req.session || {}
-    config.con.query("SELECT city FROM hotels GROUP BY city", (err, cities) => {
+    config.con.query("SELECT hotels.city, MAX(hotels.status) AS status FROM hotels GROUP BY hotels.city", (err, cities) => {
         if (err) {
             console.error("Error fetching cities:", err);
             return res.status(500).send("Error fetching cities ");
