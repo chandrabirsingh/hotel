@@ -27,7 +27,7 @@ exports.index = function (req, res) {
 
                 config.con.query("SELECT * FROM user WHERE id=" + PSession.user_id, (err, result) => {
                     if (err) {
-                        console.error("Error fetching user:", err);
+                        console.error("Error fetching user :", err);
                         return res.redirect('/logout');
                     }
 
