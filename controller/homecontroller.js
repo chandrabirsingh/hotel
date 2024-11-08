@@ -16,7 +16,7 @@ exports.index = function (req, res) {
             return res.status(500).send("Error fetching cities ");
         }
 
-        config.con.query("SELECT hotels.city,hotels.status FROM hotels GROUP BY city", (err, hotels) => {
+        config.con.query("SELECT city, MAX(status) AS status FROM hotels GROUP BY city", (err, hotels) => {
             if (err) {
                 console.error("Error fetching hotels:", err);
                 return res.status(500).send("Error fetching hotels");
