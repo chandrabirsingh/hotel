@@ -397,6 +397,53 @@ exports.booknow = function (req, res) {
         res.status(500).send('Something went wrong');
     }
 };
+exports.createBooking = function (req, res) {
+    const { user_id, hotel_id, total_price, rooms } = req.body;
+    // Insert booking details into the Booking table
+    const bookingQuery = `
+    INSERT INTO Booking (user_id, hotel_id, total_price)
+    VALUES (?, ?, ?)
+    `;
+    
+    config.con.query(bookingQuery, [user_id, hotel_id, total_price], (error, results) => {
+        if (error) {
+            console.error("Error creating booking:", error);
+            return res.status(500).json({ success: false, message: "Failed to create booking" });
+        }
+        
+        const bookingId = results.insertId; // Get the ID of the newly created booking
+        
+        // Prepare to insert room details into the booking_room_detail table
+        const roomDetailsQuery = `
+        INSERT INTO booking_room_detail (booking_id, room_id, bed_type, food_preferences, check_in, check_out, adults,children, created_at, updated_at)
+        VALUES ?
+        `;
+        
+        const roomValues = rooms.map(room => [
+            bookingId,
+            room.room_id,
+            room.bed_type,
+            room.food_preferences.join(','), // Convert array to string if necessary
+            room.check_in,
+            room.check_out,
+            room.adults,
+            room.adults,
+            new Date(),
+            new Date()
+        ]);
+        
+        config.con.query(roomDetailsQuery, [roomValues], (error) => {
+            if (error) {
+                console.error("Error inserting room details:", error);
+                return res.status(500).json({ success: false, message: "Failed to save room details" });
+            }
+            console.log(bookingId);
+
+            // Successfully created booking and saved room details
+            res.status(201).json({ success: true, message: "Booking created successfully", bookingId });
+        });
+    });
+};
 
 exports.getRoomDetailsById = (req, res) => {
     const roomId = req.query.room_id;
@@ -410,10 +457,10 @@ exports.getRoomDetailsById = (req, res) => {
             WHEN discounts.discount_percentage IS NULL THEN hotel_rooms.price * 0.12  -- Tax on original price if no discount
             ELSE (hotel_rooms.price * (1 - discounts.discount_percentage / 100)) * 0.12  -- Tax on discounted price if discount exists
         END) AS tax
-FROM hotel_rooms 
-INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
-LEFT JOIN discounts ON discounts.is_active = 1
-WHERE hotel_rooms.id = ?;
+        FROM hotel_rooms 
+        INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+        LEFT JOIN discounts ON discounts.is_active = 1
+    WHERE hotel_rooms.id = ?;
 
     `;
 
@@ -472,6 +519,72 @@ exports.booking = function (req, res) {
         res.redirect('hotels');
     }
 }
+exports.bookingDetail = function (req, res) {
+    const bookingId = req.params.id;
+
+    // Check if booking ID is provided
+    if (!bookingId) {
+        return res.status(400).json({ success: false, message: "Booking ID is required" });
+    }
+
+    // Query to join Booking and booking_room_detail tables based on booking_id
+    const query = `
+        SELECT 
+            b.booking_id ,
+            b.user_id,
+            b.hotel_id,
+            b.total_price,
+            b.created_at,
+            b.updated_at,
+            brd.room_id,
+            brd.bed_type,
+            brd.food_preferences,
+            brd.check_in,
+            brd.check_out,
+            brd.adults
+        FROM 
+            Booking b
+        JOIN 
+            booking_room_detail brd ON b.booking_id = brd.booking_id
+        WHERE 
+            b.booking_id = ?
+    `;
+
+    config.con.query(query, [bookingId], (error, results) => {
+        if (error) {
+            console.error("Error fetching booking details:", error);
+            return res.status(500).json({ success: false, message: "Failed to fetch booking details" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: "Booking not found" });
+        }
+
+        // Extract main booking details from the first result row
+        const bookingDetail = {
+            booking_id: results[0].booking_id,
+            user_id: results[0].user_id,
+            hotel_id: results[0].hotel_id,
+            total_price: results[0].total_price,
+            created_at: results[0].created_at,
+            updated_at: results[0].updated_at,
+            rooms: results.map(row => ({
+                room_id: row.room_id,
+                bed_type: row.bed_type,
+                food_preferences: row.food_preferences ? row.food_preferences.split(',') : [],
+                check_in: row.check_in,
+                check_out: row.check_out,
+                adults: row.adults
+            }))
+        };
+
+        res.status(200).json({
+            success: true,
+            booking: bookingDetail
+        });
+    });
+};
+
 // function
 exports.meet_and_events = function (req, res) {
     session = req.session;
