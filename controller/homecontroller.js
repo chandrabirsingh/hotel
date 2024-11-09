@@ -286,7 +286,7 @@ exports.booknow = function (req, res) {
     session = req.session;
     let user = '';
     let queryData = req.query;
-
+    console.log(queryData)
     try {
         if (req.method === 'POST') {
             // Handle booking
@@ -366,7 +366,10 @@ exports.booknow = function (req, res) {
                         room.original_price = room.price; // Assuming price is the original price from DB
                         room.discounted_price = room.price - (room.price * (discount / 100));
                     });
-
+                    const date1 = new Date(queryData.check_in);
+                    const date2 = new Date(queryData.check_out);
+                    const diffTime = Math.abs(date2 - date1);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     if (session.user_id !== undefined) {
                         config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
                             if (err) {
@@ -379,13 +382,11 @@ exports.booknow = function (req, res) {
                                 return res.redirect('/logout');
                             }
 
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto });
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays });
                         });
                     } else {
-                        const date1 = new Date(queryData.check_in);
-                        const date2 = new Date(queryData.check_out);
-                        const diffTime = Math.abs(date2 - date1);
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        
                         console.log(hotel)
                         res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays });
                     }
@@ -607,24 +608,26 @@ exports.bookingDetail = function (req, res) {
 exports.confirmBooking = function (req, res) {
     const bookingId = req.params.id;
     const { name, email, mobile, country, address, city,additional } = req.body;
-console.log(req.body)
+    const session = req.session;
+    const userId = session.user_id
     // Validate required fields
     if (!name || !email || !mobile || !country || !address || !city) {
         return res.status(400).json({ success: false, message: "Missing required booking details." });
     }
-
+    
     // Update basic details in the Booking table
     const query = `
-        UPDATE booking 
-        SET name = ?, email = ?, mobile = ?, country = ?, address = ?, city = ?,additional=?, updated_at = NOW() 
-        WHERE booking_id = ?
+    UPDATE booking 
+    SET name = ?, email = ?, mobile = ?, country = ?, address = ?, city = ?,additional=?,user_id = ?, updated_at = NOW() 
+    WHERE booking_id = ?
     `;
-
-    config.con.query(query, [name, email, mobile, country, address, city, additional,bookingId], (error, result) => {
+    
+    config.con.query(query, [name, email, mobile, country, address, city, additional,userId,bookingId], (error, result) => {
         if (error) {
             console.error("Error updating booking:", error);
             return res.status(500).json({ success: false, message: "Failed to update booking." });
         }
+        console.log(userId,result)
 
         // Check if any row was updated
         if (result.affectedRows === 0) {
@@ -857,15 +860,26 @@ exports.login = function (req, res) {
                 } else {
                     if (result.length > 0) {
                         session.user_id = result[0].id;
-                        res.redirect(req.body.url); // Use absolute URL
+                        if (typeof req.body.url === 'string') {
+                            req.body.url = req.body.url.split(','); // Split by comma if it's a string
+                        }
+                        if (req.body.url && req.body.url.length > 0) {
+                            const targetUrl = req.body.url[1];  // Redirect to the second URL
+                            res.redirect(targetUrl);
+                            console.log(req.body.url[0]);  // Log the first URL if needed
+                        }
+                        console.log(req.body.url);
                     } else {
-                        res.redirect(req.body.url); // Use absolute URL
+                        console.log(req.body.url);
+                        res.redirect(req.body.url); 
+                        
                     }
                 }
             });
         }
     } else {
-        res.redirect(req.body.url); // Use absolute URL
+        console.log(req.body.url);
+        res.redirect(req.body.url); 
     }
 }
 

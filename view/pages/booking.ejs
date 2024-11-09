@@ -282,7 +282,7 @@
                 document.addEventListener("DOMContentLoaded", function () {
                     const urlParams = new URLSearchParams(window.location.search);
                     const roomId = urlParams.get("room_id");
-
+                    console.log(roomId);
                     if (roomId) {
                         handleBookNow(roomId);
                     }
@@ -290,6 +290,14 @@
                 const selectedRooms = []; // To store selected rooms
                 const maxRooms = <%=queryData.rooms %>;
                 function handleBookNow(roomId) {
+                    const userId = <%= session.user_id ? true : false %>;  // Assuming user_id is stored in the session
+
+                    if (!userId) {
+                        // If the user is not logged in, show the login modal
+                        const loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
+                        loginModal.show();
+                        return;
+                    }
                     const checkInDate = document.getElementById('checkIn').value;  // Assuming you have an input field with id 'checkIn'
                     const checkOutDate = document.getElementById('checkOut').value; // Assuming you have an input field with id 'checkOut'
                     const adultsCount = parseInt(document.getElementById('adults').value) || 1;
@@ -457,20 +465,6 @@
                     return nights;
                 }
 
-                //  function handleBookNow(roomId) {
-                //         // Check if user is logged in using session
-                //         const isLoggedIn = <%= session.user_id ? true : false %>;
-
-                //         if (isLoggedIn) {
-                //             // If logged in, redirect to booking page
-                //             // window.location.href = `<%= APP_URL %>book-now?<%=url%>&room_id=${roomId}`;
-                //             alert('lets do something')
-                //         } else {
-                //             // If not logged in, show login modal
-                //             var loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
-                //             loginModal.show();
-                //         }
-                //     }
                 document.addEventListener("DOMContentLoaded", function () {
                     const formElement = document.querySelector('.booking-form-container');
                     const hotelAboutSection = document.getElementById('hotelAboutSection');
@@ -617,7 +611,7 @@
                         console.error('Error :', error);
                     });
                 }
-                function submitBookingForm(event,bookingId) {
+                function submitBookingForm(event, bookingId) {
                     // Prevent default form submission
                     event.preventDefault();
                     const form = document.getElementById('confirm-booking-form');
