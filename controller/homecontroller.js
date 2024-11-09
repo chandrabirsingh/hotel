@@ -382,7 +382,7 @@ exports.booknow = function (req, res) {
                                 return res.redirect('/logout');
                             }
 
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays });
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays,hotelName });
                         });
                     } else {
                         

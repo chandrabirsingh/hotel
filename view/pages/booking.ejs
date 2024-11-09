@@ -598,7 +598,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel booking</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
                         </div>
                     </div>
                 </form>
@@ -652,5 +652,8 @@
                             alert('There was an error confirming the booking. Please try again.');
                         });
                 }
-
+                function cancelBooking(hotelName) {
+    // Redirect to the hotel page URL
+    window.location.href = `<%=APP_URL %>hotel/<%=hotelName %>`;
+}
             </script>
