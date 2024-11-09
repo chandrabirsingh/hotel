@@ -529,8 +529,8 @@ exports.bookingDetail = function (req, res) {
 
     // Query to join Booking and booking_room_detail tables based on booking_id
     const query = `
-        SELECT 
-            b.booking_id ,
+          SELECT 
+            b.booking_id,
             b.user_id,
             b.hotel_id,
             b.total_price,
@@ -541,11 +541,16 @@ exports.bookingDetail = function (req, res) {
             brd.food_preferences,
             brd.check_in,
             brd.check_out,
-            brd.adults
+            brd.adults,
+            rt.room_name
         FROM 
             Booking b
         JOIN 
             booking_room_detail brd ON b.booking_id = brd.booking_id
+        JOIN
+            hotel_rooms hr on brd.room_id = hr.id
+        JOIN
+            room_types rt on hr.room_type_id = rt.id 
         WHERE 
             b.booking_id = ?
     `;
@@ -568,20 +573,66 @@ exports.bookingDetail = function (req, res) {
             total_price: results[0].total_price,
             created_at: results[0].created_at,
             updated_at: results[0].updated_at,
-            rooms: results.map(row => ({
-                room_id: row.room_id,
-                bed_type: row.bed_type,
-                food_preferences: row.food_preferences ? row.food_preferences.split(',') : [],
-                check_in: row.check_in,
-                check_out: row.check_out,
-                adults: row.adults
-            }))
+            rooms: results.map(row => {
+                // Calculate the difference between check_in and check_out
+                const checkInDate = new Date(row.check_in);
+                const checkOutDate = new Date(row.check_out);
+
+                // Calculate nights (if check_in and check_out are the same, nights = 1)
+                let nights = 1;
+                if (checkInDate && checkOutDate) {
+                    const timeDifference = checkOutDate - checkInDate;
+                    nights = Math.ceil(timeDifference / (1000 * 3600 * 24)); 
+                }
+
+                return {
+                    room_id: row.room_id,
+                    room_name: row.room_name,
+                    bed_type: row.bed_type,
+                    food_preferences: row.food_preferences ? row.food_preferences.split(',') : [],
+                    check_in: row.check_in,
+                    check_out: row.check_out,
+                    adults: row.adults,
+                    nights: nights 
+                };
+            })
         };
 
         res.status(200).json({
             success: true,
             booking: bookingDetail
         });
+    });
+};
+exports.confirmBooking = function (req, res) {
+    const bookingId = req.params.id;
+    const { name, email, mobile, country, address, city,additional } = req.body;
+console.log(req.body)
+    // Validate required fields
+    if (!name || !email || !mobile || !country || !address || !city) {
+        return res.status(400).json({ success: false, message: "Missing required booking details." });
+    }
+
+    // Update basic details in the Booking table
+    const query = `
+        UPDATE booking 
+        SET name = ?, email = ?, mobile = ?, country = ?, address = ?, city = ?,additional=?, updated_at = NOW() 
+        WHERE booking_id = ?
+    `;
+
+    config.con.query(query, [name, email, mobile, country, address, city, additional,bookingId], (error, result) => {
+        if (error) {
+            console.error("Error updating booking:", error);
+            return res.status(500).json({ success: false, message: "Failed to update booking." });
+        }
+
+        // Check if any row was updated
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: "Booking not found." });
+        }
+
+        // Success response
+        res.status(200).json({ success: true, message: "Booking updated successfully." });
     });
 };
 

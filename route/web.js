@@ -59,6 +59,7 @@ module.exports = function (app, upload) {
     app.get('/api/getRoomDetails', homecontroller.getRoomDetailsById);
     app.post('/api/createBooking', homecontroller.createBooking)
     app.get('/api/bookingDetail/:id', homecontroller.bookingDetail)
+    app.post('/api/confirmBooking/:id', homecontroller.confirmBooking)
 
 
     app.get('/logout', (req, res) => {

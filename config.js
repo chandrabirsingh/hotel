@@ -22,5 +22,5 @@ config.instance = instance;
 config.port = process.env.APP_PORT;
 config.APP_URL = process.env.APP_URL;
 config.con = con;
-
+    
 module.exports = config;

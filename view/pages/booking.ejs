@@ -26,18 +26,20 @@
                 color: transparent;
                 background: transparent;
             }
-            .booking-card {
-  border-radius: 8px;
-  border: none;
-}
 
-.total-price-container {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-   
+            .booking-card {
+                border-radius: 8px;
+                border: none;
+                box-shadow: 4px 4px 1px #0CB2A7;
+                background: #fbfbfb;
+            }
+
+            .total-price-container {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                width: 100%;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
         </style>
         <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
             <img loading="lazy" src="<%=APP_URL%><%= hotel.hotels_image%>" class="h-100 w-100"
@@ -262,113 +264,12 @@
             tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!-- <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="d-flex flex-wrap justify-content-start">
-                            <!-- Booking Card 1 -->
-                            <div class="card booking-card shadow-sm m-2" style="width: 18rem;">
-                              <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                  <h5 class="card-title mb-0">Deluxe Room</h5>
-                                </div>
-                                <p class="text-muted small mb-2"><strong>2 Nights</strong> stay</p>
-                                <p class="text-muted small mb-2">Oct 30 - Oct 31</p>
-                                <div class="mb-2">
-                                  <strong>Bed Type:</strong>
-                                  <span class="text-secondary">King</span>
-                                </div>
-                                <div class="mb-2">
-                                  <strong>Food:</strong>
-                                  <span class="text-secondary">Breakfast, Dinner</span>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <!-- Booking Card 2 -->
-                            <div class="card booking-card shadow-sm m-2" style="width: 18rem;">
-                              <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                  <h5 class="card-title mb-0">Suite Room</h5>
-                                </div>
-                                <p class="text-muted small mb-2"><strong>3 Nights</strong> stay</p>
-                                <p class="text-muted small mb-2">Oct 30 - Nov 2</p>
-                                <div class="mb-2">
-                                  <strong>Bed Type:</strong>
-                                  <span class="text-secondary">Queen</span>
-                                </div>
-                                <div class="mb-2">
-                                  <strong>Food:</strong>
-                                  <span class="text-secondary">Breakfast, Lunch</span>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <!-- Add more booking cards as needed -->
-                          </div>
-                        
-                          <!-- Total Price Section -->
-                          <div class="total-price-container mt-4 p-3 text-center">
-                            <h5 class="fw-bold">Total Price (Tax Included):</h5>
-                            <h4 class="text-success fw-bold">₹11000.00</h4>
-                          </div>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email"
-                                            placeholder="Enter your email">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="mobile">Mobile</label>
-                                        <input type="tel" class="form-control" id="mobile"
-                                            placeholder="Enter your mobile number">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="country">Country</label>
-                                        <input type="text" class="form-control" id="country"
-                                            placeholder="Enter your country">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <input type="text" class="form-control" id="address"
-                                            placeholder="Enter your address">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="city">City</label>
-                                        <input type="text" class="form-control" id="city" placeholder="Enter your city">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                        <label for="floatingTextarea2">Additional info...</label>
-                                      </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div> -->
+                    <div class="modal-body" id="booking-details-body">
+
                     </div>
                 </div>
             </div>
@@ -614,7 +515,100 @@
                     fetch(url).then(response => response.json()).then(data => {
                         if (data.success) {
 
+                            console.log(data);
+                            const modalBody = document.getElementById('booking-details-body');
 
+                            // Clear any existing content in the modal body
+                            modalBody.innerHTML = '';
+
+                            // Loop through rooms and create dynamic HTML structure
+                            let bookingCards = '';
+                            data.booking.rooms.forEach(room => {
+                                const foodPreferences = room.food_preferences.join(', ') || 'None';
+                                const checkInDate = new Date(room.check_in).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
+                                const checkOutDate = new Date(room.check_out).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
+                                bookingCards += `
+                    <div class="card booking-card m-2" style="min-width: 24rem;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">${room.room_name}   </h5>
+                            </div>
+                            <div class="d-flex gap-3"><p class="text-muted small mb-2"><strong>${room.nights}</strong> stay</p><p class="text-muted small mb-2">${checkInDate} - ${checkOutDate}</p></div>
+                            <div class="d-flex gap-3"><div class="mb-2">
+                                <strong>Bed Type:</strong>
+                                <span class="text-secondary">${room.bed_type}</span>
+                            </div><div class="mb-2">
+                                <strong>Food:</strong>
+                                <span class="text-secondary">${foodPreferences}</span>
+                            </div></div>
+                        </div>
+                    </div>
+                `;
+                            });
+
+                            // Add the generated HTML content for the rooms
+                            modalBody.innerHTML = `
+                <div class="d-flex flex-wrap justify-content-start" style="
+    overflow-x: auto;
+">
+                    ${bookingCards}
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="mobile">Mobile</label>
+                                <input type="tel" class="form-control" id="mobile" placeholder="Enter your mobile number">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" class="form-control" id="country" placeholder="Enter your country">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="Enter your address">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" placeholder="Enter your city">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" name="additional" id="floatingTextarea2" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Additional info...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div>
+                            <p class="fw-bold mb-0">Total Price (Tax Included): <span class="text-success fw-bold">₹${data.booking.total_price}</span></p>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel booking</button>
+                        </div>
+                    </div>
+                </form>
+            `;
                             const modal = document.getElementById('usesr_booking_detail');
                             const om = new bootstrap.Modal(modal);
                             om.show();
@@ -623,4 +617,46 @@
                         console.error('Error :', error);
                     });
                 }
+                function submitBookingForm(event,bookingId) {
+                    // Prevent default form submission
+                    event.preventDefault();
+                    const form = document.getElementById('confirm-booking-form');
+
+                    // Collect form data
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        mobile: document.getElementById('mobile').value,
+                        country: document.getElementById('country').value,
+                        address: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        additional: document.getElementById('floatingTextarea2').value,
+                    };
+
+                    // API endpoint with bookingId
+                    const url = `<%= APP_URL %>api/confirmBooking/${bookingId}`;
+
+                    // Send a POST request to the API
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Booking confirmed successfully!');
+                                // Additional actions (e.g., close modal, clear form)
+                            } else {
+                                alert('Failed to confirm booking: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('There was an error confirming the booking. Please try again.');
+                        });
+                }
+
             </script>
