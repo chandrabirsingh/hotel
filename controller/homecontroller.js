@@ -388,7 +388,7 @@ exports.booknow = function (req, res) {
                         
                         
                         console.log(hotel)
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays });
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays ,hotelName});
                     }
                 });
             });
