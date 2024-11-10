@@ -381,14 +381,14 @@ exports.booknow = function (req, res) {
                             } else {
                                 return res.redirect('/logout');
                             }
-
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays,hotelName });
+                            console.log(hotelName)
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays,hotelName});
                         });
                     } else {
                         
                         
-                        console.log(hotel)
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays ,hotelName});
+                        console.log(hotelName)
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName});
                     }
                 });
             });

@@ -652,8 +652,8 @@
                             alert('There was an error confirming the booking. Please try again.');
                         });
                 }
-                function cancelBooking(hotelName) {
+                function cancelBooking() {
                     // Redirect to the hotel page URL
-                    window.location.href = `<%=APP_URL %>hotel/<%=hotelName %>`;
+                    window.location.href = `<%=APP_URL %>hotel/`;
                 }
             </script>
