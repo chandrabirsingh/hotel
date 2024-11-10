@@ -402,7 +402,7 @@ exports.createBooking = function (req, res) {
     const { user_id, hotel_id, total_price, rooms } = req.body;
     // Insert booking details into the Booking table
     const bookingQuery = `
-    INSERT INTO Booking (user_id, hotel_id, total_price)
+    INSERT INTO booking (user_id, hotel_id, total_price)
     VALUES (?, ?, ?)
     `;
     
