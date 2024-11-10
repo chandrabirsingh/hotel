@@ -545,7 +545,7 @@ exports.bookingDetail = function (req, res) {
             brd.adults,
             rt.room_name
         FROM 
-            Booking b
+            booking b
         JOIN 
             booking_room_detail brd ON b.booking_id = brd.booking_id
         JOIN
