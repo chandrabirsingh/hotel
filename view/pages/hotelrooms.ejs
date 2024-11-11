@@ -363,10 +363,12 @@
                     overflow: auto;
                     padding: 0 0 0 117px;
                 }
+
                 .my-micro-menu a {
                     min-width: fit-content;
                 }
-                #nearByPlace .grid-container{
+
+                #nearByPlace .grid-container {
                     grid-template-columns: repeat(1, 1fr);
                 }
             }
@@ -403,13 +405,15 @@
                     background-image: var(--bgImg);
                     /* Adjust if needed for small screens */
                 }
-                .info-wrap{
+
+                .info-wrap {
                     height: 323px;
                 }
-                
+
             }
+
             @media (min-width:992px) and (max-width:768px) {
-                #nearByPlace .grid-container{
+                #nearByPlace .grid-container {
                     grid-template-columns: repeat(2, 1fr);
                 }
             }
@@ -680,98 +684,91 @@
                         </div>
                         <div id="hotelrooms">
                             <h3 class="fw-bold mb-3 py-4">Rooms</h3>
-                            <div class="row ">
-                                <div class="row">
-                                    <% rooms.forEach(room=> { %>
-                                        <div class="col-md-6 col-12 p-2">
-                                            <div class="border">
-                                                <div class="d-flex flex-lg-row flex-column room-background"
-                                                    style="--bgImg: url(<%= APP_URL %><%= room.main_image %>)">
-                                                    <div>
-                                                        <div class="sty position-relative">
-                                                            <img loading="lazy"
-                                                                src="<%= APP_URL %><%= room.main_image %>"
-                                                                alt="<%= room.name %>" class="w-100 h-100"
-                                                                style="visibility: collapse;">
-                                                            <div
-                                                                class="position-absolute bottom-0 start-0 m-3 bg-white p-2">
-                                                                <h6 class="m-0">
-                                                                    <%= room.room_name %>
-                                                                </h6>
-                                                            </div>
-                                                            <div class="bagde-flag-wrap">
-                                                                <p class="bagde-flag">
-                                                                    Get <%= room.discount ?? 10 %> % off
-                                                                </p>
-                                                            </div>
+                            <div class="row">
+                                <% rooms.forEach(room=> { %>
+                                    <div class="col-md-6 col-12 p-2">
+                                        <div class="border">
+                                            <div class="d-flex flex-lg-row flex-column room-background"
+                                                style="--bgImg: url(<%= APP_URL %><%= room.main_image %>)">
+                                                <div>
+                                                    <div class="sty position-relative">
+                                                        <img loading="lazy" src="<%= APP_URL %><%= room.main_image %>"
+                                                            alt="<%= room.name %>" class="w-100 h-100"
+                                                            style="visibility: collapse;">
+                                                        <div
+                                                            class="position-absolute bottom-0 start-0 m-3 bg-white p-2">
+                                                            <h6 class="m-0">
+                                                                <%= room.room_name %>
+                                                            </h6>
+                                                        </div>
+                                                        <div class="bagde-flag-wrap">
+                                                            <p class="bagde-flag">
+                                                                Get <%= room.discount ?? 10 %> % off
+                                                            </p>
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="flex-grow-1 w-100 d-flex flex-column p-2">
-                                                        <div class="d-flex gap-2 align-items-center">
-                                                            <span class="mb-0">
-                                                                ~<%= room.room_size %> sq.ft
-                                                            </span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 5px; color: #c4c4c4;"></i>
-                                                            <span class="mb-0">
-                                                                <%= room.accommodation %>
-                                                            </span>
-                                                            <i class="fa-solid fa-circle"
-                                                                style="font-size: 5px; color: #c4c4c4;"></i>
-                                                            <span>
-                                                                <%= (room.has_king && room.has_twin)
-                                                                    ? 'King bed or Twin bed' : room.has_king
-                                                                    ? 'King bed' : room.has_twin ? 'Twin bed'
-                                                                    : 'No specific bed type' %>
-                                                            </span>
+                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <span class="mb-0">
+                                                            ~<%= room.room_size %> sq.ft
+                                                        </span>
+                                                        <i class="fa-solid fa-circle"
+                                                            style="font-size: 5px; color: #c4c4c4;"></i>
+                                                        <span class="mb-0">
+                                                            <%= room.accommodation %>
+                                                        </span>
+                                                        <i class="fa-solid fa-circle"
+                                                            style="font-size: 5px; color: #c4c4c4;"></i>
+                                                        <span>
+                                                            <%= (room.has_king && room.has_twin)
+                                                                ? 'King bed or Twin bed' : room.has_king ? 'King bed' :
+                                                                room.has_twin ? 'Twin bed' : 'No specific bed type' %>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <div class="my-2">
+                                                            <span
+                                                                class="badge rounded-pill bg-white border text-muted  inter ">Wi-Fi</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">hot
+                                                                & cold water</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                Conditioner</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Daily
+                                                                newspaper</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                many more</span>
                                                         </div>
-                                                        <div>
-                                                            <div class="my-2">
-                                                                <span
-                                                                    class="badge rounded-pill bg-white border text-muted  inter ">Wi-Fi</span>
-                                                                <span
-                                                                    class="badge rounded-pill bg-white border  text-muted inter ">hot
-                                                                    & cold water</span>
-                                                                <span
-                                                                    class="badge rounded-pill bg-white border  text-muted inter ">Air
-                                                                    Conditioner</span>
-                                                                <span
-                                                                    class="badge rounded-pill bg-white border  text-muted inter ">Daily
-                                                                    newspaper</span>
-                                                                <span
-                                                                    class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
-                                                                    many more</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex-grow-1">
-                                                            <p class="mb-0 gowun" style="font-size: 26px;">
-                                                                <%= room.price %> /<span class="inter"
-                                                                        style="font-size: 16px;">Night</span>
-                                                            </p>
-                                                            <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
-                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <p class="mb-0 gowun" style="font-size: 26px;">
+                                                            <%= room.price %> /<span class="inter"
+                                                                    style="font-size: 16px;">Night</span>
+                                                        </p>
+                                                        <p class="VsmaTxt mb-0">Excluding taxes and fees.</p>
+                                                    </div>
 
-                                                        <div
-                                                            class="d-flex justify-content-end gap-2 align-items-center">
-                                                            <a href="#" type="button" data-bs-toggle="offcanvas"
-                                                                data-bs-target="#offcanvasRight"
-                                                                aria-controls="offcanvasRight" style="color: #005f96;"
-                                                                onclick="openRoomDetail(<%=room.id%>)">view more
-                                                                detail</a>
-                                                            <button
-                                                                class="btn rounded-0 py-2 px-3 btnHover rounded-pill border"
-                                                                onclick="bookRoom(<%= room.id %>)">Book
-                                                                now</button>
-                                                        </div>
+                                                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                                                        <a href="#" type="button" data-bs-toggle="offcanvas"
+                                                            data-bs-target="#offcanvasRight"
+                                                            aria-controls="offcanvasRight" style="color: #005f96;"
+                                                            onclick="openRoomDetail(<%=room.id%>)">view more
+                                                            detail</a>
+                                                        <button
+                                                            class="btn rounded-0 py-2 px-3 btnHover rounded-pill border"
+                                                            onclick="bookRoom(<%= room.id %>)">Book
+                                                            now</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <% }); %>
-                                </div>
-
-
+                                    </div>
+                                    <% }); %>
                             </div>
                         </div>
                         <div class="" id="meet_and_event">
