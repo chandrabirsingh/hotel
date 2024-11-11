@@ -1,15 +1,17 @@
 <body>
     <style>
-        .athefdiv{
+        .athefdiv {
             overflow: visible;
         }
-        .navbar > ul > li {
-    white-space: nowrap;
-    padding: 6px;
-}
+
+        .navbar>ul>li {
+            white-space: nowrap;
+            padding: 6px;
+        }
+
         .hotels_list {
             opacity: 0;
-    visibility: hidden;
+            visibility: hidden;
             position: absolute;
             background: #f5f5f5db;
             padding: 20px;
@@ -18,10 +20,11 @@
             top: 38px;
             transform: translateX(-50%);
         }
-        .hotels_list_element:hover .hotels_list{
+
+        .hotels_list_element:hover .hotels_list {
             opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
         .city-grid-container {
@@ -34,18 +37,18 @@
         }
 
         a.city-grid-item {
-    background-color: #ffffff;
-    padding: 10px !important;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-    font-family: "Inter", sans-serif ! IMPORTANT;
-    transition: background-color 0.3s ease;
-}
+            background-color: #ffffff;
+            padding: 10px !important;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            font-family: "Inter", sans-serif ! IMPORTANT;
+            transition: background-color 0.3s ease;
+        }
 
         .city-grid-item:hover {
             background-color: #70c9a9;
@@ -54,106 +57,159 @@
         }
     </style>
     <div class="shadow-sm bg-white" style="position:fixed;left: 0px;right: 0px;z-index: 999;">
-      <% if(typeof(cowin) !== 'undefined'){ %>
-    <div style="width:100%;height:40px; line-height:40px; background:#000;color:#fff;z-index:999" id="cowin" align="center">
-            <span class="atguidlid" style="width:90%; float:left;font-size: 13px;"><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a href="<%=APP_URL%>food-delivery">Food delivery</a> | <a 
-            href="<%=APP_URL%>download-brochure">Download brochure</a> | <a href="<%=APP_URL%>partner-with-us">Partner with us</a> </span>
-            <span class="atguidlim" style="width:90%; float:left;"><marquee><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a href="<%=APP_URL%>food-delivery">Food delivery</a> | <a 
-              href="<%=APP_URL%>download-brochure">Download brochure</a> | <a href="<%=APP_URL%>partner-with-us">Partner with us</a></marquee></span>
-                <span style="background-color:#fff0;width:10%;font-size:25px;float:right;line-height: 30px;cursor: pointer;margin-top: 5px;" onclick="document.getElementById('cowin').style.display = 'none';"><i class="fa fa-times"></i></span>
-    </div>
-    <% } %>
-    <header class="atheader">
-            <div class="athefdiv">
-                <div class="athelodiv"><img src="<%=APP_URL%>logo.png" style="height: 70%;width: auto;"></div>
-                <div class="atherifdiv">
-          <nav class="navbar1 order-last order-lg-0" style="">
-            <ul>
-              <li><a class="nav-link scrollto" href="#membership">MEMBERSHIP</a></li>
-              <li><a class="nav-link scrollto" href="<%=APP_URL%>loyalty-program">LOYALTY PROGRAM</a></li>
-              <li><div id="google_translate_element"></div></li>
-              <li><a class="nav-link scrollto" href="tel:+919971695346"><i class="fa fa-phone" aria-hidden="true" style="font-size:30px;"></i></a></li>
-              <!-- icons -->
-              <li><a class="nav-link scrollto" href="mailto:chandrabir.singh@skydoorhotels.com"><i class="fa fa-envelope" aria-hidden="true" style="font-size:24px;"></i></a></li>
-              <li><a class="nav-link scrollto" href="https://wa.me/+919971695346"><i class="fa fa-whatsapp" aria-hidden="true" style="font-size:30px;"></i></a></li>
-              <% if(user !== ''){ %>
-              <li><a class="nav-link scrollto" href="#"><%=user.name%></a></li>
-              <li><a class="nav-link scrollto" href="/logout"><i class="fa fa-sign-out" aria-hidden="true" style="font-size:24px;"></i></a></li><% }else{ %>
-              <li><a class="nav-link scrollto" href="#"><i class="fa fa-user" aria-hidden="true" style="font-size:24px;" data-bs-toggle="modal" data-bs-target="#loginmodal"></i></a></li><% } %>
-            </ul>
-          </nav>
-                </div><hr class="navhr">
-                <div class="atherisdiv">
-                    <nav id="navbar" class="navbar order-last order-lg-0" style="padding:0px;float: right;box-shadow: 1px 1px 3px rgb(0 0 0 / 0%);margin-right: 10px;">
-            <ul>
-              <li><a class="nav-link scrollto active" href="<%=APP_URL%>">HOME</a></li>
-              <li class="position-relative hotels_list_element"><a class="nav-link scrollto" href="">HOTElS</a>
-                <div class="hotels_list">
-                    <div class="d-flex">
-                        <div>
-                            <div style="width: 398px;">
-                                <img src="<%=APP_URL%>uploads/hotels/hoteldemo.jpg" class="w-100 h-100">
-                            </div>
-                            <div>
-                                <h5>himanshu hotel</h5>
-                                <div class="hstack gap-3 mb-3">
-                                    <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Free wifi" data-bs-title="Free wifi">
-                                        <i class="fa-solid fa-wifi"></i>
-                                    </div>
-                                    <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Swimming Pool" data-bs-title="Swimming Pool">
-                                        <i class="fa-solid fa-swimming-pool"></i>
-                                    </div>
-                                    <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Central AC" data-bs-title="Central AC">
-                                        <i class="fa-solid fa-snowflake"></i>
-                                    </div>
-                                    <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Free Service" data-bs-title="Free Service">
-                                        <i class="fa-solid fa-concierge-bell"></i>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <a href="<%=APP_URL%>hotels/crown-plaza?check_in=&check_out=&check_out=Himanshu+hotel+himasnhu+hotel&check_out=Submit#contactUs" class="btn py-2 px-3 btnHover justify-content-center  border flex-grow-1 rounded-0" style="background: #005f96;color: white;">Explore</a><a href="" class="btn py-2 px-3 btnHover justify-content-center  border flex-grow-1 rounded-0" style="background: #005f96;color: white;">Book now</a>
-                                </div>
-
-                            </div>
+        <% if(typeof(cowin) !=='undefined' ){ %>
+            <div style="width:100%;height:40px; line-height:40px; background:#000;color:#fff;z-index:999" id="cowin"
+                align="center">
+                <span class="atguidlid" style="width:90%; float:left;font-size: 13px;"><a
+                        href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a
+                        href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a
+                        href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a
+                        href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a
+                        href="<%=APP_URL%>food-delivery">Food delivery</a> | <a
+                        href="<%=APP_URL%>download-brochure">Download brochure</a> | <a
+                        href="<%=APP_URL%>partner-with-us">Partner with us</a> </span>
+                <span class="atguidlim" style="width:90%; float:left;">
+                    <marquee><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a
+                            href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a
+                            href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a
+                            href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a
+                            href="<%=APP_URL%>food-delivery">Food delivery</a> | <a
+                            href="<%=APP_URL%>download-brochure">Download brochure</a> | <a
+                            href="<%=APP_URL%>partner-with-us">Partner with us</a></marquee>
+                </span>
+                <span
+                    style="background-color:#fff0;width:10%;font-size:25px;float:right;line-height: 30px;cursor: pointer;margin-top: 5px;"
+                    onclick="document.getElementById('cowin').style.display = 'none';"><i
+                        class="fa fa-times"></i></span>
+            </div>
+            <% } %>
+                <header class="atheader">
+                    <div class="athefdiv">
+                        <div class="athelodiv"><img src="<%=APP_URL%>logo.png" style="height: 70%;width: auto;"></div>
+                        <div class="atherifdiv">
+                            <nav class="navbar1 order-last order-lg-0" style="">
+                                <ul>
+                                    <li><a class="nav-link scrollto" href="#membership">MEMBERSHIP</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>loyalty-program">LOYALTY
+                                            PROGRAM</a></li>
+                                    <li>
+                                        <div id="google_translate_element"></div>
+                                    </li>
+                                    <li><a class="nav-link scrollto" href="tel:+919971695346"><i class="fa fa-phone"
+                                                aria-hidden="true" style="font-size:30px;"></i></a></li>
+                                    <!-- icons -->
+                                    <li><a class="nav-link scrollto" href="mailto:chandrabir.singh@skydoorhotels.com"><i
+                                                class="fa fa-envelope" aria-hidden="true"
+                                                style="font-size:24px;"></i></a></li>
+                                    <li><a class="nav-link scrollto" href="https://wa.me/+919971695346"><i
+                                                class="fa fa-whatsapp" aria-hidden="true"
+                                                style="font-size:30px;"></i></a></li>
+                                    <% if(user !=='' ){ %>
+                                        <li><a class="nav-link scrollto" href="#">
+                                                <%=user.name%>
+                                            </a></li>
+                                        <li><a class="nav-link scrollto" href="/logout"><i class="fa fa-sign-out"
+                                                    aria-hidden="true" style="font-size:24px;"></i></a></li>
+                                        <% }else{ %>
+                                            <li><a class="nav-link scrollto" href="#"><i class="fa fa-user"
+                                                        aria-hidden="true" style="font-size:24px;"
+                                                        data-bs-toggle="modal" data-bs-target="#loginmodal"></i></a>
+                                            </li>
+                                            <% } %>
+                                </ul>
+                            </nav>
                         </div>
-                        <div>
-                            <p class="text-center fw-bold mb-0 " style="font-size: 18px;">Our hotels</p>
-                            <div class="city-grid-container">
-                                <a href="#" class="city-grid-item">New York</a>
-                                <a href="#" class="city-grid-item">Los Angeles</a>
-                                <a href="#" class="city-grid-item">Chicago</a>
-                                <a href="#" class="city-grid-item">Houston</a>
-                                <a href="#" class="city-grid-item">Miami</a>
-                                <a href="#" class="city-grid-item">San Francisco</a>
-                                <a href="#" class="city-grid-item">Las Vegas</a>
-                                <a href="#" class="city-grid-item">Boston</a>
-                                <a href="#" class="city-grid-item">Seattle</a>
-                                <a href="#" class="city-grid-item">Denver</a>
-                                <a href="#" class="city-grid-item">Orlando</a>
-                                <a href="#" class="city-grid-item">Washington D.C.</a>
-                                <a href="#" class="city-grid-item">Atlanta</a>
-                                <a href="#" class="city-grid-item">Dallas</a>
-                                <a href="#" class="city-grid-item">San Diego</a>
-                            </div>
+                        <hr class="navhr">
+                        <div class="atherisdiv">
+                            <nav id="navbar" class="navbar order-last order-lg-0"
+                                style="padding:0px;float: right;box-shadow: 1px 1px 3px rgb(0 0 0 / 0%);margin-right: 10px;">
+                                <ul>
+                                    <li><a class="nav-link scrollto active" href="<%=APP_URL%>">HOME</a></li>
+                                    <li class="position-relative hotels_list_element">
+                                        <a class="nav-link scrollto" href="#">HOTELS</a>
+                                        <div class="hotels_list">
+                                            <div class="d-flex">
+                                                <!-- Display the Single Hotel -->
+                                                <div>
+                                                    <div style="width: 398px;">
+                                                        <img src="<%= APP_URL %><%= singleHotel.main_image %>"
+                                                            class="w-100 h-100">
+                                                    </div>
+                                                    <div>
+                                                        <h5>
+                                                            <%= singleHotel.name %>
+                                                        </h5>
+                                                        <div class="hstack gap-3 mb-3">
+                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                aria-label="Free wifi" data-bs-title="Free wifi">
+                                                                <i class="fa-solid fa-wifi"></i>
+                                                            </div>
+                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                aria-label="Swimming Pool"
+                                                                data-bs-title="Swimming Pool">
+                                                                <i class="fa-solid fa-swimming-pool"></i>
+                                                            </div>
+                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                aria-label="Central AC" data-bs-title="Central AC">
+                                                                <i class="fa-solid fa-snowflake"></i>
+                                                            </div>
+                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                aria-label="Free Service" data-bs-title="Free Service">
+                                                                <i class="fa-solid fa-concierge-bell"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <a href="<%= APP_URL %>hotel/<%= singleHotel.slug %>"
+                                                                class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0"
+                                                                style="background: #005f96;color: white;">Explore</a>
+                                                            <a href="#"
+                                                                class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0"
+                                                                style="background: #005f96;color: white;">Book now</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <!-- Display Cities -->
+                                                <div>
+                                                    <p class="text-center fw-bold mb-0" style="font-size: 18px;">Our
+                                                        hotels</p>
+                                                    <div class="city-grid-container">
+                                                        <% cities.forEach(city=> { %>
+                                                            <a href="/hotels?city=<%= city.city %>"
+                                                                class="city-grid-item">
+                                                                <%= city.city %>
+                                                            </a>
+                                                            <% }) %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>resorts">RESORTS</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>private-luxary-residency">PRIVATE
+                                            LUXARY RESIDENCY</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>service-apartments">SERVICE
+                                            APARTMENTS</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>meet-and-events">MEETING &#38;
+                                            EVENTS</a></li>
+                                    <li><a class="nav-link scrollto" href="#">SPECIAL OFFERS</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>e-gift-coupon">E- GIFT
+                                            COUPONS</a></li>
+                                    <li><a class="nav-link scrollto" style="border:solid #fff 1px;"
+                                            href="<% if (typeof hid !== 'undefined') { %>#top<% }else{ %><%=APP_URL%><% } %>"
+                                            onclick="booknowshow()">BOOK NOW</a></li>
+                                </ul>
+                                <i class="bi bi-list mobile-nav-toggle" style="color:#000; margin-right:10px;"></i>
+                            </nav>
                         </div>
                     </div>
-                </div>
-            </li>
-                <li><a class="nav-link scrollto" href="<%=APP_URL%>resorts">RESORTS</a></li>
-                <li><a class="nav-link scrollto" href="<%=APP_URL%>private-luxary-residency">PRIVATE LUXARY RESIDENCY</a></li>
-                <li><a class="nav-link scrollto" href="<%=APP_URL%>service-apartments">SERVICE APARTMENTS</a></li>
-                <li><a class="nav-link scrollto" href="<%=APP_URL%>meet-and-events">MEETING &#38; EVENTS</a></li>
-                <li><a class="nav-link scrollto" href="#">SPECIAL OFFERS</a></li>
-                <li><a class="nav-link scrollto" href="<%=APP_URL%>e-gift-coupon">E- GIFT COUPONS</a></li>
-                <li><a class="nav-link scrollto" style="border:solid #fff 1px;" href="<% if (typeof hid !== 'undefined') { %>#top<% }else{ %><%=APP_URL%><% } %>" onclick="booknowshow()">BOOK NOW</a></li>
-            </ul>
-            <i class="bi bi-list mobile-nav-toggle" style="color:#000; margin-right:10px;"></i>
-          </nav>
-                </div>
-            </div>
-    </header>
-  </div>
+                </header>
+    </div>
     <!-- <style>
         /* nav style */
         .main_font {

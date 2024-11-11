@@ -58,6 +58,8 @@ const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const flash = require('connect-flash');
 const MySQLStore = require('express-mysql-session')(session); 
+const fetchCitiesAndHotel = require('./middleware/fetchCitiesAndHotel.js');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -75,7 +77,7 @@ app.use(session({
 }));
 
 app.use(flash()); 
-
+app.use(fetchCitiesAndHotel); 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, 'public/uploads/');

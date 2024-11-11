@@ -357,6 +357,55 @@
                     grid-template-columns: repeat(1, 1fr);
                     gap: 10px;
                 }
+
+                .my-micro-menu {
+                    top: 60px;
+                    overflow: auto;
+                    padding: 0 0 0 117px;
+                }
+                .my-micro-menu a {
+                    min-width: fit-content;
+                }
+            }
+
+            @media (width >=1200px) {
+                #hotelrooms .sty {
+                    width: 246px;
+                    height: 100%;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #hotelrooms .sty {
+                    width: 115px;
+                    height: 100%;
+                }
+            }
+
+            .room-background {
+                background-image: linear-gradient(266deg, #ffffff 58%, transparent 69%), var(--bgImg);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            /* Adjust for smaller screens */
+            @media (min-width: 992px) and (max-width: 1199px) {
+                .room-background {
+                    background-image: linear-gradient(266deg, #ffffff 58%, transparent 85%), var(--bgImg);
+                }
+            }
+
+            @media (max-width: 992px) {
+                .room-background {
+                    background-image: var(--bgImg);
+                    /* Adjust if needed for small screens */
+                }
+                .info-wrap{
+                    height: 323px;
+                }
+                #nearByPlace .grid-container{
+                    grid-template-columns: repeat(2, 1fr);
+                }
             }
         </style>
         ` <!-- hotel page -->
@@ -370,11 +419,12 @@
             <div class=" w-100" style="background-color: #005f96;">
                 <form action="<%=APP_URL%>book-now %>">
                     <input type="hidden" name="hotel_id" value="<%=hotel.id%>">
-                    <div class="d-flex align-items-center gap-3 container py-2">
+                    <div class="d-flex flex-column flex-lg-row align-items-center gap-3 container py-2">
                         <div class="flex-grow-1 w-100 d-flex flex-column">
                             <label for="check_in" class="text-white">Check In:
                                 <div class="border p-2 text-white d-flex align-items-center">
-                                    <input type="date" class="bg-transparent border-0 text-white" name="check_in" id="check_in">
+                                    <input type="date" class="bg-transparent border-0 text-white" name="check_in"
+                                        id="check_in">
                                     <i class="fa-regular fa-calendar-days"></i>
                                 </div>
                             </label>
@@ -629,14 +679,10 @@
                                     <% rooms.forEach(room=> { %>
                                         <div class="col-md-6 col-12 p-2">
                                             <div class="border">
-                                                <div class="d-flex flex-md-row flex-column" style="
-                                                    background-image: linear-gradient(266deg, #ffffff 58%, transparent 69%), url(<%= APP_URL %><%= room.main_image %>);
-                                                    background-size: contain;
-                                                    background-repeat: no-repeat;
-                                                ">
+                                                <div class="d-flex flex-lg-row flex-column room-background"
+                                                    style="--bgImg: url(<%= APP_URL %><%= room.main_image %>)">
                                                     <div>
-                                                        <div class="sty position-relative"
-                                                            style="width: 246px; height: 100%;">
+                                                        <div class="sty position-relative">
                                                             <img loading="lazy"
                                                                 src="<%= APP_URL %><%= room.main_image %>"
                                                                 alt="<%= room.name %>" class="w-100 h-100"
@@ -757,7 +803,7 @@
                 <h2 class="text-center py-4">Dine In Reservations
                 </h2>
                 <div class="row">
-                    <div class="col-lg-6 col-12">
+                    <div class="col-lg-6 col-12 order-1 order-lg-0">
                         <form method="post" action="meet-and-events" class="m-0">
                             <div class="ajaxMsg"></div>
                             <div class="row">
@@ -821,7 +867,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-lg-6 col-12 d-flex align-items-stretch">
+                    <div class="col-lg-6 col-12 d-flex align-items-stretch order-0 order-lg-1">
                         <div class="info-wrap w-100 p-5 img"
                             style="background-image: url(<%=APP_URL%>assets/img/dinning.jpg);">
                         </div>
@@ -832,7 +878,7 @@
                 <h2 class="text-center py-4 ">Contact us to book your staycation
                 </h2>
                 <div class="row">
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-4 col-12 mt-3">
                         <p class="mb-0 fw-bold fs-6">Address</p>
                         <p class="mb-0">
                             Alembic Urban Forest, Kadugodi,
@@ -843,7 +889,7 @@
                                 href="<%APP_URL%>contact">Enquir Now</a>
                         </div>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-4 col-12 mt-3">
                         <p class="mb-0 fw-bold fs-6">Hotel Contact</p>
                         <p class="mb-0">
                             <a href="#">
@@ -855,7 +901,7 @@
                             <a href="#">+91 99716 95346</a>
                         </p>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-4 col-12 mt-3">
                         <p class="mb-0 fw-bold fs-6">CENTRAL RESERVATION SERVICE</p>
                         <p class="mb-0"><a href="#">Email:chandrabir.singh@skydoorhotels.com</a></p>
                         <p class="mb-0"><a href="#">Phone:99716 95346</a></p>
@@ -944,10 +990,10 @@
                 const today = new Date();
                 const tomorrow = new Date();
                 tomorrow.setDate(today.getDate() + 1);
-                const formatDate = (date)=>date.toISOString().split('T')[0];
-                 document.getElementById('check_in').value = formatDate(today);
-                 document.getElementById('check_out').value = formatDate(tomorrow);
-                 console.log(today, tomorrow);
+                const formatDate = (date) => date.toISOString().split('T')[0];
+                document.getElementById('check_in').value = formatDate(today);
+                document.getElementById('check_out').value = formatDate(tomorrow);
+                console.log(today, tomorrow);
                 function bookRoom(roomId) {
                     // Get form data
                     const checkIn = document.querySelector('input[name="check_in"]').value;
@@ -1092,7 +1138,7 @@
 
 
             </script>
-         
+
             <script>
                 var swiper = new Swiper('.mySwiper', {
                     slidesPerView: 1,
