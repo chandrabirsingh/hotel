@@ -40,6 +40,21 @@
                 width: 100%;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
+            .sty{
+                    width: 340px; aspect-ratio: 1.5/1;
+                }
+            @media (max-width: 443px) {
+                .hero-image_hotelDetails{
+                    left: 0;
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
+            @media (max-width:768px) {
+                .sty{
+                    width: 100%;;
+                }
+            }
         </style>
         <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
             <img loading="lazy" src="<%=APP_URL%><%= hotel.hotels_image%>" class="h-100 w-100"
@@ -71,9 +86,9 @@
         </div>
         <div class="container" id="hotelAboutSection">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-lg-8 col-12">
                     <form action="">
-                        <div class="d-flex align-items-center gap-3 container py-2 px-0">
+                        <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-3 container py-2 px-0">
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="check_in" class="">Check In:
                                     <div class="border p-2 d-flex align-items-center">
@@ -133,7 +148,10 @@
 
                         </div>
                     </form>
-
+                    <button class="btn btn-primary d-lg-none d-block" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                    Open Cart
+                </button>
                     <!-- rooms -->
                     <div class="mt-4">
                         <h3>Rooms</h3>
@@ -143,7 +161,7 @@
                                     <div class="d-flex flex-md-row flex-column">
                                         <div>
                                             <div class="sty position-relative"
-                                                style="width: 340px; aspect-ratio: 1.5/1;">
+                                                style="">
                                                 <img loading="lazy" src="<%= APP_URL %><%= room.main_image %>"
                                                     alt="<%= room.name %>" class="w-100 h-100">
                                                 <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
@@ -233,7 +251,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 vstack gap-3">
-                    <div class="border bg-white booking-form-container mt-3" style="position: relative; top: auto;">
+                    <div class="border bg-white booking-form-container mt-3 d-none d-lg-block"
+                        style="position: relative; top: auto;">
                         <!-- Cart Header -->
                         <div class="cart-header p-2">
                             <h4 class="mb-2">Your Cart: <span class="text-success">0 Item</span></h4>
@@ -257,9 +276,13 @@
         </div>
         <section>
         </section>
+        <!-- <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+            Open Cart
+        </button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usesr_booking_detail">
             Launch static backdrop modal
-        </button>
+        </button> -->
         <div class="modal fade " id="usesr_booking_detail" data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
@@ -274,6 +297,25 @@
                 </div>
             </div>
         </div>
+        <!-- Trigger Button (Visible only on small screens) -->
+
+
+        <!-- Cart as Offcanvas (Visible only on small screens) -->
+        <!-- Offcanvas for Small Screens -->
+        <div class="offcanvas offcanvas-end d-lg-none" data-bs-backdrop="static tabindex="-1" id="cartOffcanvas"
+            aria-labelledby="cartOffcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body cart-body">
+                <!-- Cart items will be updated dynamically -->
+            </div>
+        </div>
+
+
+
+
         <%- include('../partial/foot'); -%>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -330,8 +372,9 @@
                         .catch(error => console.error("Error:", error));
                 }
                 function updateCart() {
-                    const cartContainer = document.querySelector(".booking-form-container .cart-body");
-                    const cartHeader = document.querySelector(".cart-header h4 span"); // Select the cart item count element
+                    const inlineCartContainer = document.querySelector(".booking-form-container.d-lg-block .cart-body");
+                    const offcanvasCartContainer = document.querySelector("#cartOffcanvas .cart-body");
+                    const cartHeader = document.querySelectorAll(".cart-header h4 span"); // Select all cart headers
                     const checkInDate = document.getElementById("checkIn").value; // Get check-in date
                     const checkOutDate = document.getElementById("checkOut").value;
                     const nights = calculateNights(checkInDate, checkOutDate);
@@ -347,36 +390,21 @@
                     <h6 class="fw-bold mb-0">${room.room_name}</h6>
                     <h6 class="mb-0">₹${room.discounted_price.toFixed(2)}</h6>
                 </div>
-                <p class="text-muted small mb-1">${nights} Night${nights > 1 ? 's' : ''}  stay</p>
+                <p class="text-muted small mb-1">${nights} Night${nights > 1 ? 's' : ''} stay</p>
                 <div class="d-flex justify-content-between">
-                    <p class=" mb-0">Taxes and Fees</p>
+                    <p class="mb-0">Taxes and Fees</p>
                     <p class="mb-0">₹${room.tax.toFixed(2)}</p>
                 </div>
                 <p class="text-muted small mt-2 mb-1 fw-bold">${room.check_in} - ${room.check_out}</p>
                 <p class="text-muted small fw-bold mb-0">${room.adults} Adult${room.adults > 1 ? 's' : ''}</p>
-                <!-- Bed Type Selection -->
-                <div class="mt-2">
-                    <label>Bed Type:</label>
-                    <input type="radio" name="bed_type_${index}" value="Twin" ${room.bed_type === "Twin" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'Twin')"> Twin
-                    <input type="radio" name="bed_type_${index}" value="King" ${room.bed_type === "King" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'King')"> King
-                </div>
-                 <!-- Food Preferences -->
-                <div class="mt-2">
-                    <label>Food:</label>
-                    <input type="checkbox" ${room.food_preferences.includes("Dinner") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Dinner')"> Dinner
-                    <input type="checkbox" ${room.food_preferences.includes("Lunch") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Lunch')"> Lunch
-                    <input type="checkbox" ${room.food_preferences.includes("Breakfast") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Breakfast')"> Breakfast
-                </div>  
                 <div>
-                    <span  onclick="removeRoom(${room.id})" class="text-decoration-none text-warning">Remove</span>
+                    <span onclick="removeRoom(${room.id})" class="text-decoration-none text-warning">Remove</span>
                 </div>
             </div>
         `;
                     }).join("");
 
-                    // Update the cart container with the new HTML
-                    cartContainer.innerHTML = `
-        ${cartHtml}
+                    const totalHtml = `
         <div class="d-flex justify-content-between fw-bold">
             <h5 class="mb-0">Total</h5>
             <h5 class="mb-0 fw-bold">₹${total.toFixed(2)}</h5>
@@ -385,10 +413,28 @@
         <button class="btn btn-primary w-100 mt-3" onclick="openCheckoutModal()">Checkout</button>
     `;
 
-                    // Update the cart item count in the header
-                    const itemCount = selectedRooms.length; // Get the number of selected rooms
-                    cartHeader.textContent = `${itemCount} Item${itemCount !== 1 ? 's' : ''}`; // Update the item count display
+                    // Update inline cart container if it exists
+                    if (inlineCartContainer) {
+                        inlineCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
+                    }
+
+                    // Update offcanvas cart container if it exists
+                    if (offcanvasCartContainer) {
+                        offcanvasCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
+
+                        // Open the offcanvas dynamically
+                        // const offcanvasElement = document.getElementById("cartOffcanvas");
+                        // const offcanvasInstance = new bootstrap.Offcanvas(offcanvasElement);
+                        // offcanvasInstance.show();
+                    }
+
+                    // Update all cart headers
+                    const itemCount = selectedRooms.length;
+                    cartHeader.forEach(header => {
+                        header.textContent = `${itemCount} Item${itemCount !== 1 ? 's' : ''}`;
+                    });
                 }
+
                 function updateRoomDetail(index, field, value) {
                     selectedRooms[index][field] = value;
                     updateCart();
@@ -592,13 +638,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between mt-3">
+                    <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
                         <div>
                             <p class="fw-bold mb-0">Total Price (Tax Included): <span class="text-success fw-bold">₹${data.booking.total_price}</span></p>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
+                        <div class="d-flex flex-md-grow-0 flex-grow-1 gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
+                            <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
                         </div>
                     </div>
                 </form>
