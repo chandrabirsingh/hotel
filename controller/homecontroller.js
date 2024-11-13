@@ -381,13 +381,13 @@ exports.booknow = function (req, res) {
                             } else {
                                 return res.redirect('/logout');
                             }
-                            console.log(hotelName,'hello i am user')
+                            console.log(user,'hello i am user')
                             res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays,hotelName});
                         });
                     } else {
                         
                         
-                        console.log(hotelName,'hello i am himanshu');
+                        console.log(user,'hello i am himanshu');
                         res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName});
                     }
                 });

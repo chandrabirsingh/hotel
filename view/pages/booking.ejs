@@ -40,20 +40,44 @@
                 width: 100%;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
-            .sty{
-                    width: 340px; aspect-ratio: 1.5/1;
-                }
+
+            .sty {
+                width: 340px;
+                aspect-ratio: 1.5/1;
+            }
+
             @media (max-width: 443px) {
-                .hero-image_hotelDetails{
+                .hero-image_hotelDetails {
                     left: 0;
                     width: 100%;
                     max-width: 100%;
                 }
             }
+
             @media (max-width:768px) {
-                .sty{
-                    width: 100%;;
+                .sty {
+                    width: 100%;
+                    ;
                 }
+            }
+
+            /* small screen */
+            @keyframes scaleUp {
+                0% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.1);
+                }
+
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .scale-up {
+                animation: scaleUp 0.3s ease-in-out;
             }
         </style>
         <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
@@ -148,10 +172,14 @@
 
                         </div>
                     </form>
-                    <button class="btn btn-primary d-lg-none d-block" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
-                    Open Cart
-                </button>
+                    <div class="position-fixed bottom-0 end-0 m-2 bg-white shadow-lg rounded d-flex flex-column"
+                        id="openCartBox" style="z-index: 9;">
+                        <p class="p-2 fw-bold mb-2">Total room : <span id="roomCount">0</span></p>
+                        <button class="btn btn-primary d-lg-none d-block " type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" fdprocessedid="hr7h3">
+                            Open Cart
+                        </button>
+                    </div>
                     <!-- rooms -->
                     <div class="mt-4">
                         <h3>Rooms</h3>
@@ -160,8 +188,7 @@
                                 <div class="border">
                                     <div class="d-flex flex-md-row flex-column">
                                         <div>
-                                            <div class="sty position-relative"
-                                                style="">
+                                            <div class="sty position-relative" style="">
                                                 <img loading="lazy" src="<%= APP_URL %><%= room.main_image %>"
                                                     alt="<%= room.name %>" class="w-100 h-100">
                                                 <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
@@ -302,7 +329,7 @@
 
         <!-- Cart as Offcanvas (Visible only on small screens) -->
         <!-- Offcanvas for Small Screens -->
-        <div class="offcanvas offcanvas-end d-lg-none" data-bs-backdrop="static tabindex="-1" id="cartOffcanvas"
+        <div class="offcanvas offcanvas-end d-lg-none" data-bs-backdrop="static" tabindex="-1" id="cartOffcanvas"
             aria-labelledby="cartOffcanvasLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
@@ -326,54 +353,73 @@
                     const roomId = urlParams.get("room_id");
                     console.log(roomId);
                     if (roomId) {
-                        handleBookNow(roomId);
+                        handleBookNow(roomId).then(() => {
+                            // Open the offcanvas after handleBookNow completes
+                            if (window.innerWidth < 992) {
+                                const cartOffcanvas = new bootstrap.Offcanvas(document.getElementById("cartOffcanvas"));
+                                cartOffcanvas.show();
+                            }
+                        });
                     }
                 });
                 const selectedRooms = []; // To store selected rooms
                 const maxRooms = <%=queryData.rooms %>;
                 function handleBookNow(roomId) {
-                    const userId = <%= session.user_id ? true : false %>;  // Assuming user_id is stored in the session
+                    return new Promise((resolve, reject) => {
+                        const userId = <%= session.user_id ? true : false %>; // Assuming user_id is stored in the session
 
-                    if (!userId) {
-                        // If the user is not logged in, show the login modal
-                        const loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
-                        loginModal.show();
-                        return;
-                    }
-                    const checkInDate = document.getElementById('checkIn').value;  // Assuming you have an input field with id 'checkIn'
-                    const checkOutDate = document.getElementById('checkOut').value; // Assuming you have an input field with id 'checkOut'
-                    const adultsCount = parseInt(document.getElementById('adults').value) || 1;
-                    if (selectedRooms.length >= maxRooms) {
-                        alert(`You can only select up to ${maxRooms} room(s).`);
-                        return;
-                    }
+                        if (!userId) {
+                            // If the user is not logged in, show the login modal
+                            const loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
+                            loginModal.show();
+                            reject("User not logged in.");
+                            return;
+                        }
 
-                    const url = `<%= APP_URL %>api/getRoomDetails?room_id=${roomId}`;
+                        const checkInDate = document.getElementById('checkIn').value; // Assuming you have an input field with id 'checkIn'
+                        const checkOutDate = document.getElementById('checkOut').value; // Assuming you have an input field with id 'checkOut'
+                        const adultsCount = parseInt(document.getElementById('adults').value) || 1;
 
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.success) {
-                                const roomWithUserDetails = {
-                                    ...data.room,
-                                    check_in: checkInDate,
-                                    check_out: checkOutDate,
-                                    child: 0,
-                                    adults: adultsCount,
-                                    food_preferences: []
-                                };
+                        if (selectedRooms.length >= maxRooms) {
+                            alert(`You can only select up to ${maxRooms} room(s).`);
+                            reject("Maximum rooms exceeded.");
+                            return;
+                        }
 
-                                selectedRooms.push(roomWithUserDetails);
-                                updateCart(); // Update the cart to reflect multiple rooms
-                            } else {
-                                console.error("Failed to fetch room details.");
-                            }
-                        })
-                        .catch(error => console.error("Error:", error));
+                        const url = `<%= APP_URL %>api/getRoomDetails?room_id=${roomId}`;
+
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data && data.success) {
+                                    const roomWithUserDetails = {
+                                        ...data.room,
+                                        check_in: checkInDate,
+                                        check_out: checkOutDate,
+                                        child: 0,
+                                        adults: adultsCount,
+                                        food_preferences: []
+                                    };
+
+                                    selectedRooms.push(roomWithUserDetails);
+                                    updateCart(); // Update the cart to reflect multiple rooms
+                                    resolve();
+                                } else {
+                                    console.error("Failed to fetch room details.");
+                                    reject("Failed to fetch room details.");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                reject(error);
+                            });
+                    });
                 }
                 function updateCart() {
                     const inlineCartContainer = document.querySelector(".booking-form-container.d-lg-block .cart-body");
                     const offcanvasCartContainer = document.querySelector("#cartOffcanvas .cart-body");
+                    const roomCountElement = document.getElementById("roomCount"); // Counter element in the floating cart box
+                    const openCartBox = document.getElementById("openCartBox");
                     const cartHeader = document.querySelectorAll(".cart-header h4 span"); // Select all cart headers
                     const checkInDate = document.getElementById("checkIn").value; // Get check-in date
                     const checkOutDate = document.getElementById("checkOut").value;
@@ -433,6 +479,13 @@
                     cartHeader.forEach(header => {
                         header.textContent = `${itemCount} Item${itemCount !== 1 ? 's' : ''}`;
                     });
+                    roomCountElement.textContent = itemCount;
+
+                    // Apply scale-up animation to the floating cart box
+                    openCartBox.classList.add("scale-up");
+                    setTimeout(() => {
+                        openCartBox.classList.remove("scale-up");
+                    }, 300);
                 }
 
                 function updateRoomDetail(index, field, value) {
@@ -588,7 +641,7 @@
 
                             // Add the generated HTML content for the rooms
                             modalBody.innerHTML = `
-                <div class="d-flex flex-wrap justify-content-start" style="
+                <div class="d-flex justify-content-start" style="
     overflow-x: auto;
 ">
                     ${bookingCards}
@@ -598,19 +651,19 @@
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                                <input type="text" class="form-control" value="<%=user.name %>" id="name" placeholder="Enter your name">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                <input type="email" class="form-control" value="<%=user.email %>" id="email" placeholder="Enter your email">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="mobile">Mobile</label>
-                                <input type="tel" class="form-control" id="mobile" placeholder="Enter your mobile number">
+                                <input type="tel" class="form-control" id="mobile" value="<%=user.phone %>" placeholder="Enter your mobile number">
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
@@ -643,7 +696,7 @@
                             <p class="fw-bold mb-0">Total Price (Tax Included): <span class="text-success fw-bold">₹${data.booking.total_price}</span></p>
                         </div>
                         <div class="d-flex flex-md-grow-0 flex-grow-1 gap-2">
-                            <button type="submit" class="btn btn-primary flex-grow-1" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
+                            <button type="submit" class="btn btn-primary flex-grow-1" data-bs-dismiss="modal" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
                             <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
                         </div>
                     </div>
