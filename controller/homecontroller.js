@@ -21,7 +21,7 @@ exports.index = function (req, res) {
                 console.error("Error fetching hotels:", err);
                 return res.status(500).send("Error fetching hotels");
             }
-            console.log(hotels)
+            // console.log(hotels)
             let user = '';
             if (PSession.user_id !== undefined) {
 
@@ -33,7 +33,7 @@ exports.index = function (req, res) {
 
                     if (result.length > 0) {
                         user = result[0];
-                        console.log('user' + user);
+                        // console.log('user' + user);
                         return res.render('pages/index', {
                             APP_URL: config.APP_URL,
                             cities: cities,
@@ -85,7 +85,7 @@ exports.hotels = function (req, res) {
                 } else {
                     if (result.length > 0) {
                         user = result[0];
-                        console.log('user' + JSON.stringify(user));
+                        // console.log('user' + JSON.stringify(user));
                     } else {
                         res.redirect('/logout');
                     }
@@ -161,7 +161,7 @@ exports.hotelroomdetail = function (req, res) {
                     });
                 } else {
                     // Render without user details if not logged in
-                    console.log(roomsResult, nearbyPlacesResult, hotelResult)
+                    // console.log(roomsResult, nearbyPlacesResult, hotelResult)
                     res.render('pages/hotelrooms', {
                         APP_URL: config.APP_URL,
                         rooms: roomsResult,
@@ -286,7 +286,6 @@ exports.booknow = function (req, res) {
     session = req.session;
     let user = '';
     let queryData = req.query;
-    console.log(queryData)
     try {
         if (req.method === 'POST') {
             // Handle booking
@@ -335,9 +334,10 @@ exports.booknow = function (req, res) {
             // Get hotel and room details
             const date = require('date-and-time');
             const hotelRoomsQuery = `
-                SELECT hotel_rooms.*, hotels.name, hotels.city,room_types.room_name,hotels.full_address,hotels.main_image AS hotels_image
+                SELECT hotel_rooms.*, roomavailability.bed_type,hotels.name, hotel_rooms.accommodation,hotel_rooms.room_size,hotels.city,room_types.room_name,hotels.full_address,hotels.main_image AS hotels_image
                 FROM hotels 
-                INNER JOIN hotel_rooms ON hotels.id = hotel_rooms.hotel_id 
+                INNER JOIN roomavailability ON hotels.id = roomavailability.hotel_id
+                INNER JOIN hotel_rooms ON hotel_rooms.id = roomavailability.room_id
                 INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
                 WHERE hotels.id = ?`;
 
@@ -351,7 +351,7 @@ exports.booknow = function (req, res) {
                 const hotelRooms = result;
                 const hotelName = hotel.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
                 const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
-
+                console.log(hotelRooms, 'hello i am himanshu');
                 // Fetch active discount
                 config.con.query("SELECT discount_percentage FROM discounts WHERE is_active = 1 LIMIT 1", (discountErr, discountResult) => {
                     if (discountErr) {
@@ -369,7 +369,7 @@ exports.booknow = function (req, res) {
                     const date1 = new Date(queryData.check_in);
                     const date2 = new Date(queryData.check_out);
                     const diffTime = Math.abs(date2 - date1);
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     if (session.user_id !== undefined) {
                         config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
                             if (err) {
@@ -381,14 +381,10 @@ exports.booknow = function (req, res) {
                             } else {
                                 return res.redirect('/logout');
                             }
-                            console.log(user,'hello i am user')
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays,hotelName});
+                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName });
                         });
                     } else {
-                        
-                        
-                        console.log(user,'hello i am himanshu');
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName});
+                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName });
                     }
                 });
             });
@@ -405,21 +401,21 @@ exports.createBooking = function (req, res) {
     INSERT INTO booking (user_id, hotel_id, total_price)
     VALUES (?, ?, ?)
     `;
-    
+
     config.con.query(bookingQuery, [user_id, hotel_id, total_price], (error, results) => {
         if (error) {
             console.error("Error creating booking:", error);
             return res.status(500).json({ success: false, message: "Failed to create booking" });
         }
-        
+
         const bookingId = results.insertId; // Get the ID of the newly created booking
-        
+
         // Prepare to insert room details into the booking_room_detail table
         const roomDetailsQuery = `
         INSERT INTO booking_room_detail (booking_id, room_id, bed_type, food_preferences, check_in, check_out, adults,children, created_at, updated_at)
         VALUES ?
         `;
-        
+
         const roomValues = rooms.map(room => [
             bookingId,
             room.room_id,
@@ -432,7 +428,7 @@ exports.createBooking = function (req, res) {
             new Date(),
             new Date()
         ]);
-        
+
         config.con.query(roomDetailsQuery, [roomValues], (error) => {
             if (error) {
                 console.error("Error inserting room details:", error);
@@ -583,7 +579,7 @@ exports.bookingDetail = function (req, res) {
                 let nights = 1;
                 if (checkInDate && checkOutDate) {
                     const timeDifference = checkOutDate - checkInDate;
-                    nights = Math.ceil(timeDifference / (1000 * 3600 * 24)); 
+                    nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
                 }
 
                 return {
@@ -594,7 +590,7 @@ exports.bookingDetail = function (req, res) {
                     check_in: row.check_in,
                     check_out: row.check_out,
                     adults: row.adults,
-                    nights: nights 
+                    nights: nights
                 };
             })
         };
@@ -607,27 +603,27 @@ exports.bookingDetail = function (req, res) {
 };
 exports.confirmBooking = function (req, res) {
     const bookingId = req.params.id;
-    const { name, email, mobile, country, address, city,additional } = req.body;
+    const { name, email, mobile, country, address, city, additional } = req.body;
     const session = req.session;
     const userId = session.user_id
     // Validate required fields
     if (!name || !email || !mobile || !country || !address || !city) {
         return res.status(400).json({ success: false, message: "Missing required booking details." });
     }
-    
+
     // Update basic details in the Booking table
     const query = `
     UPDATE booking 
     SET name = ?, email = ?, mobile = ?, country = ?, address = ?, city = ?,additional=?,user_id = ?, updated_at = NOW() 
     WHERE booking_id = ?
     `;
-    
-    config.con.query(query, [name, email, mobile, country, address, city, additional,userId,bookingId], (error, result) => {
+
+    config.con.query(query, [name, email, mobile, country, address, city, additional, userId, bookingId], (error, result) => {
         if (error) {
             console.error("Error updating booking:", error);
             return res.status(500).json({ success: false, message: "Failed to update booking." });
         }
-        console.log(userId,result)
+        console.log(userId, result)
 
         // Check if any row was updated
         if (result.affectedRows === 0) {
@@ -871,15 +867,15 @@ exports.login = function (req, res) {
                         console.log(req.body.url);
                     } else {
                         console.log(req.body.url);
-                        res.redirect(req.body.url); 
-                        
+                        res.redirect(req.body.url);
+
                     }
                 }
             });
         }
     } else {
         console.log(req.body.url);
-        res.redirect(req.body.url); 
+        res.redirect(req.body.url);
     }
 }
 

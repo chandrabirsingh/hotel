@@ -201,18 +201,16 @@
 
                                         <div class="flex-grow-1 w-100 d-flex flex-column p-2">
                                             <div class="d-flex gap-2 align-items-center">
-                                                <span class="mb-0">~<%= room.size %> sq.ft</span>
+                                                <span class="mb-0">~<%= room.room_size %> sq.ft</span>
                                                 <i class="fa-solid fa-circle"
                                                     style="font-size: 5px; color: #c4c4c4;"></i>
                                                 <span class="mb-0">
-                                                    <%= room.capacity %> people
+                                                    <%= room.accommodation %> people
                                                 </span>
                                                 <i class="fa-solid fa-circle"
                                                     style="font-size: 5px; color: #c4c4c4;"></i>
                                                 <span>
-                                                    <%= (room.has_king && room.has_twin) ? 'King bed or Twin bed' :
-                                                        room.has_king ? 'King bed' : room.has_twin ? 'Twin bed'
-                                                        : 'No specific bed type' %>
+                                                    <%=room.bed_type ? room.bed_type : ''  %>
                                                 </span>
                                             </div>
 
@@ -366,7 +364,7 @@
                 const maxRooms = <%=queryData.rooms %>;
                 function handleBookNow(roomId) {
                     return new Promise((resolve, reject) => {
-                        const userId = <%= session.user_id ? true : false %>; // Assuming user_id is stored in the session
+                        const userId = true; // remove this 
 
                         if (!userId) {
                             // If the user is not logged in, show the login modal
@@ -443,6 +441,18 @@
                 </div>
                 <p class="text-muted small mt-2 mb-1 fw-bold">${room.check_in} - ${room.check_out}</p>
                 <p class="text-muted small fw-bold mb-0">${room.adults} Adult${room.adults > 1 ? 's' : ''}</p>
+                 <div class="mt-2">
+                    <label>Bed Type:</label>
+                    <input type="radio" name="bed_type_${index}" value="Twin" ${room.bed_type === "Twin" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'Twin')"> Twin
+                    <input type="radio" name="bed_type_${index}" value="King" ${room.bed_type === "King" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'King')"> King
+                </div>
+                 <!-- Food Preferences -->
+                <div class="mt-2">
+                    <label>Food:</label>
+                    <input type="checkbox" ${room.food_preferences.includes("Dinner") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Dinner')"> Dinner
+                    <input type="checkbox" ${room.food_preferences.includes("Lunch") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Lunch')"> Lunch
+                    <input type="checkbox" ${room.food_preferences.includes("Breakfast") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Breakfast')"> Breakfast
+                </div> 
                 <div>
                     <span onclick="removeRoom(${room.id})" class="text-decoration-none text-warning">Remove</span>
                 </div>

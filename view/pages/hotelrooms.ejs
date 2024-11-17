@@ -417,8 +417,9 @@
                     grid-template-columns: repeat(2, 1fr);
                 }
             }
-           .my-micro-menu .item_text{
-            min-height: fit-content;
+
+            .my-micro-menu .item_text {
+                min-height: fit-content;
             }
         </style>
         ` <!-- hotel page -->
@@ -880,6 +881,11 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#roomContainer"
+                aria-controls="roomContainer">
+                Open Room Details
+            </button>
+
             <div id="contactUs" class="container">
                 <h2 class="text-center py-4 ">Contact us to book your staycation
                 </h2>
@@ -946,7 +952,7 @@
                 <div class="offcanvas-body" style="overflow-x:hidden;">
                     <!-- Swiper Slider -->
                     <div id="imageContainer">
-                        <div class="swiper-container mySwiper overflow-hidden position-relative" style="height:400px;">
+                        <div class=" mySwiper overflow-hidden position-relative" style="height:400px;">
                             <div class="swiper-wrapper" id="roomImages">
                                 <div class="swiper-slide"><img src="<%=APP_URL%>uploads/rooms/deluxe_room.jpg"
                                         alt="Room Image 1" class="h-100 w-100" /></div>
@@ -1032,8 +1038,11 @@
                         // Assuming roomDetails.images is an array of image filenames
                         if (Array.isArray(roomDetails.images) && roomDetails.images.length > 0) {
                             document.querySelector('#roomImages').innerHTML = roomDetails.images.map(image => `
-                            <div class="swiper-slide"><img src="${APP_URL}${image}" alt="${roomDetails.room_name}" class="h-100 w-100" /></div>
+                            <div class="swiper-slide"><img src="<%= APP_URL %>${image}" alt="${roomDetails.room_name}" class="h-100 w-100"/></div>
                         `).join('');
+                            if (window.swiper) {
+                                swiper.update();
+                            }
                         } else {
                             document.querySelector('#imageContainer').innerHTML = '<div>No images available</div>';
                         }
