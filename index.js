@@ -62,10 +62,10 @@ const fetchCitiesAndHotel = require('./middleware/fetchCitiesAndHotel.js');
 
 const app = express();
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cookieParser());
 const sessionStore = new MySQLStore({}, config.con);
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
