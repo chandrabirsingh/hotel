@@ -1351,7 +1351,7 @@ exports.contact = function (req, res) {
                 `;
 
                 // Send email to owner
-                const emailSent = await sendEmail('chaudhary.chander@gmail.com', subject, text);
+                const emailSent = await sendEmail('gutamh142@gmail.com', subject, text);
 
                 if (!emailSent) {
                     console.error('Failed to send reservation email.');
