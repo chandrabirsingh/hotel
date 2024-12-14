@@ -81,8 +81,8 @@
             }
         </style>
         <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
-            <img loading="lazy" src="<%=APP_URL%><%= hotel.hotels_image%>" class="h-100 w-100"
-                style="object-fit: cover;" alt="">
+            <img loading="lazy" src="<%=APP_URL%><%= hotel.main_image%>" class="h-100 w-100" style="object-fit: cover;"
+                alt="">
             <div class="container">
                 <div class="hero-image_hotelDetails">
                     <p id="heroTitle" class="app_modalTitle hero-image_hotelName gowun fs-5 fw-bold mb-2">
@@ -111,7 +111,12 @@
         <div class="container" id="hotelAboutSection">
             <div class="row">
                 <div class="col-lg-8 col-12">
-                    <form action="">
+                    <form action="" method="GET" id="reservationForm">
+                        <input type="hidden" name="hotel_id" value="<%= queryData.hotel_id %>">
+                        <input type="hidden" name="hotel" value="<%= queryData.hotel %>">
+                        <input type="hidden" name="rooms" value="<%= queryData.rooms %>">
+                        <input type="hidden" name="children_age" id="childrenAgeField">
+
                         <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-3 container py-2 px-0">
                             <div class="flex-grow-1 w-100 d-flex flex-column">
                                 <label for="check_in" class="">Check In:
@@ -131,172 +136,213 @@
                                     </div>
                                 </label>
                             </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="">Adults:
-                                    <div class="w-100 border p-2">
-                                        <select name="adults" id="adults" class="bg-transparent border-0 w-100">
-                                            <option value="1" class="text-black" <%=queryData.adults=="1" ? 'selected'
-                                                : '' %>>1</option>
-                                            <option value="2" class="text-black" <%=queryData.adults=="2" ? 'selected'
-                                                : '' %>>2</option>
-                                            <option value="3" class="text-black" <%=queryData.adults=="3" ? 'selected'
-                                                : '' %>>3</option>
-                                            <option value="4" class="text-black" <%=queryData.adults=="4" ? 'selected'
-                                                : '' %>>4</option>
-                                            <option value="5" class="text-black" <%=queryData.adults=="5" ? 'selected'
-                                                : '' %>>5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="flex-grow-1 w-100 d-flex flex-column">
-                                <label for="" class="">Children:
-                                    <div class="w-100 border p-2">
-                                        <select name="children" id="" class="bg-transparent border-0 w-100">
-                                            <option value="0" class="text-black" <%=queryData.children=="0" ? 'selected'
-                                                : '' %>>0</option>
-                                            <option value="1" class="text-black" <%=queryData.children=="1" ? 'selected'
-                                                : '' %>>1</option>
-                                            <option value="2" class="text-black" <%=queryData.children=="2" ? 'selected'
-                                                : '' %>>2</option>
-                                            <option value="3" class="text-black" <%=queryData.children=="3" ? 'selected'
-                                                : '' %>>3</option>
-                                            <option value="4" class="text-black" <%=queryData.children=="4" ? 'selected'
-                                                : '' %>>4</option>
-                                            <option value="5" class="text-black" <%=queryData.children=="5" ? 'selected'
-                                                : '' %>>5</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
+                            <!-- First Room Data -->
+                            <% if (roomDistribution && roomDistribution.length> 0) { %>
+                                <div class="flex-grow-1 w-100 d-flex flex-column" id="adult_input">
+                                    <label for="adultsRoom1" class="">Adults (Room 1):
+                                        <div class="w-100 border p-2">
+                                            <select name="adult1" id="adults1" class="bg-transparent border-0 w-100">
+                                                <% for (let i=0; i <=5; i++) { %>
+                                                    <option value="<%= i %>" <%=roomDistribution[0].adults==i
+                                                        ? 'selected' : '' %>>
+                                                        <%= i %>
+                                                    </option>
+                                                    <% } %>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex-grow-1 w-100 d-flex flex-column" id="child_input">
+                                    <label for="childrenRoom1" class="">Children (Room 1):
+                                        <div class="w-100 border p-2">
+                                            <select name="children1" id="children1"
+                                                class="bg-transparent border-0 w-100">
+                                                <% for (let i=0; i <=5; i++) { %>
+                                                    <option value="<%= i %>" <%=roomDistribution[0].children==i
+                                                        ? 'selected' : '' %>>
+                                                        <%= i %>
+                                                    </option>
+                                                    <% } %>
+                                            </select>
+                                        </div>
+                                    </label>
+                                </div>
+                                <% } %>
+                        </div>
 
+                        <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-3 container py-2 px-0"
+                            id="children_age">
+                            <% if (roomDistribution && roomDistribution.length> 0) { %>
+                                <% for (let i=1; i <=roomDistribution[0].children; i++) { %>
+                                    <div class="flex-grow-1 w-100 d-flex flex-column">
+                                        <label for="childAge<%= i %>">Child <%= i %> Age:<span><i
+                                                        class="fa-solid fa-asterisk text-danger"></i></span></label>
+                                        <div class="w-100 border p-2">
+                                            <select id="childAge<%= i %>"
+                                                class="childAgeSelect bg-transparent border-0 w-100"
+                                                name="childAge<%= i %>">
+                                                <% for (let age=0; age <=11; age++) { %>
+                                                    <option value="<%= age %>" <%=queryData.children_age &&
+                                                        queryData.children_age.split(',')[i - 1]==age.toString()
+                                                        ? 'selected' : '' %>>
+                                                        <%= age %>
+                                                    </option>
+                                                    <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% } %>
                         </div>
                     </form>
-                    <div class="position-fixed bottom-0 end-0 m-2 bg-white shadow-lg rounded d-flex flex-column"
-                        id="openCartBox" style="z-index: 9;">
-                        <p class="p-2 fw-bold mb-2">Total room : <span id="roomCount">0</span></p>
-                        <button class="btn btn-primary d-lg-none d-block " type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" fdprocessedid="hr7h3">
-                            Open Cart
-                        </button>
-                    </div>
-                    <!-- rooms -->
-                    <div class="mt-4">
-                        <h3>Rooms</h3>
-                        <div class="room-wrapper vstack gap-3">
-                            <% hotelRooms.forEach(room=> { %>
-                                <div class="border">
-                                    <div class="d-flex flex-md-row flex-column">
-                                        <div>
-                                            <div class="sty position-relative" style="">
-                                                <img loading="lazy" src="<%= APP_URL %><%= room.main_image %>"
-                                                    alt="<%= room.name %>" class="w-100 h-100">
-                                                <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
-                                                    <h6 class="m-0">
-                                                        <%= room.room_name %>
-                                                    </h6>
+
+                    <% if (errorMessage) { %>
+                        <div class="error-message p-3 shadow-lg text-cener border border-danger rounded-3 mt-4">
+                            <p class="mb-0 text-center fw-bold">
+                                <%= errorMessage %>
+                            </p>
+                        </div>
+                        <% } else{ %>
+                            <div class="position-fixed bottom-0 end-0 m-2 bg-white shadow-lg rounded d-flex flex-column"
+                                id="openCartBox" style="z-index: 9;">
+                                <p class="p-2 fw-bold mb-2">Total room : <span id="roomCount">0</span></p>
+                                <button class="btn btn-primary d-lg-none d-block " type="button"
+                                    data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas"
+                                    aria-controls="cartOffcanvas" fdprocessedid="hr7h3">
+                                    Open Cart
+                                </button>
+                            </div>
+                            <!-- rooms -->
+                            <div class="mt-4">
+                                <h3>Rooms</h3>
+                                <div class="room-wrapper vstack gap-3">
+                                    <% hotelRooms.forEach(room=> { %>
+                                        <div class="border">
+                                            <div class="d-flex flex-md-row flex-column">
+                                                <div>
+                                                    <div class="sty position-relative" style="">
+                                                        <img loading="lazy" src="<%= APP_URL %><%= room.main_image %>"
+                                                            alt="<%= room.name %>" class="w-100 h-100">
+                                                        <div class="position-absolute top-0 end-0 m-3 bg-white p-2">
+                                                            <h6 class="m-0">
+                                                                <%= room.room_name %>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="flex-grow-1 w-100 d-flex flex-column p-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <span class="mb-0">~<%= room.room_size %> sq.ft</span>
-                                                <i class="fa-solid fa-circle"
-                                                    style="font-size: 5px; color: #c4c4c4;"></i>
-                                                <span class="mb-0">
-                                                    <%= room.accommodation %> people
-                                                </span>
-                                                <i class="fa-solid fa-circle"
-                                                    style="font-size: 5px; color: #c4c4c4;"></i>
-                                                <span>
-                                                    <%=room.bed_type ? room.bed_type : ''  %>
-                                                </span>
-                                            </div>
+                                                <div class="flex-grow-1 w-100 d-flex flex-column p-2">
+                                                    <div class="d-flex gap-2 align-items-center">
+                                                        <span class="mb-0">~<%= room.room_size %> sq.ft</span>
+                                                        <i class="fa-solid fa-circle"
+                                                            style="font-size: 5px; color: #c4c4c4;"></i>
+                                                        <span class="mb-0">
+                                                            <%= room.accommodation %> people
+                                                        </span>
+                                                        <i class="fa-solid fa-circle"
+                                                            style="font-size: 5px; color: #c4c4c4;"></i>
+                                                        <span>
+                                                            <%=room.bed_type ? room.bed_type : '' %>
+                                                        </span>
+                                                    </div>
 
-                                            <!-- Amenities -->
-                                            <div>
-                                                <div class="my-2">
-                                                    <span
-                                                        class="badge rounded-pill bg-white border text-muted  inter ">Wi-Fi</span>
-                                                    <span
-                                                        class="badge rounded-pill bg-white border  text-muted inter ">hot
-                                                        & cold water</span>
-                                                    <span
-                                                        class="badge rounded-pill bg-white border  text-muted inter ">Air
-                                                        Conditioner</span>
-                                                    <span
-                                                        class="badge rounded-pill bg-white border  text-muted inter ">Daily
-                                                        newspaper</span>
-                                                    <span
-                                                        class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
-                                                        many more</span>
-                                                </div>
-                                            </div>
+                                                    <!-- Amenities -->
+                                                    <div>
+                                                        <div class="my-2">
+                                                            <span
+                                                                class="badge rounded-pill bg-white border text-muted  inter ">Wi-Fi</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">hot
+                                                                & cold water</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Air
+                                                                Conditioner</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  text-muted inter ">Daily
+                                                                newspaper</span>
+                                                            <span
+                                                                class="badge rounded-pill bg-white border  v_sm_text  inter text-success">and
+                                                                many more</span>
+                                                        </div>
+                                                    </div>
 
-                                            <!-- Description -->
-                                            <div class="description">
-                                                <p class="mb-1 fw-bold">Description</p>
-                                                <p class="mb-2">
-                                                    <%= room.description %>
-                                                </p>
-                                            </div>
+                                                    <!-- Description -->
+                                                    <div class="description">
+                                                        <p class="mb-1 fw-bold">Description</p>
+                                                        <p class="mb-2">
+                                                            <%= room.description %>
+                                                        </p>
+                                                    </div>
 
-                                            <!-- Deal -->
-                                            <div class="deal border-top border-bottom py-2">
+                                                    <!-- Deal -->
+                                                    <!-- <div class="deal border-top border-bottom py-2">
                                                 <p class="mb-1 fw-bold fs-5" style="color:#0CB2A7;">Deal</p>
                                                 <p class="fw-bold">LogIn and avail <%= discount %>% off on best
                                                         available rates</p>
-                                            </div>
+                                            </div> -->
 
-                                            <!-- Price Display -->
-                                            <div>
-                                                <p class="mb-0 gowun" style="font-size: 26px;">
-                                                    <span class="text-muted"
-                                                        style="text-decoration: line-through; font-size: 17px;">
-                                                        <%= room.original_price %> RS
-                                                    </span>
-                                                    <%= room.discounted_price.toFixed(2) %> RS /
-                                                        <span class="inter" style="font-size: 16px;">Night</span>
-                                                </p>
-                                            </div>
+                                                    <!-- Price Display -->
+                                                    <% room.mealPlans.forEach(function(meal) { %>
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center pb-2 border-bottom">
+                                                            <div>
+                                                                <p class="mb-0 gowun" style="font-size: 26px;">
+                                                                    <!-- <span class="text-muted"
+                                                            style="text-decoration: line-through; font-size: 17px;">
+                                                            3000 RS
+                                                        </span> -->
+                                                                    <%= meal.base_price %> RS /
+                                                                        <span class="inter"
+                                                                            style="font-size: 16px;">Night</span>
+                                                                </p>
+                                                                <p class="mb-0">
+                                                                    <%= meal.plan_name %>(<%= meal.description %>)
+                                                                </p>
+                                                            </div>
+                                                            <button
+                                                                class="btn rounded-0 py-2 px-3 btnHover rounded-pill border"
+                                                                onclick="handleBookNow(event,<%= room.id%>,<%= meal.plan_id%>)">Book
+                                                                Now</button>
+                                                        </div>
+                                                        <% }) %>
+                                                            <!-- Book Now Button -->
 
-                                            <!-- Book Now Button -->
-                                            <div class="d-flex justify-content-end gap-2 align-items-center">
-                                                <button class="btn rounded-0 py-2 px-3 btnHover rounded-pill border"
-                                                    onclick="handleBookNow(<%= room.id%>)">Book
-                                                    Now</button>
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <% }) %>
                                 </div>
-                                <% }) %>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="col-md-4 vstack gap-3">
-                    <div class="border bg-white booking-form-container mt-3 d-none d-lg-block"
-                        style="position: relative; top: auto;">
-                        <!-- Cart Header -->
-                        <div class="cart-header p-2">
-                            <h4 class="mb-2">Your Cart: <span class="text-success">0 Item</span></h4>
-                        </div>
-
-                        <!-- Cart Body -->
-                        <div class="cart-body p-3 pt-0">
-                            <!-- Item Section -->
-
-                            <!-- Total Section at Bottom -->
-                            <div class="d-flex justify-content-between fw-bold">
-                                <h5 class="mb-0">Total</h5>
-                                <h5 class="mb-0 fw-bold">₹0.00</h5>
                             </div>
-                            <p class="text-muted VsmaTxt mb-0">Including taxes and fees</p>
-                        </div>
-                    </div>
+                            <% } %>
 
                 </div>
+                <% if (errorMessage) { %>
+                    <% }else{ %>
+                        <div class="col-md-4 vstack gap-3">
+                            <div class="border bg-white booking-form-container mt-3 d-none d-lg-block"
+                                style="position: relative; top: auto;">
+                                <!-- Cart Header -->
+                                <div class="cart-header p-2">
+                                    <h4 class="mb-2">Your Cart: <span class="text-success">0 Item</span></h4>
+                                </div>
+
+                                <!-- Cart Body -->
+                                <div class="cart-body p-3 pt-0">
+                                    <!-- Item Section -->
+
+                                    <!-- Total Section at Bottom -->
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <h5 class="mb-0">Total</h5>
+                                        <h5 class="mb-0 fw-bold">₹0.00</h5>
+                                    </div>
+                                    <p class="text-muted VsmaTxt mb-0">Including taxes and fees</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <% } %>
             </div>
         </div>
         <section>
@@ -308,461 +354,656 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usesr_booking_detail">
             Launch static backdrop modal
         </button> -->
-        <div class="modal fade " id="usesr_booking_detail" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <!-- <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div> -->
-                    <div class="modal-body" id="booking-details-body">
+        <% if (!errorMessage) { %>
+            <div class="modal fade " id="usesr_booking_detail" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body" id="booking-details-body">
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Trigger Button (Visible only on small screens) -->
+
+            <!-- Trigger Button (Visible only on small screens) -->
 
 
-        <!-- Cart as Offcanvas (Visible only on small screens) -->
-        <!-- Offcanvas for Small Screens -->
-        <div class="offcanvas offcanvas-end d-lg-none" data-bs-backdrop="static" tabindex="-1" id="cartOffcanvas"
-            aria-labelledby="cartOffcanvasLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <!-- Cart as Offcanvas (Visible only on small screens) -->
+            <!-- Offcanvas for Small Screens -->
+            <div class="offcanvas offcanvas-end d-lg-none" data-bs-backdrop="static" tabindex="-1" id="cartOffcanvas"
+                aria-labelledby="cartOffcanvasLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body cart-body">
+                    <!-- Cart items will be updated dynamically -->
+                </div>
             </div>
-            <div class="offcanvas-body cart-body">
-                <!-- Cart items will be updated dynamically -->
-            </div>
-        </div>
 
 
+            <% } %>
+
+                <%- include('../partial/foot'); -%>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+                    <script>
+                // document.addEventListener("DOMContentLoaded", function () {
+                //     const urlParams = new URLSearchParams(window.location.search);
+                //     const roomId = urlParams.get("room_id");
+                //     console.log(roomId);
+                //     if (roomId) {
+                //         handleBookNow(roomId,mealId).then(() => {
+                //             // Open the offcanvas after handleBookNow completes
+                //             if (window.innerWidth < 992) {
+                //                 const cartOffcanvas = new bootstrap.Offcanvas(document.getElementById("cartOffcanvas"));
+                //                 cartOffcanvas.show();
+                //             }
+                //         });
+                //     }
+                // });
+                <% if (!errorMessage) { %>
+                            let selectedRooms = []; // To store selected rooms
+                            let roomIndex = 0;  // This will start at 0 and increment with each call
+                            const roomDistribution = <%- JSON.stringify(roomDistribution) %>;
+                            const maxRooms = <%=queryData.rooms %>;
+
+                            function updateFormForRooms(roomIndex) {
+                                console.log(roomIndex);
+                                const room = roomDistribution[roomIndex];
+                                const adultsCount = room.adults;
+                                const childrenCount = room.children;
 
 
-        <%- include('../partial/foot'); -%>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                // Generate HTML for the adults select input
+                                const adultHtml = `
+                                    <label for="adults${roomIndex + 1}" class="">Adults (Room ${roomIndex + 1}):
+                                        <div class="w-100 border p-2">
+                                            <select name="adults${roomIndex + 1}" id="adults${roomIndex + 1}" class="bg-transparent border-0 w-100">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4" ${adultsCount === 4 ? 'selected' : ''}>4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                `;
 
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const roomId = urlParams.get("room_id");
-                    console.log(roomId);
-                    if (roomId) {
-                        handleBookNow(roomId).then(() => {
-                            // Open the offcanvas after handleBookNow completes
-                            if (window.innerWidth < 992) {
-                                const cartOffcanvas = new bootstrap.Offcanvas(document.getElementById("cartOffcanvas"));
-                                cartOffcanvas.show();
+                                // Inject adults HTML into the element with id="adult_input"
+                                document.getElementById("adult_input").innerHTML = adultHtml;
+
+                                // Generate HTML for the children select input
+                                const childrenHtml = `
+                                    <label for="children${roomIndex + 1}" class="">Children (Room ${roomIndex + 1}):
+                                        <div class="w-100 border p-2">
+                                            <select name="children${roomIndex + 1}" id="children${roomIndex + 1}" class="bg-transparent border-0 w-100">
+                                                <option value="0" ${childrenCount === 0 ? 'selected' : ''}>0</option>
+                                                <option value="1" ${childrenCount === 1 ? 'selected' : ''}>1</option>
+                                                <option value="2" ${childrenCount === 2 ? 'selected' : ''}>2</option>
+                                                <option value="3" ${childrenCount === 3 ? 'selected' : ''}>3</option>
+                                                <option value="4" ${childrenCount === 4 ? 'selected' : ''}>4</option>
+                                                <option value="5" ${childrenCount === 5 ? 'selected' : ''}>5</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                `;
+
+                                // Inject children HTML into the element with id="child_input"
+                                document.getElementById("child_input").innerHTML = childrenHtml;
+
+                                // Inject child age fields (if any) into the children_age div
+                                const childAgeFieldsHtml = generateChildAgeFields(childrenCount, roomIndex);
+                                document.getElementById(`children_age`).innerHTML = childAgeFieldsHtml;
                             }
-                        });
-                    }
-                });
-                const selectedRooms = []; // To store selected rooms
-                const maxRooms = <%=queryData.rooms %>;
-                function handleBookNow(roomId) {
-                    return new Promise((resolve, reject) => {
-                        const userId = true; // remove this 
-
-                        if (!userId) {
-                            // If the user is not logged in, show the login modal
-                            const loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
-                            loginModal.show();
-                            reject("User not logged in.");
-                            return;
-                        }
-
-                        const checkInDate = document.getElementById('checkIn').value; // Assuming you have an input field with id 'checkIn'
-                        const checkOutDate = document.getElementById('checkOut').value; // Assuming you have an input field with id 'checkOut'
-                        const adultsCount = parseInt(document.getElementById('adults').value) || 1;
-
-                        if (selectedRooms.length >= maxRooms) {
-                            alert(`You can only select up to ${maxRooms} room(s).`);
-                            reject("Maximum rooms exceeded.");
-                            return;
-                        }
-
-                        const url = `<%= APP_URL %>api/getRoomDetails?room_id=${roomId}`;
-
-                        fetch(url)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data && data.success) {
-                                    const roomWithUserDetails = {
-                                        ...data.room,
-                                        check_in: checkInDate,
-                                        check_out: checkOutDate,
-                                        child: 0,
-                                        adults: adultsCount,
-                                        food_preferences: []
-                                    };
-
-                                    selectedRooms.push(roomWithUserDetails);
-                                    updateCart(); // Update the cart to reflect multiple rooms
-                                    resolve();
-                                } else {
-                                    console.error("Failed to fetch room details.");
-                                    reject("Failed to fetch room details.");
+                            function validateChildren() {
+                                const childAgeSelect = document.querySelectorAll('.childAgeSelect');
+                                const childrenAgeContainer = document.getElementById('children_age');
+                                let allValid = true
+                                if (childAgeSelect.length == 0) {
+                                    return true;
                                 }
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                                reject(error);
-                            });
-                    });
-                }
-                function updateCart() {
-                    const inlineCartContainer = document.querySelector(".booking-form-container.d-lg-block .cart-body");
-                    const offcanvasCartContainer = document.querySelector("#cartOffcanvas .cart-body");
-                    const roomCountElement = document.getElementById("roomCount"); // Counter element in the floating cart box
-                    const openCartBox = document.getElementById("openCartBox");
-                    const cartHeader = document.querySelectorAll(".cart-header h4 span"); // Select all cart headers
-                    const checkInDate = document.getElementById("checkIn").value; // Get check-in date
-                    const checkOutDate = document.getElementById("checkOut").value;
-                    const nights = calculateNights(checkInDate, checkOutDate);
-                    let total = 0;
+                                console.log(childAgeSelect.length);
+                                for (let input of childAgeSelect) {
+                                    if (input.value === '0') {
+                                        allValid = false;
+                                        input.style.border = "2px solid red"
+                                    }
+                                }
+                                if (!allValid) {
+                                    const msg = document.createElement('p');
+                                    msg.textContent = 'Children age is required for booking rooms'
+                                    msg.style.color = 'red';
+                                    msg.style.margin = '0px';
+                                    childrenAgeContainer.appendChild(msg);
 
-                    // Create the cart HTML for selected rooms
-                    let cartHtml = selectedRooms.map((room, index) => {
-                        const roomTotal = room.discounted_price + room.tax;
-                        total += roomTotal; // Calculate total cost
-                        return `
-            <div class="border p-3 px-2 mb-3">
-                <div class="d-flex justify-content-between">
-                    <h6 class="fw-bold mb-0">${room.room_name}</h6>
-                    <h6 class="mb-0">₹${room.discounted_price.toFixed(2)}</h6>
-                </div>
-                <p class="text-muted small mb-1">${nights} Night${nights > 1 ? 's' : ''} stay</p>
-                <div class="d-flex justify-content-between">
-                    <p class="mb-0">Taxes and Fees</p>
-                    <p class="mb-0">₹${room.tax.toFixed(2)}</p>
-                </div>
-                <p class="text-muted small mt-2 mb-1 fw-bold">${room.check_in} - ${room.check_out}</p>
-                <p class="text-muted small fw-bold mb-0">${room.adults} Adult${room.adults > 1 ? 's' : ''}</p>
-                 <div class="mt-2">
-                    <label>Bed Type:</label>
-                    <input type="radio" name="bed_type_${index}" value="Twin" ${room.bed_type === "Twin" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'Twin')"> Twin
-                    <input type="radio" name="bed_type_${index}" value="King" ${room.bed_type === "King" ? "checked" : ""} onclick="updateRoomDetail(${index}, 'bed_type', 'King')"> King
-                </div>
-                 <!-- Food Preferences -->
-                <div class="mt-2">
-                    <label>Food:</label>
-                    <input type="checkbox" ${room.food_preferences.includes("Dinner") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Dinner')"> Dinner
-                    <input type="checkbox" ${room.food_preferences.includes("Lunch") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Lunch')"> Lunch
-                    <input type="checkbox" ${room.food_preferences.includes("Breakfast") ? "checked" : ""} onclick="toggleFoodPreference(${index}, 'Breakfast')"> Breakfast
-                </div> 
-                <div>
-                    <span onclick="removeRoom(${room.id})" class="text-decoration-none text-warning">Remove</span>
-                </div>
-            </div>
-        `;
-                    }).join("");
+                                }
+                                return allValid;
+                            }
+                            function handleBookNow(e, roomId, mealId) {
+                                if (!validateChildren(e)) {
+                                    e.preventDefault()
+                                    return;
+                                }
+                                return new Promise((resolve, reject) => {
+                                    const checkInDate = document.getElementById('checkIn').value; // Assuming you have an input field with id 'checkIn'
+                                    const checkOutDate = document.getElementById('checkOut').value; // Assuming you have an input field with id 'checkOut'
+                                    const adultsCount = parseInt(document.getElementById(`adults${roomIndex + 1}`).value) || 1;
+                                    const childrenCount = parseInt(document.getElementById(`children${roomIndex + 1}`).value) || 0;
+                                    const totalPerson = adultsCount + childrenCount;
+                                    if (selectedRooms.length >= maxRooms) {
+                                        alert(`You can only select up to ${maxRooms} room(s).`);
+                                        reject("Maximum rooms exceeded.");
+                                        return;
+                                    }
+                                    const nights =calculateNights(checkInDate,checkOutDate);
+                                    const url = `<%= APP_URL %>api/getRoomDetails?room_id=${roomId}&meal_id=${mealId}&adult=${adultsCount}&child=${childrenCount}&nights=${nights}`;
 
-                    const totalHtml = `
-        <div class="d-flex justify-content-between fw-bold">
-            <h5 class="mb-0">Total</h5>
-            <h5 class="mb-0 fw-bold">₹${total.toFixed(2)}</h5>
-        </div>
-        <p class="text-muted VsmaTxt mb-0">Including taxes and fees</p>
-        <button class="btn btn-primary w-100 mt-3" onclick="openCheckoutModal()">Checkout</button>
-    `;
+                                    fetch(url)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data && data.success) {
+                                                const roomDetails = data.data; // Get the room details directly as it's an object now
 
-                    // Update inline cart container if it exists
-                    if (inlineCartContainer) {
-                        inlineCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
-                    }
+                                                // Directly merge the room details with user-specific details
+                                                const roomWithUserDetails = {
+                                                    ...roomDetails, // Spread the room details (base_price, discounted_price, etc.)
+                                                    check_in: checkInDate,
+                                                    check_out: checkOutDate,
+                                                    child: childrenCount,
+                                                    adults: adultsCount,
+                                                    food_preferences: 'nothing'
+                                                };
+                                                selectedRooms.push(roomWithUserDetails);
+                                                // console.log(selectedRooms, 'hello');
+                                                console.log(roomIndex, 'room index');
+                                                if (roomIndex < maxRooms - 1) {
+                                                    roomIndex++; // Increment only if roomIndex is less than maxRooms
+                                                    updateFormForRooms(roomIndex);
+                                                }
+                                                updateCart(roomDetails);
+                                                resolve();
+                                            } else {
+                                                console.error("Failed to fetch room details.");
+                                                reject("Failed to fetch room details.");
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error("Error:", error);
+                                            reject(error);
+                                        });
+                                });
+                            }
+                            function updateCart(roomDetails) {
+                                const inlineCartContainer = document.querySelector(".booking-form-container.d-lg-block .cart-body");
+                                const offcanvasCartContainer = document.querySelector("#cartOffcanvas .cart-body");
+                                const roomCountElement = document.getElementById("roomCount"); // Counter element in the floating cart box
+                                const openCartBox = document.getElementById("openCartBox");
+                                const cartHeader = document.querySelectorAll(".cart-header h4 span"); // Select all cart headers
+                                const checkInDate = document.getElementById("checkIn").value; // Get check-in date
+                                const checkOutDate = document.getElementById("checkOut").value;
+                                const nights = calculateNights(checkInDate, checkOutDate);
+                                let total = 0;
 
-                    // Update offcanvas cart container if it exists
-                    if (offcanvasCartContainer) {
-                        offcanvasCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
+                                // Create the cart HTML for selected rooms
+                                let cartHtml = selectedRooms.map((room, index) => {
+                                    const roomTotal = room.total_price;
+                                    total += roomTotal; // Calculate total cost
+                                    return `
+                                        <div class="border p-3 px-2 mb-3">
+                                            <h5>Room ${index + 1}</h5>
+                                            <div class="d-flex justify-content-between">
+                                                <h6 class="fw-bold mb-0">${room.room_name}</h6>
+                                                <h6 class="mb-0">₹${room.discounted_price.toFixed(2)}</h6>
+                                            </div>
+                                            <p class="text-muted small mb-1">${nights} Night${nights > 1 ? 's' : ''} stay</p>
+                                            <div class="">
+                                                <p class="mb-0">Taxes</p>
+                                                <p class="mb-0">Gst:₹${room.gst_amount.toFixed(2)}</p>
+                                                <p class="mb-0">Sgst:₹${room.sgst.toFixed(2)}</p>
+                                                <p class="mb-0">Cgst:₹${room.cgst.toFixed(2)}</p>
+                                            </div>
+                                            <p class="text-muted small mt-2 mb-1 fw-bold">${room.check_in} - ${room.check_out}</p>
+                                            <p class="text-muted small fw-bold mb-0">
+                                            ${room.adults} Adult${room.adults > 1 ? 's' : ''} 
+                                            ${room.child > 0 ? `and ${room.child} Child${room.child > 1 ? 'ren' : ''}` : ''} </p>
+                                            <div><button class="border-0 bg-transparent text-warning" onclick="removeRoom(${index})">remove</button></div>
 
-                        // Open the offcanvas dynamically
-                        // const offcanvasElement = document.getElementById("cartOffcanvas");
-                        // const offcanvasInstance = new bootstrap.Offcanvas(offcanvasElement);
-                        // offcanvasInstance.show();
-                    }
+                                            
+                                        </div>
+                                    `;
+                                }).join("");
 
-                    // Update all cart headers
-                    const itemCount = selectedRooms.length;
-                    cartHeader.forEach(header => {
-                        header.textContent = `${itemCount} Item${itemCount !== 1 ? 's' : ''}`;
-                    });
-                    roomCountElement.textContent = itemCount;
+                                const totalHtml = `
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <h5 class="mb-0">Total</h5>
+                                        <h5 class="mb-0 fw-bold">₹${total.toFixed(2)}</h5>
+                                    </div>
+                                    <p class="text-muted VsmaTxt mb-0">Including taxes and fees</p>
+                                    <button class="btn btn-primary w-100 mt-3" onclick="openCheckoutModal()">Checkout</button>
+                                `;
+                                saveSelectedRoomsToStorage();
+                                // Update inline cart container if it exists
+                                if (inlineCartContainer) {
+                                    inlineCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
+                                }
 
-                    // Apply scale-up animation to the floating cart box
-                    openCartBox.classList.add("scale-up");
-                    setTimeout(() => {
-                        openCartBox.classList.remove("scale-up");
-                    }, 300);
-                }
+                                // Update offcanvas cart container if it exists
+                                if (offcanvasCartContainer) {
+                                    offcanvasCartContainer.innerHTML = `${cartHtml} ${totalHtml}`;
 
-                function updateRoomDetail(index, field, value) {
-                    selectedRooms[index][field] = value;
-                    updateCart();
-                }
-                function toggleFoodPreference(index, food) {
-                    const preferences = selectedRooms[index].food_preferences;
-                    if (preferences.includes(food)) {
-                        preferences.splice(preferences.indexOf(food), 1);
-                    } else {
-                        preferences.push(food);
-                    }
-                    updateCart();
-                }
-                // creat demo booking here
-                function openCheckoutModal() {
-                    const totalAmount = selectedRooms.reduce((sum, room) => {
-                        return sum + (room.discounted_price + room.tax);
-                    }, 0);
+                                    // Open the offcanvas dynamically
+                                    // const offcanvasElement = document.getElementById("cartOffcanvas");
+                                    // const offcanvasInstance = new bootstrap.Offcanvas(offcanvasElement);
+                                    // offcanvasInstance.show();
+                                }
 
-                    const bookingDetails = {
-                        rooms: selectedRooms.map(room => ({
-                            room_id: room.id,
-                            check_in: room.check_in,
-                            check_out: room.check_out,
-                            adults: room.adults,
-                            bed_type: room.bed_type,
-                            food_preferences: room.food_preferences
-                        })),
-                        total_price: totalAmount,
-                        hotel_id:<%=hotel.id %>
+                                // Update all cart headers
+                                const itemCount = selectedRooms.length;
+                                cartHeader.forEach(header => {
+                                    header.textContent = `${itemCount} Item${itemCount !== 1 ? 's' : ''}`;
+                                });
+                                roomCountElement.textContent = itemCount;
+
+                                // Apply scale-up animation to the floating cart box
+                                openCartBox.classList.add("scale-up");
+                                setTimeout(() => {
+                                    openCartBox.classList.remove("scale-up");
+                                }, 300);
+                            }
+
+                            
+                            function toggleFoodPreference(index, food) {
+                                const preferences = selectedRooms[index].food_preferences;
+                                if (preferences.includes(food)) {
+                                    preferences.splice(preferences.indexOf(food), 1);
+                                } else {
+                                    preferences.push(food);
+                                }
+                                updateCart();
+                            }
+                            // creat demo booking here
+                            function openCheckoutModal() {
+                                const userId = <%= session.user_id ? true : false %>;
+                                if (!userId) {
+                                    // If the user is not logged in, show the login modal
+                                    const loginModal = new bootstrap.Modal(document.getElementById('loginmodal'));
+                                    loginModal.show();
+                                    reject("User not logged in.");
+                                    return;
+                                }
+                                const checkInDate = document.getElementById("checkIn").value; // Get check-in date
+                                const checkOutDate = document.getElementById("checkOut").value;
+                                const totalAmount = selectedRooms.reduce((sum, room) => {
+                                    return sum + (room.total_price);
+                                }, 0);
+
+                                const bookingDetails = {
+                                    rooms: selectedRooms.map(room => ({
+                                        room_id: room.id,
+                                        check_in: checkInDate,// get it with room detail
+                                        check_out: checkOutDate,// same with that
+                                        adults: room.adults,// same
+                                        children: room.child,//same
+                                        bed_type: 'Twin',// same with it
+                                    })),
+                                    total_price: totalAmount,
+                                    hotel_id:<%=hotel.id %>
                     };
 
-                    const url = `<%= APP_URL %>api/createBooking`;
+                                const url = `<%= APP_URL %>api/createBooking`;
+                                console.log(selectedRooms);
 
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(bookingDetails)
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                console.log('Booking created successfully:', data.bookingId);
-                                // Now open the modal to get user details
-                                userDetailPopUp(data.bookingId); // Assuming the booking ID is returned
-                            } else {
-                                console.error('Failed to create booking:', data.message);
-                                alert('There was an issue creating your booking. Please try again.');
+                                fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(bookingDetails)
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            console.log('Booking created successfully:', data.bookingId);
+                                            // Now open the modal to get user details
+                                            userDetailPopUp(data.bookingId); // Assuming the booking ID is returned
+                                        } else {
+                                            console.error('Failed to create booking:', data.message);
+                                            alert('There was an issue creating your booking. Please try again.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('An error occurred. Please try again later.');
+                                    });
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred. Please try again later.');
-                        });
-                }
 
 
-                function removeRoom(roomId) {
-                    const index = selectedRooms.findIndex(room => room.id === roomId);
-
-                    if (index !== -1) {
-                        selectedRooms.splice(index, 1);
-                    }
-
-                    updateCart();
-                }
-                function calculateNights(checkInDate, checkOutDate) {
-                    const checkIn = new Date(checkInDate);
-                    const checkOut = new Date(checkOutDate);
-                    const timeDifference = checkOut - checkIn;
-                    const nights = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
-                    return nights;
-                }
-
-                document.addEventListener("DOMContentLoaded", function () {
-                    const formElement = document.querySelector('.booking-form-container');
-                    const hotelAboutSection = document.getElementById('hotelAboutSection');
-
-                    window.addEventListener('scroll', function () {
-                        // Check if the form element height is greater than 400px
-                        if (formElement.offsetHeight < 800) {
-                            let sectionRect = hotelAboutSection.getBoundingClientRect();
-                            let formHeight = formElement.offsetHeight;
-                            let sectionTop = sectionRect.top + window.pageYOffset;
-                            let sectionBottom = sectionTop + sectionRect.height;
-                            let scrollPosition = window.pageYOffset;
-
-                            let distanceFromBottom = sectionBottom - scrollPosition;
-
-                            if (scrollPosition > sectionTop && distanceFromBottom > formHeight) {
-                                formElement.style.position = 'fixed';
-                                formElement.style.top = '120px';
-                                formElement.style.width = 'calc(100% - 72.66666%)';
+                            function removeRoom(index) {
+                                if (index !== -1) {
+                                    selectedRooms.splice(index, 1);
+                                }
+                                saveSelectedRoomsToStorage();
+                                updateCart();
                             }
-                            else if (distanceFromBottom <= formHeight) {
-                                formElement.style.position = 'fixed';
-                                formElement.style.width = 'calc(100% - 72.66666%)';
-                                formElement.style.top = (distanceFromBottom - formHeight) + 'px';
+                            function calculateNights(checkInDate, checkOutDate) {
+                                const checkIn = new Date(checkInDate);
+                                const checkOut = new Date(checkOutDate);
+                                const timeDifference = checkOut - checkIn;
+                                const nights = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+                                console.log(nights);
+                                return nights;
                             }
-                            else {
-                                formElement.style.position = 'relative';
-                                formElement.style.top = 'auto';
-                                formElement.style.width = 'calc(100%)';
-                            }
-                        } else {
-                            // If form height is less than or equal to 400px, reset to relative positioning
-                            formElement.style.position = 'relative';
-                            formElement.style.top = 'auto';
-                            formElement.style.width = 'calc(100%)';
-                        }
-                    });
-                });
 
-                function userDetailPopUp(bookingId) {
-                    const url = `<%=APP_URL %>api/bookingDetail/${bookingId}`;
-                    fetch(url).then(response => response.json()).then(data => {
-                        if (data.success) {
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const formElement = document.querySelector('.booking-form-container');
+                                const hotelAboutSection = document.getElementById('hotelAboutSection');
 
-                            console.log(data);
-                            const modalBody = document.getElementById('booking-details-body');
+                                window.addEventListener('scroll', function () {
+                                    // Check if the form element height is greater than 400px
+                                    if (formElement.offsetHeight < 800) {
+                                        let sectionRect = hotelAboutSection.getBoundingClientRect();
+                                        let formHeight = formElement.offsetHeight;
+                                        let sectionTop = sectionRect.top + window.pageYOffset;
+                                        let sectionBottom = sectionTop + sectionRect.height;
+                                        let scrollPosition = window.pageYOffset;
 
-                            // Clear any existing content in the modal body
-                            modalBody.innerHTML = '';
+                                        let distanceFromBottom = sectionBottom - scrollPosition;
 
-                            // Loop through rooms and create dynamic HTML structure
-                            let bookingCards = '';
-                            data.booking.rooms.forEach(room => {
-                                const foodPreferences = room.food_preferences.join(', ') || 'None';
-                                const checkInDate = new Date(room.check_in).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
-                                const checkOutDate = new Date(room.check_out).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
-                                bookingCards += `
-                    <div class="card booking-card m-2" style="min-width: 24rem;">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">${room.room_name}   </h5>
-                            </div>
-                            <div class="d-flex gap-3"><p class="text-muted small mb-2"><strong>${room.nights}</strong> stay</p><p class="text-muted small mb-2">${checkInDate} - ${checkOutDate}</p></div>
-                            <div class="d-flex gap-3"><div class="mb-2">
-                                <strong>Bed Type:</strong>
-                                <span class="text-secondary">${room.bed_type}</span>
-                            </div><div class="mb-2">
-                                <strong>Food:</strong>
-                                <span class="text-secondary">${foodPreferences}</span>
-                            </div></div>
-                        </div>
-                    </div>
-                `;
+                                        if (scrollPosition > sectionTop && distanceFromBottom > formHeight) {
+                                            formElement.style.position = 'fixed';
+                                            formElement.style.top = '120px';
+                                            formElement.style.width = 'calc(100% - 72.66666%)';
+                                        }
+                                        else if (distanceFromBottom <= formHeight) {
+                                            formElement.style.position = 'fixed';
+                                            formElement.style.width = 'calc(100% - 72.66666%)';
+                                            formElement.style.top = (distanceFromBottom - formHeight) + 'px';
+                                        }
+                                        else {
+                                            formElement.style.position = 'relative';
+                                            formElement.style.top = 'auto';
+                                            formElement.style.width = 'calc(100%)';
+                                        }
+                                    } else {
+                                        // If form height is less than or equal to 400px, reset to relative positioning
+                                        formElement.style.position = 'relative';
+                                        formElement.style.top = 'auto';
+                                        formElement.style.width = 'calc(100%)';
+                                    }
+                                });
                             });
 
-                            // Add the generated HTML content for the rooms
-                            modalBody.innerHTML = `
-                <div class="d-flex justify-content-start" style="
-    overflow-x: auto;
-">
-                    ${bookingCards}
-                </div>
-                <form>
-                    <div class="row">
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" value="<%=user.name %>" id="name" placeholder="Enter your name">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" value="<%=user.email %>" id="email" placeholder="Enter your email">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="mobile">Mobile</label>
-                                <input type="tel" class="form-control" id="mobile" value="<%=user.phone %>" placeholder="Enter your mobile number">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="country">Country</label>
-                                <input type="text" class="form-control" id="country" placeholder="Enter your country">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="Enter your address">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" placeholder="Enter your city">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" name="additional" id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Additional info...</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
-                        <div>
-                            <p class="fw-bold mb-0">Total Price (Tax Included): <span class="text-success fw-bold">₹${data.booking.total_price}</span></p>
-                        </div>
-                        <div class="d-flex flex-md-grow-0 flex-grow-1 gap-2">
-                            <button type="submit" class="btn btn-primary flex-grow-1" data-bs-dismiss="modal" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
-                            <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
-                        </div>
-                    </div>
-                </form>
-            `;
-                            const modal = document.getElementById('usesr_booking_detail');
-                            const om = new bootstrap.Modal(modal);
-                            om.show();
-                        }
-                    }).catch(error => {
-                        console.error('Error :', error);
-                    });
-                }
-                function submitBookingForm(event, bookingId) {
-                    // Prevent default form submission
-                    event.preventDefault();
-                    const form = document.getElementById('confirm-booking-form');
+                            function userDetailPopUp(bookingId) {
+                                const url = `<%=APP_URL %>api/bookingDetail/${bookingId}`;
+                                fetch(url).then(response => response.json()).then(data => {
+                                    if (data.success) {
 
-                    // Collect form data
-                    const formData = {
-                        name: document.getElementById('name').value,
-                        email: document.getElementById('email').value,
-                        mobile: document.getElementById('mobile').value,
-                        country: document.getElementById('country').value,
-                        address: document.getElementById('address').value,
-                        city: document.getElementById('city').value,
-                        additional: document.getElementById('floatingTextarea2').value,
-                    };
+                                        console.log(data);
+                                        const modalBody = document.getElementById('booking-details-body');
 
-                    // API endpoint with bookingId
-                    const url = `<%= APP_URL %>api/confirmBooking/${bookingId}`;
+                                        // Clear any existing content in the modal body
+                                        modalBody.innerHTML = '';
 
-                    // Send a POST request to the API
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Booking confirmed successfully!');
-                                // Additional actions (e.g., close modal, clear form)
-                            } else {
-                                alert('Failed to confirm booking: ' + data.message);
+                                        // Loop through rooms and create dynamic HTML structure
+                                        let bookingCards = '';
+                                        data.booking.rooms.forEach(room => {
+                                            const foodPreferences = room.food_preferences.join(', ') || 'None';
+                                            const checkInDate = new Date(room.check_in).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
+                                            const checkOutDate = new Date(room.check_out).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' });
+                                            bookingCards += `
+                                                <div class="card booking-card m-2" style="min-width: 24rem;">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <h5 class="card-title mb-0">${room.room_name}   </h5>
+                                                        </div>
+                                                        <div class="d-flex gap-3"><p class="text-muted small mb-2"><strong>${room.nights}</strong> Night${room.nights >= 2 ? 's' : ''} stay</p><p class="text-muted small mb-2">${checkInDate} - ${checkOutDate}</p></div>
+                                                        <div class="d-flex gap-3"><div class="mb-2">
+                                                            <strong>Bed Type:</strong>
+                                                            <span class="text-secondary">${room.bed_type}</span>
+                                                        </div>
+                                                    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `;
+                                        });
+
+                                        // Add the generated HTML content for the rooms
+                                        modalBody.innerHTML = `
+                                                <div class="d-flex justify-content-start" style="overflow-x: auto;">
+                                                    ${bookingCards}
+                                                </div>
+                                                <form>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="name">Name</label>
+                                                                <input type="text" class="form-control" value="<%=user.name %>" id="name" placeholder="Enter your name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="email">Email</label>
+                                                                <input type="email" class="form-control" value="<%=user.email %>" id="email" placeholder="Enter your email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="mobile">Mobile</label>
+                                                                <input type="tel" class="form-control" id="mobile" value="<%=user.phone %>" placeholder="Enter your mobile number">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="country">Country</label>
+                                                                <input type="text" class="form-control" id="country" placeholder="Enter your country">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="address">Address</label>
+                                                                <input type="text" class="form-control" id="address" placeholder="Enter your address">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="city">City</label>
+                                                                <input type="text" class="form-control" id="city" placeholder="Enter your city">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <textarea class="form-control" placeholder="Leave a comment here" name="additional" id="floatingTextarea2" style="height: 100px"></textarea>
+                                                                <label for="floatingTextarea2">Additional info...</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
+                                                        <div>
+                                                            <p class="fw-bold mb-0">Total Price (Tax Included): <span class="text-success fw-bold">₹${data.booking.total_price}</span></p>
+                                                        </div>
+                                                        <div class="d-flex flex-md-grow-0 flex-grow-1 gap-2">
+                                                            <button type="submit" class="btn btn-primary flex-grow-1" data-bs-dismiss="modal" onclick="submitBookingForm(event ,${bookingId})">Submit</button>
+                                                            <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal" onclick="cancelBooking()">Cancel booking</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            `;
+                                        const modal = document.getElementById('usesr_booking_detail');
+                                        const om = new bootstrap.Modal(modal);
+                                        om.show();
+                                    }
+                                }).catch(error => {
+                                    console.error('Error :', error);
+                                });
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('There was an error confirming the booking. Please try again.');
-                        });
-                }
-                function cancelBooking() {
-                    // Redirect to the hotel page URL
-                    window.location.href = `<%=APP_URL %>hotel/<%=hotelName %>`;
-                }
-            </script>
+                            function submitBookingForm(event, bookingId) {
+                                // Prevent default form submission
+                                event.preventDefault();
+                                const form = document.getElementById('confirm-booking-form');
+
+                                // Collect form data
+                                const formData = {
+                                    name: document.getElementById('name').value,
+                                    email: document.getElementById('email').value,
+                                    mobile: document.getElementById('mobile').value,
+                                    country: document.getElementById('country').value,
+                                    address: document.getElementById('address').value,
+                                    city: document.getElementById('city').value,
+                                    additional: document.getElementById('floatingTextarea2').value,
+                                };
+
+                                // API endpoint with bookingId
+                                const url = `<%= APP_URL %>api/confirmBooking/${bookingId}`;
+
+                                // Send a POST request to the API
+                                fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(formData)
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert('Booking confirmed successfully!');
+                                            clearSelectedRoomsFromStorage();
+                                            // Additional actions (e.g., close modal, clear form)
+                                        } else {
+                                            alert('Failed to confirm booking: ' + data.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('There was an error confirming the booking. Please try again.');
+                                    });
+                            }
+                            function cancelBooking() {
+                                // Redirect to the hotel page URL
+                                window.location.href = `<%=APP_URL %>hotel/<%=hotelName %>`;
+                            }
+                 <% } %>
+                            // pages refrash by himashu
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const formInputs = document.querySelectorAll('#reservationForm input, #reservationForm select');
+                                const childrenAgeDropdowns = document.querySelectorAll('#children_age select');
+                                const reservationForm = document.querySelector('#reservationForm'); // Ensure this targets the form
+
+                                // Helper function to check if all inputs are filled
+                                function checkAllInputsFilled() {
+                                    let allFilled = true;
+
+                                    // Check if child ages are selected
+                                    childrenAgeDropdowns.forEach((dropdown) => {
+                                        if (!dropdown.value) {
+                                            allFilled = false;
+                                        }
+                                    });
+
+                                    // Check other form inputs
+                                    formInputs.forEach((input) => {
+                                        if (!input.value) {
+                                            allFilled = false;
+                                        }
+                                    });
+
+                                    return allFilled;
+                                }
+
+                                // Helper function to update children_age field
+                                function updateChildrenAgeField() {
+                                    const childrenAges = Array.from(childrenAgeDropdowns)
+                                        .map((dropdown) => dropdown.value)
+                                        .join(',');
+
+                                    // Add or update the hidden input for children_age
+                                    let childrenAgeField = document.querySelector('#childrenAgeField');
+                                    if (!childrenAgeField) {
+                                        childrenAgeField = document.createElement('input');
+                                        childrenAgeField.type = 'hidden';
+                                        childrenAgeField.name = 'children_age';
+                                        childrenAgeField.id = 'childrenAgeField';
+                                        reservationForm.appendChild(childrenAgeField);
+                                    }
+                                    childrenAgeField.value = childrenAges;
+                                }
+
+                                // Event handler for form changes
+                                function handleChange() {
+                                    updateChildrenAgeField(); // Update the hidden input with the correct children ages
+
+                                    if (checkAllInputsFilled()) {
+                                        reservationForm.submit(); // Automatically submit the form
+                                    }
+                                }
+
+                                // Add event listeners to all form elements
+                                [...formInputs, ...childrenAgeDropdowns].forEach((input) => {
+                                    input.addEventListener('change', handleChange);
+                                });
+                            });
+                        // update form
+
+
+                        function generateChildAgeFields(childrenCount, roomIndex) {
+                            let childAgeFields = '';
+
+                            for (let i = 1; i <= childrenCount; i++) {
+                                childAgeFields += `
+                                <div class="flex-grow-1 w-100 d-flex flex-column">
+                                    <label for="childAge${roomIndex + 1}_${i}">
+                                        Child ${i} Age:<span><i class="fa-solid fa-asterisk text-danger"></i></span>
+                                    </label>
+                                    <div class="w-100 border p-2">
+                                        <select name="childAge${roomIndex + 1}_${i}" id="childAge${roomIndex + 1}_${i}" class="childAgeSelect bg-transparent border-0 w-100">
+                                            ${generateAgeOptions()}
+                                        </select>
+                                    </div>
+                                </div>
+                            `;
+                            }
+
+                            return childAgeFields;
+                        }
+
+                        function generateAgeOptions() {
+                            let options = '';
+                            for (let j = 0; j <= 11; j++) {
+                                options += `<option value="${j}">${j}</option>`;
+                            }
+                            return options;
+                        }
+                        // local storage
+                        function saveSelectedRoomsToStorage() {
+                            const selectedRoomsData = JSON.stringify(selectedRooms); // `selectedRooms` is the array of selected room details
+                            localStorage.setItem('selectedRooms', selectedRoomsData);
+                        }
+                        // remove rooms from local stroge
+                        function clearSelectedRoomsFromStorage() {
+                            localStorage.removeItem('selectedRooms');
+                        }
+                        function loadSelectedRoomsFromStorage() {
+                            const savedRooms = localStorage.getItem('selectedRooms');
+                            if (savedRooms) {
+                                const parsedRooms = JSON.parse(savedRooms);
+
+                                // Clear the current array and repopulate
+                                selectedRooms.splice(0, selectedRooms.length, ...parsedRooms);
+
+                                // Update the cart with each room's details
+                                parsedRooms.forEach(roomDetails => {
+                                    updateCart(roomDetails); // Pass room details to updateCart
+                                });
+                            }
+                        }
+
+                        // call local stroge
+                        window.onload = () => {
+                            loadSelectedRoomsFromStorage();
+                        };
+                    </script>

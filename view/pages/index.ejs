@@ -184,7 +184,7 @@
 
       }
 
-      
+
       .imgHov {
         box-shadow: 12px 12px 1px 0 rgb(56, 56, 56), -12px -12px 1px 0 rgb(132, 207, 250);
         transition: box-shadow 0.4s ease-in-out;
@@ -208,7 +208,7 @@
         }
       }
 
-    
+
       .services-right .icon-box {
         flex-direction: row-reverse;
       }
@@ -244,7 +244,7 @@
         border-radius: 10px;
         object-fit: cover;
         transform: translate(0px, 10px);
-        
+
       }
 
       .icon-box {
@@ -257,7 +257,7 @@
         transition: box-shadow 0.3s ease;
         transform: translateX(var(--angle));
         gap: 5px;
-        
+
       }
 
       .icon-box:hover {
@@ -272,7 +272,8 @@
       .icon-box h3 {
         font-size: 1.2rem;
         margin-top: 10px;
-        font-weight: 800;;
+        font-weight: 800;
+        ;
         font-family: "Inter", sans-serif !important;
       }
 
@@ -290,41 +291,53 @@
         border-radius: 50%;
         overflow: hidden;
       }
-      .image-center.sm_sc{
+
+      .image-center.sm_sc {
         display: none;
       }
+
       @media (max-width: 1024px) {
-      .grid-container {
-        grid-template-columns: 1fr 1fr; /* 2 columns */
-    }
-    .image-center.sm_sc{
-        display: flex;
+        .grid-container {
+          grid-template-columns: 1fr 1fr;
+          /* 2 columns */
+        }
+
+        .image-center.sm_sc {
+          display: flex;
+        }
+
+        .image-center.sm_sc img {
+          transform: translate(0px, 10px) rotateX(153deg) rotateZ(180deg);
+        }
       }
-      .image-center.sm_sc img{
-        transform: translate(0px, 10px) rotateX(153deg) rotateZ(180deg);
-      }
-}
+
       @media (max-width: 576px) {
-      .grid-container {
-        grid-template-columns: 1fr; /* 2 columns */
-    }
-    .image-center{
-        display: none;
+        .grid-container {
+          grid-template-columns: 1fr;
+          /* 2 columns */
+        }
+
+        .image-center {
+          display: none;
+        }
+
+        .image-center.sm_sc {
+          display: none;
+        }
+
+        .icon-box {
+          transform: none;
+        }
+
+        .services-right .icon-box {
+          flex-direction: row;
+        }
+
+        #hero .hero-container {
+          top: unset;
+          transform: unset;
+        }
       }
-    .image-center.sm_sc{
-        display: none;
-      }
-      .icon-box {
-        transform: none;
-      }
-      .services-right .icon-box {
-        flex-direction: row;
-      }
-      #hero .hero-container {
-    top: unset;
-    transform: unset;
-}
-}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
     <section id="hero" style="padding: 0px;">
@@ -335,7 +348,7 @@
         <section class="rowa">
           <div class="container">
             <div align="left">
-              <form action="<%=APP_URL%>hotelroomdetail" method="get"
+              <form action="<%=APP_URL%>book-now" method="get"
                 class="row m0 find-quick-form text-center search aaseaform" style="margin-left:0px;margin-top: 0px;">
                 <div class="row" id="bookform">
                   <div class="col-md-12 text-start mb-3">
@@ -397,17 +410,21 @@
                   </div>
                   <script>
                     function city() {
-                      let destination = $("#destination").val();
-                      $.get("/fhotel/" + destination,
-                        function (data, status) {
-                          $('#hotel').html(data);
+                      let destination = document.getElementById("destination").value;
+
+                      fetch("/fhotel/" + destination)
+                        .then(response => response.text())
+                        .then(data => {
+                          document.getElementById("hotel").innerHTML = data;
                           console.log(data);
-                        });
+                        })
+                        .catch(error => console.error('Error:', error));
                     }
+
                   </script>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="hotel" required class="form-control" style="color: #fff;
+                      <select name="hotel_id" required class="form-control" style="color: #fff;
                           background: #6ea0e300;" id="hotel">
                         <option value="" style="background: #3b72b0;">Choose Hotel</option>
                       </select>
@@ -415,7 +432,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <input type="text" id="checkin" name="checkin" value="Check-in" class="form-control"
+                      <input type="text" id="checkin" name="check_in" value="Check-in" class="form-control"
                         onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
                         style="color: #fff;
                           background: #6ea0e300;">
@@ -423,7 +440,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <input type="text" id="checkout" name="checkout" value="Check-out" class="form-control"
+                      <input type="text" id="checkout" name="check_out" value="Check-out" class="form-control"
                         onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
                         style="color: #fff;
                           background: #6ea0e300;">
@@ -431,7 +448,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <input type="text" name="room" id="room" value="Room(s)" class="form-control"
+                      <input type="text" name="rooms" id="room" value="Room(s)" class="form-control"
                         style="color: #fff; background: #6ea0e300;"
                         onfocus="if(this.type == 'text') this.type='number';if(this.value == '') this.value=1">
                     </div>
@@ -450,7 +467,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <select name="child" id="child" class="form-control" style="color: #fff;
+                      <select name="children" id="child" class="form-control" style="color: #fff;
                       background: #6ea0e300;">
                         <option style="background: #3b72b0;">Children (5 to 11 years old)</option>
                         <option style="background: #3b72b0;" value="1">1</option>
@@ -460,7 +477,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <!-- <div class="col-md-4">
                     <div class="form-group">
                       <select name="child" id="child" class="form-control" style="color: #fff;
                       background: #6ea0e300;">
@@ -471,7 +488,7 @@
                         <option style="background: #3b72b0;" value="4">4</option>
                       </select>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-md-4">
                     <div class="form-group">
                       <input type="text" name="coupon" id="coupon" value="Coupon(s)" class="form-control"
@@ -700,8 +717,7 @@
                 style="height: 100%;width: 100%;object-fit: cover;">
               <div style="background: white;    bottom: -2px;" class=" position-absolute">
                 <h3>Hotels in Bangalore</h3>
-                <p class="text-end mb-0 fw-bold"><a href="<%=APP_URL%>hotels"
-                    class="inter"> view More</a></p>
+                <p class="text-end mb-0 fw-bold"><a href="<%=APP_URL%>hotels" class="inter"> view More</a></p>
               </div>
 
             </div>
@@ -834,7 +850,7 @@
           <div class="image-center sm_sc">
             <!-- Image goes here -->
             <img src="<%=APP_URL%>/assets/img/girl.png" alt="Center Image">
-          </div> 
+          </div>
 
           <div class="services-right">
             <!-- Next 6 services -->
@@ -949,48 +965,45 @@
 
             <!-- Contact form -->
             <div class="col-md-6 col-12">
-              <% if (typeof success !== 'undefined' && success.length > 0) { %>
-                <div class="alert alert-success">
-                  <%= success %>
-                </div>
-              <% } %>
-              
-              <% if (typeof error !== 'undefined' && error.length > 0) { %>
-                <div class="alert alert-danger">
-                  <%= error %>
-                </div>
-              <% } %>
-              
-            
-              <form role="form" name="ajax-form" id="ajax-form" action="contact" method="post" class="form-main">
-                <input type="hidden" name="redirectTo" value="index">
+
+
+
+              <form id="ajax-form" action="/contact" method="post" class="form-main">
+                <!-- <input type="hidden" name="redirectTo" value="index"> -->
                 <div class="form-group">
-                  <label for="name2">Name</label>
-                  <input class="form-control" id="name" required name="name"  type="text" placeholder="Enter your name">
+                  <label for="name">Name</label>
+                  <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name" required>
                   <div class="error" id="err-name" style="display: none;">Please enter name</div>
-                </div> 
-                <div class="form-group">
-                  <label for="email2">Mobile</label>
-                  <input class="form-control" id="mobile" name="mobile" type="number" value="" placeholder="Enter your mobile number"> 
-                  <div class="error" id="err-emailvld" style="display: none;">Mobile is not a valid format</div>
                 </div>
                 <div class="form-group">
-                  <label for="email2">Email</label>
-                  <input class="form-control" id="email" required name="email" type="text" value="" placeholder="Enter your email">
-                  <div class="error" id="err-emailvld" style="display: none;">E-mail is not a valid format</div>
+                  <label for="mobile">Mobile</label>
+                  <input class="form-control" id="mobile" name="mobile" type="number"
+                    placeholder="Enter your mobile number">
+                  <div class="error" id="err-mobile" style="display: none;">Mobile is not valid</div>
                 </div>
                 <div class="form-group">
-                  <label for="message2">Type your query here</label>
-                  <textarea class="form-control" style="height: 60px;" id="message" required name="message" rows="4"></textarea>
-                  <div class="d-flex justify-content-end mt-4">
-                    <button type="submit" class="btn rounded-0 p-3 px-3 btnHover " style="width:150px;" id="send">Submit</button>
+                  <label for="email">Email</label>
+                  <input class="form-control" id="email" name="email" type="text" placeholder="Enter your email"
+                    required>
+                  <div class="error" id="err-emailvld" style="display: none;">E-mail is not valid</div>
+                </div>
+                <div class="form-group">
+                  <label for="message">Type your query here</label>
+                  <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                </div>
+                <div id="error-message" class="error" style="display: none; color: red;"></div>
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="submit" class="btn rounded-0 p-3 px-3 btnHover" id="send">Submit</button>
+                </div>
+              </form>
+              <div id="thanks-message" style="display: none;">
+                <h4>Thank you for your message!</h4>
+                <p>We will get back to you soon.</p>
+              </div>
 
-                  </div>
+            </div>
 
-              </form> <!-- /form -->
-            </div> 
-
-          </div> 
+          </div>
 
         </div>
       </section>
@@ -1019,7 +1032,7 @@
       <%- include('../partial/foot'); -%>
         <script
           src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> -->
         <script>
           window.setTimeout(function () {
             $('.aaseaform').hide();
@@ -1029,9 +1042,42 @@
           }
         </script>
         <script>
-          var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"WhatsApp Us","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"999999999","welcomeMessage":"hi","zIndex":999999,"btnColorScheme":"light"};
+          var wa_btnSetting = { "btnColor": "#16BE45", "ctaText": "WhatsApp Us", "cornerRadius": 40, "marginBottom": 20, "marginLeft": 20, "marginRight": 20, "btnPosition": "right", "whatsAppNumber": "999999999", "welcomeMessage": "hi", "zIndex": 999999, "btnColorScheme": "light" };
           window.onload = () => {
             _waEmbed(wa_btnSetting);
           };
         </script>
-      
+        <script>
+          document.getElementById("ajax-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            const formObject = {};
+            formData.forEach((value, key) => {
+              formObject[key] = value;
+              console.log(key, value);  // Debugging the form data
+            });
+            fetch(this.action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formObject)
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  document.getElementById("ajax-form").style.display = "none"; // Hide the form
+                  document.getElementById("thanks-message").style.display = "block"; // Show thank-you message
+                } else {
+                  document.getElementById("error-message").textContent = data.error || "An error occurred.";
+                  document.getElementById("error-message").style.display = "block";
+                }
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("error-message").textContent = "Something went wrong. Please try again later.";
+                document.getElementById("error-message").style.display = "block";
+              });
+          });
+        </script>9++

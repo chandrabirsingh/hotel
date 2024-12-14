@@ -10,16 +10,17 @@ module.exports = function (app, upload) {
     app.post('/login', homecontroller.login);
     app.post('/register', homecontroller.register);
     app.get('/hotels', homecontroller.hotels);
-    app.get('/hotel/:hotel_slug', homecontroller.hotelroomdetail);
+    app.get('/hotels/:hotel_slug', homecontroller.hotelroomdetail);
     app.get('/detailhotel', homecontroller.detailhotel);
     app.get('/detailhotel/:id', homecontroller.detailhotel);
+    app.get('/resorts/:resorts_slug', homecontroller.hotelroomdetail);
     app.get('/resorts', homecontroller.resorts);
-    app.get('/private-luxary-residency', homecontroller.private_luxary_residency);
+    app.get('/private-luxury -residency', homecontroller.private_luxuary_residency);
     app.get('/service-apartments', homecontroller.service_apartments);
     app.get('/meet-and-events', homecontroller.meet_and_events);
     app.post('/meet-and-events', homecontroller.meet_and_events);
     app.get('/e-gift-coupon', homecontroller.e_gift_coupon);
-    // // app.get('/ecouponbuy/:id', homecontroller.ecouponbuy);
+    // app.get('/ecouponbuy/:id', homecontroller.ecouponbuy);
 
     // app.get('/career', homecontroller.career);
     // app.post('/career',upload.any(), homecontroller.career);
@@ -37,6 +38,7 @@ module.exports = function (app, upload) {
     // app.get('/download-brochure', homecontroller.download_brochure);
     // app.get('/media-centre', homecontroller.media_centre);
     // app.get('/contact', homecontroller.contact);
+    app.post('/contact', homecontroller.contact);
     // app.get('/terms-conditions', homecontroller.terms_conditions);
     app.get('/book-now', homecontroller.booknow);
     app.post('/book-now', homecontroller.booknow);
@@ -91,10 +93,10 @@ module.exports = function (app, upload) {
         res.redirect('admin/login');
     });
     app.get('/fhotel/:id', (req, res) => {
-        config.con.query("SELECT * FROM hotel WHERE city='" + req.params.id + "'", (err, hotels) => {
+        config.con.query("SELECT * FROM hotels WHERE city='" + req.params.id + "'", (err, hotels) => {
             var a = '<option style="background: #3b72b0;">Choose Hotel</option>';
             hotels.forEach((city, index) => {
-                a += '<option style="background: #3b72b0;" value="' + city.id + '">' + city.hotel_name + '</option>';
+                a += '<option style="background: #3b72b0;" value="' + city.id + '">' + city.name + '</option>';
             });
             res.send(a);
         });

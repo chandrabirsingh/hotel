@@ -206,8 +206,30 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<%=APP_URL%>assets/vendor/swiper/swiper-bundle.min.js"></script>
   <!-- <script src="<%=APP_URL%>assets/js/main.js"></script> -->
- 
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-oI/BRjmO8nXYKoDmx8fw+E6Vmc5O9iOMn44oJG5jN3KwTr+d8cd8tXLeivI20vsd" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        const cityTabs = document.querySelectorAll('.city-tab');
+        const hotelLists = document.querySelectorAll('.hotel-list');
+
+        cityTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all city tabs
+                cityTabs.forEach(t => t.classList.remove('active'));
+
+                // Add active class to the clicked city
+                tab.classList.add('active');
+
+                // Hide all hotel lists
+                hotelLists.forEach(list => list.classList.add('d-none'));
+
+                // Show the hotel list for the selected city
+                const city = tab.getAttribute('data-city');
+                document.querySelector(`.hotel-list[data-city="${city}"]`).classList.remove('d-none');
+            });
+        });
+    });
     document.getElementById('redirectUrl').value = window.location.href;
 
 function googleTranslateElementInit() {

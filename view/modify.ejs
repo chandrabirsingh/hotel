@@ -13,6 +13,8 @@
                   <p>SKY DOOR HOTELS & RESORTS</p>
                   <div class="row">
                     <div class="col-12">
+
+                      <% if (bookdetail) { %> 
                       <form action="" method="post">
                         <input type="hidden" name="booking_id" value="<%=bookdetail.id%>">
                         <div class="form-group">
@@ -45,6 +47,12 @@
                           <a href="<%=APP_URL%>cancel/<%=bookdetail.id%>" class="btn btn-danger form-control">Cancel Booking</a>
                         </div>
                       </form>
+                      <% }else{ %> 
+                        <div class="alert alert-danger">
+                          <h4>No booking found!</h4>
+                          <p>Please ensure the booking ID is correct or contact support for assistance.</p>
+                        </div>
+                      <% } %> 
                     </div>
                     </div>
                   </div>

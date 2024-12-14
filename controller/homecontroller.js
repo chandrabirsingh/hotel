@@ -3,6 +3,8 @@ const config = require('../config.js');
 const crypto = require('crypto');
 // const { console } = require('inspector');
 const nodemailer = require("nodemailer");
+const date = require('date-and-time');
+const sendEmail = require('../helper/emailHelper');
 // const flash = require('connect-flash');
 // const session = require('express-session');
 // const { session } = require('passport');
@@ -101,9 +103,19 @@ exports.hotels = function (req, res) {
 
 exports.hotelroomdetail = function (req, res) {
     session = req.session;
-    const hotelSlug = req.params.hotel_slug; // Get the slug from the URL
+    console.log(req.params);
+    let slug;
 
-    const hotelName = hotelSlug.replace(/-/g, ' ');
+    if (req.params.resorts_slug) {
+        // Handle /resorts/:resorts_slug
+        slug = req.params.resorts_slug;
+    } else if (req.params.hotel_slug) {
+        // Handle /hotel/:hotel_slug
+        slug = req.params.hotel_slug;
+    } else {
+        return res.status(400).send('Invalid route or missing slug.');
+    } // Get the slug from the URL
+    const hotelName = slug.replace(/-/g, ' ');
     const hotelQuery = "SELECT * FROM hotels WHERE name = ?";
 
     config.con.query(hotelQuery, [hotelName], (err, hotelResult) => {
@@ -137,7 +149,7 @@ exports.hotelroomdetail = function (req, res) {
                 }
 
                 let user = '';
-                let reurl = `${hotelSlug}`;
+                let reurl = `${slug}`;
                 const book = roomsResult.length > 0 ? 1 : 0;
 
                 // Check if user is logged in
@@ -242,22 +254,48 @@ exports.detailhotel = function (req, res) {
 
 exports.booked = function (req, res) {
     session = req.session;
-    let user = '';
-    if (req.params.id) {
-        var bookingId = req.params.id;
-        config.con.query("SELECT * FROM booking WHERE id=" + bookingId, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send("An error occurred while querying the database.");
-            }
+    let userId = session.user_id;
+    var bookingId = req.params.id;
+    console.log(session.user_id, ':user exist');
+    if (bookingId) {
+        config.con.query(
+            "SELECT * FROM booking WHERE booking_id = ? AND user_id = ?",
+            [bookingId, userId], // Use parameterized queries to prevent SQL injection
+            (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send("An error occurred while querying the database.");
+                }
+                var bookdetail = '';
+                if (result && result.length > 0) {
+                    var bookdetail = result[0];
+                }
+                config.con.query(
+                    "SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
 
-            if (result && result.length > 0) {
-                var bookdetail = result[0];
-                res.render('modify', { APP_URL: config.APP_URL, url: req.url, user: user, bookdetail: bookdetail });
-            } else {
-                res.send('No Booking Found');
+                        if (err) {
+                            console.error('SQL error:', err);  // Add error logging
+                            return res.redirect('/logout');
+                        } else {
+                            if (result.length > 0) {
+                                user = result[0];
+                            } else {
+                                return res.redirect('/logout');
+                            }
+                        }
+
+                        res.render('modify', {
+                            APP_URL: config.APP_URL,
+                            url: req.url,
+                            user: user, // Pass user details to the template
+                            bookdetail: bookdetail,
+                        });
+                    }
+                )
             }
-        });
+        );
+    } else {
+        return res.redirect('/');
     }
 }
 // exports.booked = function (req, res) {
@@ -282,11 +320,162 @@ exports.booked = function (req, res) {
 //         });
 //     }
 // }
-exports.booknow = function (req, res) {
+const validateBooking = (rooms, adults, children, childrenAges) => {
+    console.log(adults, children);
+    const numRooms = parseInt(rooms, 10);
+    const numAdults = parseInt(adults, 10);
+    const numChildren = parseInt(children, 10);
+    const totalPeople = numAdults + numChildren;
+
+    const maxPeoplePerRoom = 4; // Maximum capacity per room
+    const maxChildrenAge = 11; // Children are aged 2 to 11
+
+    // Validate children ages
+    if (numChildren > 0) {
+        const invalidAges = childrenAges.some(age => age < 2 || age > maxChildrenAge);
+        if (invalidAges) {
+            return {
+                valid: false,
+                message: `Some children ages are invalid. Ages must be between 2 and ${maxChildrenAge}.`
+            };
+        }
+    }
+
+    // Minimum one adult per room
+    if (numAdults < numRooms) {
+        return {
+            valid: false,
+            message: "You must have at least one adult per room."
+        };
+    }
+
+    // Total people capacity validation
+    if (totalPeople > numRooms * maxPeoplePerRoom) {
+        return {
+            valid: false,
+            message: "We apologize for the inconvenience. There are no rooms available to accommodate the number of guests in your request. Please consider booking multiple rooms."
+        };
+    }
+
+    // If all validations pass
+    return {
+        valid: true,
+        message: "Booking is valid."
+    };
+};
+// check room avvilability
+const checkHotelRoomAvailability = (hotel_id, check_in, check_out, requestedRooms, callback) => {
+    // Step 1: Fetch all room IDs for the given hotel
+    const roomsQuery = `
+        SELECT room_id, available_rooms
+        FROM roomavailability
+        WHERE hotel_id = ?;
+    `;
+
+    config.con.query(roomsQuery, [hotel_id], (err, rooms) => {
+        if (err) {
+            return callback(err); // Handle error from query
+        }
+
+        if (!rooms.length) {
+            return callback(new Error("No rooms found for this hotel."));
+        }
+
+        let totalAvailableRooms = 0;
+        let roomsChecked = 0;
+        let availabilityCheckPassed = true;
+
+        // Step 2: Check availability for each room
+        rooms.forEach(room => {
+            const room_id = room.room_id;
+            const availableRooms = room.available_rooms;
+
+            // Fetch existing bookings for this room and date range
+            const bookingsQuery = `
+                SELECT SUM(booked_rooms) AS total_booked 
+                FROM room_bookings 
+                WHERE room_id = ? 
+                AND (
+                    (release_date > ? AND booking_date < ?) OR
+                    (release_date = ? AND booking_date = ?)
+                );
+            `;
+
+            config.con.query(bookingsQuery, [room_id, check_in, check_out, check_out, check_in], (err, bookings) => {
+                if (err) {
+                    return callback(err); // Handle error from query
+                }
+
+                const totalBooked = bookings[0].total_booked || 0;
+                const availableRoomForThisRoom = availableRooms - totalBooked;
+
+                totalAvailableRooms += availableRoomForThisRoom;
+                roomsChecked++;
+
+                // Step 3: Once all rooms have been checked, compare total available rooms with requested rooms
+                if (roomsChecked === rooms.length) {
+                    if (requestedRooms > totalAvailableRooms) {
+                        return callback(null, { valid: false, availableRooms: totalAvailableRooms });
+                    } else {
+                        // console.log(rooms.length);
+                        return callback(null, { valid: true, availableRooms: totalAvailableRooms });
+                    }
+                }
+            });
+        });
+    });
+};
+// distribute room among the persons
+function distributePersonsIntoRooms(adults, children, rooms) {
+    const totalPersons = adults + children;
+    const personsPerRoom = Math.ceil(totalPersons / rooms);
+    const distribution = Array.from({ length: rooms }, () => ({
+        adults: 0,
+        children: 0
+    }));
+
+    let remainingAdults = adults;
+    let remainingChildren = children;
+
+    for (let i = 0; i < rooms; i++) {
+        if (remainingAdults > 0) {
+            const adultsToAssign = Math.min(personsPerRoom, remainingAdults);
+            distribution[i].adults = adultsToAssign;
+            remainingAdults -= adultsToAssign;
+        }
+        if (remainingChildren > 0) {
+            const childrenToAssign = Math.min(
+                personsPerRoom - distribution[i].adults,
+                remainingChildren
+            );
+            distribution[i].children = childrenToAssign;
+            remainingChildren -= childrenToAssign;
+        }
+    }
+    return distribution;
+}
+exports.booknow = async function (req, res) {
     session = req.session;
     let user = '';
     let queryData = req.query;
+
     try {
+        // Extract query parameters for validation
+        const { rooms, adults, children, children_age, hotel_id, room_id, check_in, check_out } = req.query;
+        const childrenAges = children_age ? children_age.split(',').map(Number) : [];
+        // Perform validation
+
+
+        // Step 1: Check room availability
+        const requestedRooms = parseInt(rooms, 10);
+        const checkInDate = new Date(check_in);
+        const checkOutDate = new Date(check_out);
+        const adultCount = parseInt(adults, 10);
+        const childCount = parseInt(children, 10);
+        const roomDistribution = distributePersonsIntoRooms(adultCount, childCount, requestedRooms);
+        console.log(roomDistribution, 'room dis');
+
+
         if (req.method === 'POST') {
             // Handle booking
             const myreq = req.body;
@@ -304,7 +493,7 @@ exports.booknow = function (req, res) {
                 config.con.query(
                     "INSERT INTO `booking`(`name`, `email`, `mobile`, `country`, `address`, `city`, `additional`, `destination`, `hotel_id`, `checkin`, `checkout`, `room`, `room_id`, `status`, `payment_status`, `payment_amount`, `discount_applied`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'paid', ?, ?)",
                     [
-                        'hello',
+                        myreq.name || null,
                         myreq.email || null,
                         myreq.mobile || null,
                         myreq.country || null,
@@ -331,69 +520,203 @@ exports.booknow = function (req, res) {
             });
 
         } else {
-            // Get hotel and room details
-            const date = require('date-and-time');
-            const hotelRoomsQuery = `
-                SELECT hotel_rooms.*, roomavailability.bed_type,hotels.name, hotel_rooms.accommodation,hotel_rooms.room_size,hotels.city,room_types.room_name,hotels.full_address,hotels.main_image AS hotels_image
-                FROM hotels 
-                INNER JOIN roomavailability ON hotels.id = roomavailability.hotel_id
-                INNER JOIN hotel_rooms ON hotel_rooms.id = roomavailability.room_id
-                INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
-                WHERE hotels.id = ?`;
-
-            config.con.query(hotelRoomsQuery, [req.query.hotel_id], (err, result) => {
+            const hotelDetailQuery = `
+                    SELECT hotels.id, hotels.name, hotels.city, hotels.full_address, hotels.main_image 
+                    FROM hotels 
+                    WHERE hotels.id = ?;
+            `
+            config.con.query(hotelDetailQuery, [queryData.hotel_id], (err, hotelResult) => {
                 if (err) {
-                    console.error('Error fetching hotel data:', err);
+                    console.error('Error fetching hotel details:', err);
                     return res.status(500).send('Internal Server Error');
                 }
 
-                const hotel = result.length > 0 ? result[0] : {};
-                const hotelRooms = result;
-                const hotelName = hotel.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-                const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
-                console.log(hotelRooms, 'hello i am himanshu');
-                // Fetch active discount
-                config.con.query("SELECT discount_percentage FROM discounts WHERE is_active = 1 LIMIT 1", (discountErr, discountResult) => {
-                    if (discountErr) {
-                        console.error('Error fetching discount:', discountErr);
-                        return res.status(500).send('Internal Server Error');
+                const hotel = hotelResult.length > 0 ? hotelResult[0] : null;
+
+                if (!hotel) {
+                    return res.status(404).send('Hotel not found');
+                }
+                checkHotelRoomAvailability(hotel_id, checkInDate, checkOutDate, requestedRooms, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.status(500).json({ message: err });
                     }
 
-                    const discount = discountResult.length > 0 ? discountResult[0].discount_percentage : 0;
+                    const { valid, availableRooms } = result;
+                    console.log(result);
 
-                    // Calculate discounted price for each room
-                    hotelRooms.forEach(room => {
-                        room.original_price = room.price; // Assuming price is the original price from DB
-                        room.discounted_price = room.price - (room.price * (discount / 100));
-                    });
-                    const date1 = new Date(queryData.check_in);
-                    const date2 = new Date(queryData.check_out);
-                    const diffTime = Math.abs(date2 - date1);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    if (session.user_id !== undefined) {
-                        config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
-                            if (err) {
-                                console.error('Error fetching user:', err);
-                                return res.status(500).send('Internal Server Error');
-                            }
-                            if (result.length > 0) {
-                                user = result[0];
-                            } else {
-                                return res.redirect('/logout');
-                            }
-                            res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName });
+                    // Get hotel and room details
+
+                    const hotelRoomsQuery = `
+                    SELECT hotel_rooms.*, 
+                        roomavailability.bed_type, 
+                        roomavailability.available_rooms, 
+                        room_types.room_name
+                    FROM roomavailability
+                    INNER JOIN hotel_rooms ON hotel_rooms.id = roomavailability.room_id
+                    INNER JOIN room_types ON room_types.id = hotel_rooms.room_type_id
+                    WHERE hotel_rooms.hotel_id = ? AND roomavailability.available_rooms > 0;
+                    `;
+
+                    const mealPlansQuery = `
+                    SELECT 
+                        mp.plan_name, 
+                        mp.description,
+                        mpp.room_id,
+                        mpp.base_price,
+                        mpp.plan_id
+                    FROM 
+                        meal_plans mp
+                    JOIN 
+                        pricing mpp ON mpp.plan_id = mp.id
+                    WHERE 
+                        mpp.room_id = ?  
+                        AND mpp.num_persons = 1 ORDER BY 
+                        mpp.plan_id;
+                    `;
+
+                    config.con.query(hotelRoomsQuery, [req.query.hotel_id], (err, result) => {
+                        if (err) {
+                            console.error('Error fetching hotel data:', err);
+                            return res.status(500).send('Internal Server Error');
+                        }
+
+                        const hotelRooms = result;
+                        console.log(hotel);
+                        const hotelName = (hotel.name || 'unknown-hotel').toLowerCase()
+                            .replace(/\s+/g, '-')
+                            .replace(/[^a-z0-9-]/g, '');
+                        const hotelURL = `https://www.skydoor.com/hotels/${hotelName}`;
+                        const validationResult = validateBooking(rooms, adults, children, childrenAges);
+
+                        const paramsToRender = {
+                            APP_URL: config.APP_URL,
+                            url: req.url,
+                            user, // Make sure 'user' is always available, otherwise set to null or default
+                            date, // Same for date
+                            queryData: req.query,
+                            hotel: hotel || null, // If hotel is undefined, pass null
+                            hotelRooms: hotelRooms || [], // Default to an empty array if hotelRooms is undefined
+                            hotelURL: hotelURL || "", // Default to an empty string
+                            discount: 0, // Default to 0
+                            crypto: crypto || {}, // Default to an empty object
+                            diffDays: 0, // Default to 0
+                            hotelName: hotelName || "", // Default to an empty string
+                            mealPlans: [], // Default to an empty array
+                            errorMessage: validationResult.message, // Pass the validation message here
+                            roomDistribution
+                        };
+                        if (!valid) {
+                            return res.render('pages/booking', {
+                                ...paramsToRender,
+                                errorMessage: `Not enough rooms available. Only ${availableRooms} room(s) available for the selected dates.`,
+                            });
+                        }
+                        if (!validationResult.valid) {
+                            return res.render('pages/booking', paramsToRender);
+                        }
+                        // Loop through each room and fetch its respective meal plans
+                        hotelRooms.forEach(room => {
+                            // Fetch meal plans for each room individually
+                            config.con.query(mealPlansQuery, [room.id], (err, mealPlans) => {
+                                if (err) {
+                                    console.error('Error fetching meal plans:', err);
+                                    return res.status(500).send('Internal Server Error');
+                                }
+
+                                // Associate meal plans with the current room
+                                room.mealPlans = mealPlans;
+                                // console.log(room);
+                                // Once all meal plans are added to rooms, we proceed with further processing
+                                if (hotelRooms.every(r => r.mealPlans)) {  // Check if all rooms have meal plans
+                                    // Fetch active discount
+                                    config.con.query("SELECT discount_percentage FROM discounts WHERE is_active = 1 LIMIT 1", (discountErr, discountResult) => {
+                                        if (discountErr) {
+                                            console.error('Error fetching discount:', discountErr);
+                                            return res.status(500).send('Internal Server Error');
+                                        }
+
+                                        const discount = discountResult.length > 0 ? discountResult[0].discount_percentage : 0;
+
+                                        // Calculate discounted price for each room
+                                        // hotelRooms.forEach(room => {
+                                        //     room.original_price = room.price; // Assuming price is the original price from DB
+                                        //     room.discounted_price = room.price - (room.price * (discount / 100));
+                                        // });
+
+                                        const date1 = new Date(req.query.check_in);
+                                        const date2 = new Date(req.query.check_out);
+                                        const diffTime = Math.abs(date2 - date1);
+                                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                                        let user = {};
+                                        if (session.user_id !== undefined) {
+                                            config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (userErr, userResult) => {
+                                                if (userErr) {
+                                                    console.error('Error fetching user:', userErr);
+                                                    return res.status(500).send('Internal Server Error');
+                                                }
+                                                if (userResult.length > 0) {
+                                                    user = userResult[0];
+                                                } else {
+                                                    return res.redirect('/logout');
+                                                }
+
+                                                // Render the page with data
+                                                res.render('pages/booking', {
+                                                    APP_URL: config.APP_URL,
+                                                    url: req.url,
+                                                    user,
+                                                    date,
+                                                    queryData: req.query,
+                                                    hotel,
+                                                    hotelRooms,
+                                                    hotelURL,
+                                                    discount,
+                                                    crypto,
+                                                    diffDays,
+                                                    hotelName,
+                                                    mealPlans,
+                                                    errorMessage: null,
+                                                    roomDistribution
+                                                });
+                                            });
+                                        } else {
+                                            // Render the page with data (no user)
+                                            res.render('pages/booking', {
+                                                APP_URL: config.APP_URL,
+                                                url: req.url,
+                                                user,
+                                                date,
+                                                queryData: req.query,
+                                                hotel,
+                                                hotelRooms,
+                                                hotelURL,
+                                                discount,
+                                                crypto,
+                                                diffDays,
+                                                hotelName,
+                                                mealPlans,
+                                                errorMessage: null,
+                                                roomDistribution
+                                            });
+                                        }
+                                    });
+                                }
+                            });
                         });
-                    } else {
-                        res.render('pages/booking', { APP_URL: config.APP_URL, url: req.url, user, date, queryData: req.query, hotel, hotelRooms, hotelURL, discount, crypto, diffDays: diffDays, hotelName });
-                    }
+                    });
+
                 });
-            });
+            })
         }
     } catch (error) {
         console.error('Unexpected Error:', error);
         res.status(500).send('Something went wrong');
     }
 };
+
+
 exports.createBooking = function (req, res) {
     const { user_id, hotel_id, total_price, rooms } = req.body;
     // Insert booking details into the Booking table
@@ -412,7 +735,7 @@ exports.createBooking = function (req, res) {
 
         // Prepare to insert room details into the booking_room_detail table
         const roomDetailsQuery = `
-        INSERT INTO booking_room_detail (booking_id, room_id, bed_type, food_preferences, check_in, check_out, adults,children, created_at, updated_at)
+        INSERT INTO booking_room_detail (booking_id, room_id, bed_type, check_in, check_out, adults,children, created_at, updated_at)
         VALUES ?
         `;
 
@@ -420,7 +743,7 @@ exports.createBooking = function (req, res) {
             bookingId,
             room.room_id,
             room.bed_type,
-            room.food_preferences.join(','), // Convert array to string if necessary
+            // Convert array to string if necessary
             room.check_in,
             room.check_out,
             room.adults,
@@ -441,8 +764,8 @@ exports.createBooking = function (req, res) {
         });
     });
 };
-
-exports.getRoomDetailsById = (req, res) => {
+// old function
+exports.getRoomDetailsByIdd = (req, res) => {
     const roomId = req.query.room_id;
 
     // SQL query to fetch room details
@@ -477,6 +800,158 @@ exports.getRoomDetailsById = (req, res) => {
         }
     });
 };
+// new function
+exports.getRoomDetailsById = (req, res) => {
+    const roomId = req.query.room_id;
+    const mealPlanId = req.query.meal_id;
+    let adultsCount = parseInt(req.query.adult, 10);
+    let childrenCount = parseInt(req.query.child, 10);
+    const totalPersons = adultsCount + childrenCount;
+    const nights = req.query.nights;
+    // Queries
+    const roomQuery = `
+        SELECT 
+            hotel_rooms.*, 
+            room_types.room_name,
+            pricing.num_persons,
+            pricing.base_price,
+            pricing.tax_percentage,
+            discounts.discount_percentage
+        FROM hotel_rooms
+        INNER JOIN room_types ON hotel_rooms.room_type_id = room_types.id
+        INNER JOIN pricing ON hotel_rooms.id = pricing.room_id AND pricing.plan_id = ?
+        LEFT JOIN discounts ON discounts.is_active = 1
+        WHERE hotel_rooms.id = ?;
+    `;
+
+    const extraPricingQuery = `
+        SELECT age_group, extra_person_price
+        FROM extra_person_pricing
+        WHERE room_id = ? AND plan_id = ?
+    `;
+
+    config.con.query(roomQuery, [mealPlanId, roomId], (err, roomDetails) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: err.message });
+        }
+
+        if (roomDetails.length === 0) {
+            return res.status(404).json({ success: false, message: 'Room not found.' });
+        }
+
+        // Find the row with the maximum number of persons less than or equal to totalPersons
+        let baseRow = roomDetails.find(row => row.num_persons === Math.min(totalPersons, 2));
+
+        if (!baseRow) {
+            return res.status(404).json({ success: false, message: 'No valid pricing found for the specified persons.' });
+        }
+
+        const basePrice = baseRow.base_price;
+        const discountPercentage = baseRow.discount_percentage || 0;
+
+        // If totalPersons <= 2, calculate and return base price
+        if (totalPersons <= 2) {
+            const finalPrice = calculateBasePrice(adultsCount, childrenCount, baseRow, discountPercentage, nights);
+            return res.json({ success: true, data: finalPrice });
+        }
+
+        // Fetch extra person pricing for persons beyond the base (e.g., 3rd person onward)
+        config.con.query(extraPricingQuery, [roomId, mealPlanId], (err, extraPricing) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: err.message });
+            }
+
+            // Calculate price for extra persons
+            const extraPersons = totalPersons - 2;
+            let extraAdultPrice = 0;
+            let extraChildPrice = 0;
+
+            extraPricing.forEach(row => {
+                if (row.age_group === 'Adult' && adultsCount > 2) {
+                    extraAdultPrice += row.extra_person_price * (adultsCount - 2);
+                }
+                if (row.age_group === 'Child' && childrenCount > 0) {
+                    extraChildPrice += row.extra_person_price * childrenCount;
+                }
+            });
+
+            // Calculate final price including extras and discounts
+            const discountedPrice = basePrice * (1 - discountPercentage / 100);
+            const totalExtraPrice = extraAdultPrice + extraChildPrice;
+            const totalPriceBeforeGST = nights * (discountedPrice + totalExtraPrice);
+            const gstRate = totalPriceBeforeGST >= 7500 ? 18 : 12;
+            const gstAmount = (totalPriceBeforeGST * gstRate) / 100;
+            const totalPriceWithGST = totalPriceBeforeGST + gstAmount;
+
+            const sgst = gstAmount / 2;
+            const cgst = gstAmount / 2;
+
+            // Prepare response
+            const finalPrice = {
+                room_name: baseRow.room_name,
+                id: baseRow.id,
+                adultsCount: adultsCount,
+                childrenCount: childrenCount,
+                base_price: basePrice,
+                nights: nights,
+                discounted_price: discountedPrice,
+                extra_adult_price: extraAdultPrice,
+                extra_child_price: extraChildPrice,
+                total_extra_price: totalExtraPrice,
+                sgst: sgst,
+                cgst: cgst,
+                gst_amount: gstAmount,
+                total_price: totalPriceWithGST
+            };
+
+            res.json({ success: true, data: finalPrice });
+        });
+    });
+
+};
+
+// helper function to calulate price
+function calculateBasePrice(adultsCount, childrenCount, baseRow, discountPercentage, nights) {
+    const basePrice = baseRow.base_price * nights;
+
+    // Apply discount to the base price
+    const discountedPrice = basePrice * (1 - discountPercentage / 100);
+
+    // Calculate GST
+    const gstRate = basePrice >= 7500 ? 18 : 12;  // GST rate in percentage
+    const gstAmount = (discountedPrice * gstRate) / 100;
+    const sgst = gstAmount / 2;
+    const cgst = gstAmount / 2;
+
+    // Total price including GST
+    const totalPriceWithGST = discountedPrice + gstAmount;
+
+    // Return all necessary details
+    return {
+        room_name: baseRow.room_name,
+        id: baseRow.id,
+        adultsCount: adultsCount,
+        childrenCount: childrenCount,
+        base_price: basePrice,
+        nights: nights,
+        discounted_price: discountedPrice,
+        extra_adult_price: 0, // No extra charges for <=2 persons
+        extra_child_price: 0, // No extra charges for <=2 persons
+        total_extra_price: 0, // No extra charges for <=2 persons
+        sgst: sgst,
+        cgst: cgst,
+        gst_amount: gstAmount,
+        total_price: totalPriceWithGST
+    };
+}
+
+
+
+
+
+
+
+
 exports.booking = function (req, res) {
     session = req.session;
     let user = '';
@@ -640,11 +1115,40 @@ exports.meet_and_events = function (req, res) {
     session = req.session;
     // console.log(req.body);
     if (req.body.booking_date !== undefined) {
-        config.con.query("INSERT INTO `meeet_and_event`(`booking_date`, `booking_time`, `no_of_guest`, `name`, `email`, `phone`, `comment`) VALUES ('" + req.body.booking_date + "','" + req.body.booking_time + "','" + req.body.no_of_guest + "','" + req.body.name + "','" + req.body.email + "','" + req.body.phone + "','" + req.body.comment + "')", (err, result) => {
-            if (err) console.log(err);
-            res.redirect('meet-and-events');
-        });
-    } else {
+        config.con.query(
+            "INSERT INTO `meeet_and_event`(`booking_date`, `booking_time`, `no_of_guest`, `name`, `email`, `phone`, `comment`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [
+                req.body.booking_date,
+                req.body.booking_time,
+                req.body.no_of_guest,
+                req.body.name,
+                req.body.email,
+                req.body.phone,
+                req.body.comment,
+            ],
+            async (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Server error');
+                }
+                const subject = 'This is test mail for New Reservation Request';
+                const text = `${req.body.name} requested a reservation on ${req.body.booking_date} for ${req.body.no_of_guest} guest(s) at ${req.body.booking_time}.
+                Contact Number: ${req.body.phone}
+                Email: ${req.body.email}
+                Comment: ${req.body.comment || 'No additional comments.'}`;
+
+                // Send email to gutamh142@gmail.com
+                const emailSent = await sendEmail('chaudhary.chander@gmail.com', subject, text);
+                if (!emailSent) console.error('Failed to send reservation email.');
+                // Redirect back to the referring page
+                const referer = req.get('Referer') || `${config.APP_URL}/meet-and-events`;
+                // console.log(req.get('Referer'));
+
+                res.redirect(referer);
+            }
+        );
+    }
+    else {
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
                 if (err) { res.redirect('/logout'); } else {
@@ -665,7 +1169,9 @@ exports.meet_and_events = function (req, res) {
 // resorts
 exports.resorts = function (req, res) {
     session = req.session;
-    config.con.query("SELECT * FROM hotel WHERE hotel_type = 'Resort'", (err, hotels) => {
+    let queryData = req.query;
+    console.log(JSON.stringify(req.url).split('/')[1]);
+    config.con.query("SELECT * FROM hotels WHERE type = 'Resort'", (err, hotels) => {
         let user = '';
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
@@ -676,16 +1182,16 @@ exports.resorts = function (req, res) {
                         res.redirect('/logout');
                     }
                 }
-                res.render('pages/resorts', { APP_URL: config.APP_URL, hotels: hotels, url: req.url, user: user });
+                res.render('pages/hotels', { APP_URL: config.APP_URL, hotels: hotels, url: req.url, user: user });
             });
         } else {
-            res.render('pages/resorts', { APP_URL: config.APP_URL, hotels: hotels, url: req.url, user: user });
+            res.render('pages/hotels', { APP_URL: config.APP_URL, hotels: hotels, url: req.url, user: user, queryData });
             // res.render('resorts', { APP_URL: config.APP_URL, hotels: hotels, url: req.url, user: user });
         }
     });
 }
 // Luxary Residency
-exports.private_luxary_residency = function (req, res) {
+exports.private_luxuary_residency = function (req, res) {
     session = req.session;
     config.con.query("SELECT * FROM hotel WHERE hotel_type = 'Luxary Residency'", (err, hotels) => {
         let user = '';
@@ -816,35 +1322,53 @@ exports.cancel = function (req, res) {
     }
 }
 exports.contact = function (req, res) {
-    session = req.session;
-    let user = '';
+    const redirectPage = req.body.redirectTo || 'contact';
+    console.log(req.body);
+    if (req.body.name) {
 
-    const redirectPage = req.body.redirectTo || 'contact'; // Default to contact if not specified
-
-    if (req.body.name !== undefined) {
         const sqlQuery = "INSERT INTO `contact`(`name`, `mobile`, `email`, `message`) VALUES (?, ?, ?, ?)";
         const values = [req.body.name, req.body.mobile, req.body.email, req.body.message];
 
-        config.con.query(sqlQuery, values, (err, result) => {
+        config.con.query(sqlQuery, values, async (err, result) => {
             if (err) {
                 console.log(err);
-                req.flash('error', 'There was an error saving your message.');
-                return res.redirect(redirectPage === 'index' ? '/' : `/${redirectPage}`);
+                return res.json({ success: false, error: 'There was an error saving your message.' });
+            }
+            try {
+                const subject = 'New Query Received from a User';
+                const text = `
+                Hello,
+
+                A user has submitted a new query through the contact form. Below are the details:
+
+                Name: ${req.body.name}
+                Mobile: ${req.body.mobile}
+                Email: ${req.body.email}
+                Message: ${req.body.message || 'No message provided'}
+
+                Thank you,
+                Your Website Team
+                `;
+
+                // Send email to owner
+                const emailSent = await sendEmail('chaudhary.chander@gmail.com', subject, text);
+
+                if (!emailSent) {
+                    console.error('Failed to send reservation email.');
+                }
+
+                return res.json({ success: true, message: 'Your message has been sent successfully!' });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).send('Error sending email');
             }
 
-            req.flash('success', 'Your message has been sent successfully!');
-            return res.redirect(redirectPage === 'index' ? '/' : `/${redirectPage}`);
         });
     } else {
-        res.render('contact', {
-            APP_URL: config.APP_URL,
-            url: req.url,
-            user: user,
-            successMessage: req.flash('success'),
-            errorMessage: req.flash('error')
-        });
+        return res.json({ success: false, error: 'Name is required.' });
     }
 };
+
 
 exports.login = function (req, res) {
     session = req.session;

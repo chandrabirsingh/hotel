@@ -93,13 +93,7 @@
             }
 
             /* icons */
-            .icon-lg {
-                width: 3.5rem;
-                height: 3.5rem;
-                line-height: 3.5rem;
-                text-align: center;
-                font-size: 1.2rem;
-            }
+           
 
             /* tabs */
             .nav-pills .nav-link.active,
@@ -476,13 +470,7 @@
                         <div class="flex-grow-1 w-100 d-flex flex-column">
                             <label for="" class="text-white">Adults:
                                 <div class="w-100 border p-2 text-white">
-                                    <select name="adult" id="" class="bg-transparent text-white border-0 w-100">
-                                        <option value="1" class="text-black">1</option>
-                                        <option value="2" class="text-black">2</option>
-                                        <option value="3" class="text-black">3</option>
-                                        <option value="4" class="text-black">4</option>
-                                        <option value="5" class="text-black">5</option>
-                                    </select>
+                                    <input type="text" name="adults" id="" class="bg-transparent text-white border-0 w-100"/>
                                 </div>
                             </label>
                         </div>
@@ -721,7 +709,7 @@
                                                         <i class="fa-solid fa-circle"
                                                             style="font-size: 5px; color: #c4c4c4;"></i>
                                                         <span class="mb-0">
-                                                            <%= room.accommodation %>
+                                                            <%= room.accommodation %> peoples
                                                         </span>
                                                         <i class="fa-solid fa-circle"
                                                             style="font-size: 5px; color: #c4c4c4;"></i>
@@ -811,7 +799,7 @@
                 </h2>
                 <div class="row">
                     <div class="col-lg-6 col-12 order-1 order-lg-0">
-                        <form method="post" action="meet-and-events" class="m-0">
+                        <form method="post" action="<%= APP_URL %>meet-and-events" class="m-0">
                             <div class="ajaxMsg"></div>
                             <div class="row">
 
@@ -1016,7 +1004,7 @@
                     const children = document.querySelector('select[name="children"]').value;
 
                     // Construct URL with all parameters
-                    const url = `<%=APP_URL%>book-now?hotel_id=<%= hotel.id %>&room_id=${roomId}&check_in=${checkIn}&check_out=${checkOut}&rooms=${rooms}&hotel=${encodeURIComponent(hotel)}&adult=${adult}&children=${children}&submit=Submit`;
+                    const url = `<%=APP_URL%>book-now?hotel_id=<%= hotel.id %>&room_id=${roomId}&check_in=${checkIn}&check_out=${checkOut}&rooms=${rooms}&hotel=${encodeURIComponent(hotel)}&adults=${adult}&children=${children}&submit=Submit`;
 
                     // Redirect to the constructed URL
                     window.location.href = url;
