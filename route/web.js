@@ -24,7 +24,7 @@ module.exports = function (app, upload) {
 
     // app.get('/career', homecontroller.career);
     // app.post('/career',upload.any(), homecontroller.career);
-    // app.get('/aboutus', homecontroller.aboutus);
+    app.get('/aboutus', homecontroller.aboutus);
     // app.get('/covid-update', homecontroller.covidupdate);
     // app.get('/best-rate-guaranteed', homecontroller.best_rate_guaranteed);
     // app.get('/leadership', homecontroller.leadership);
