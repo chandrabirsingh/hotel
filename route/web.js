@@ -15,7 +15,7 @@ module.exports = function (app, upload) {
     app.get('/detailhotel/:id', homecontroller.detailhotel);
     app.get('/resorts/:resorts_slug', homecontroller.hotelroomdetail);
     app.get('/resorts', homecontroller.resorts);
-    app.get('/private-luxury -residency', homecontroller.private_luxuary_residency);
+    app.get('/private-luxury-residency', homecontroller.private_luxuary_residency);
     app.get('/service-apartments', homecontroller.service_apartments);
     app.get('/meet-and-events', homecontroller.meet_and_events);
     app.post('/meet-and-events', homecontroller.meet_and_events);
