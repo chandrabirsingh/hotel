@@ -105,6 +105,13 @@
                             <%= hotelURL%>
                         </a>
                     </p>
+                    <p class="hero-image_website d-flex gap-2 mb-1" style="
+                    align-items: baseline;">
+                        <i class="fa-solid fa-house"></i>
+                        <a href="<%= hotelURL%>" target="_blank" rel="noopener noreferrer">
+                           Back to hotel
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -557,7 +564,7 @@
                                             <h5>Room ${index + 1}</h5>
                                             <div class="d-flex justify-content-between">
                                                 <h6 class="fw-bold mb-0">${room.room_name}</h6>
-                                                <h6 class="mb-0">₹${room.discounted_price.toFixed(2)}</h6>
+                                                <h6 class="mb-0">₹${room.amount.toFixed(2)}</h6>
                                             </div>
                                             <p class="text-muted small mb-1">${nights} Night${nights > 1 ? 's' : ''} stay</p>
                                             <div class="">

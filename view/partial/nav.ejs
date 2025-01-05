@@ -8,13 +8,15 @@
             white-space: nowrap;
             padding: 6px;
         }
+
         .icon-lg {
-                width: 3.5rem;
-                height: 3.5rem;
-                line-height: 3.5rem;
-                text-align: center;
-                font-size: 1.2rem;
-            }
+            width: 3.5rem;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
         .hotels_list {
             opacity: 0;
             visibility: hidden;
@@ -64,15 +66,16 @@
             /* Highlight color when hovering */
             color: white;
         }
-        .city-tab.active {
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-}
-.city-tab {
-    cursor: pointer;
-}
 
+        .city-tab.active {
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .city-tab {
+            cursor: pointer;
+        }
     </style>
     <div class="shadow-sm bg-white" style="position:fixed;left: 0px;right: 0px;z-index: 999;">
         <% if(typeof(cowin) !=='undefined' ){ %>
@@ -82,20 +85,9 @@
                         href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a
                         href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a
                         href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a
-                        href="<%=APP_URL%>food-delivery">Food delivery</a> | <a
-                        href="<%=APP_URL%>download-brochure">Download brochure</a> | <a
-                        href="<%=APP_URL%>partner-with-us">Partner with us</a> </span>
-                <span class="atguidlim" style="width:90%; float:left;">
-                    <marquee><a href="<%=APP_URL%>covid-update"> Travel with confidence during COVID-19</a> | <a
-                            href="<%=APP_URL%>best-rate-guaranteed">Best rate guaranteed</a> | <a
-                            href="<%=APP_URL%>flexible-cancellation">Flexible cancellation</a> | <a
-                            href="<%=APP_URL%>ecocommitment-go-green">Eco commitment - go green</a> | <a
-                            href="<%=APP_URL%>food-delivery">Food delivery</a> | <a
-                            href="<%=APP_URL%>download-brochure">Download brochure</a> | <a
-                            href="<%=APP_URL%>partner-with-us">Partner with us</a></marquee>
-                </span>
-                <span
-                    style="background-color:#fff0;width:10%;font-size:25px;float:right;line-height: 30px;cursor: pointer;margin-top: 5px;"
+                        href="<%=APP_URL%>food-delivery">Food delivery</a> | <a href="/download-brochure">Download
+                        brochure</a> | <a href="<%=APP_URL%>partner-with-us">Partner with us</a> </span>
+                <span style="background-color:#fff0;width:10%;font-size:25px;float:right;line-height: 30px;cursor: pointer;margin-top: 5px;"
                     onclick="document.getElementById('cowin').style.display = 'none';"><i
                         class="fa fa-times"></i></span>
             </div>
@@ -106,7 +98,7 @@
                         <div class="atherifdiv">
                             <nav class="navbar1 order-last order-lg-0" style="">
                                 <ul>
-                                    <li><a class="nav-link scrollto" href="#membership">MEMBERSHIP</a></li>
+                                    <li><a class="nav-link scrollto" href="<%=APP_URL%>membership">MEMBERSHIP</a></li>
                                     <li><a class="nav-link scrollto" href="<%=APP_URL%>loyalty-program">LOYALTY
                                             PROGRAM</a></li>
                                     <li>
@@ -119,7 +111,7 @@
                                                 class="fa fa-envelope" aria-hidden="true"
                                                 style="font-size:24px;"></i></a></li>
                                     <li><a class="nav-link scrollto" href="https://wa.me/+919971695346"><i
-                                                class="fa fa-whatsapp" aria-hidden="true"
+                                                class="fa-brands fa-whatsapp" aria-hidden="true"
                                                 style="font-size:30px;"></i></a></li>
                                     <% if(user !=='' ){ %>
                                         <li><a class="nav-link scrollto" href="#">
@@ -148,58 +140,85 @@
                                             <div class="d-flex">
                                                 <!-- Display the Single Hotel -->
                                                 <div id="hotel-container">
-                                                    <% cities.forEach((city, cityIndex) => { %>
-                                                        <div class="hotel-list <%= cityIndex === 0 ? '' : 'd-none' %>" data-city="<%= city.city %>">
-                                                            <% singleHotel.filter(hotel => hotel.city === city.city).forEach(singleHotel => { %>
+                                                    <% cities.forEach((city, cityIndex)=> { %>
+                                                        <div class="hotel-list <%= cityIndex === 0 ? '' : 'd-none' %>"
+                                                            data-city="<%= city.city %>">
+                                                            <% singleHotel.filter(hotel=> hotel.city ===
+                                                                city.city).forEach(singleHotel => { %>
                                                                 <div>
                                                                     <div style="width: 398px;">
-                                                                        <img src="<%= APP_URL %><%= singleHotel.main_image %>" class="w-100 h-100">
+                                                                        <img src="<%= APP_URL %><%= singleHotel.main_image %>"
+                                                                            class="w-100 h-100">
                                                                     </div>
                                                                     <div>
                                                                         <h5>
                                                                             <%= singleHotel.name %>
                                                                         </h5>
                                                                         <div class="hstack gap-3 mb-3">
-                                                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Free wifi" data-bs-title="Free wifi">
+                                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                aria-label="Free wifi"
+                                                                                data-bs-title="Free wifi">
                                                                                 <i class="fa-solid fa-wifi"></i>
                                                                             </div>
-                                                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Swimming Pool" data-bs-title="Swimming Pool">
-                                                                                <i class="fa-solid fa-swimming-pool"></i>
+                                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                aria-label="Swimming Pool"
+                                                                                data-bs-title="Swimming Pool">
+                                                                                <i
+                                                                                    class="fa-solid fa-swimming-pool"></i>
                                                                             </div>
-                                                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Central AC" data-bs-title="Central AC">
+                                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                aria-label="Central AC"
+                                                                                data-bs-title="Central AC">
                                                                                 <i class="fa-solid fa-snowflake"></i>
                                                                             </div>
-                                                                            <div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Free Service" data-bs-title="Free Service" aria-describedby="tooltip594622">
-                                                                                <i class="fa-solid fa-concierge-bell"></i>
+                                                                            <div class="icon-lg bg-light h5 rounded-2"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                aria-label="Free Service"
+                                                                                data-bs-title="Free Service"
+                                                                                aria-describedby="tooltip594622">
+                                                                                <i
+                                                                                    class="fa-solid fa-concierge-bell"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex">
-                                                                            <a href="<%= APP_URL %>hotels/<%= singleHotel.slug %>" 
-                                                                               class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0" 
-                                                                               style="background: #005f96;color: white;">Explore</a>
-                                                                            <a href="#" 
-                                                                               class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0" 
-                                                                               style="background: #005f96;color: white;">Book now</a>
+                                                                            <a href="<%= APP_URL %>hotels/<%= singleHotel.slug %>"
+                                                                                class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0"
+                                                                                style="background: #005f96;color: white;">Explore</a>
+                                                                            <a href="#"
+                                                                                class="btn py-2 px-3 btnHover justify-content-center border flex-grow-1 rounded-0"
+                                                                                style="background: #005f96;color: white;">Book
+                                                                                now</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            <% }) %>
-                                                        </div>
-                                                    <% }) %>
-                                                </div>
-                                                        <!-- Display Cities -->
-                                                        <div>
-                                                            <p class="text-center fw-bold mb-0" style="font-size: 18px;">Our hotels</p>
-                                                            <div class="city-grid-container">
-                                                                <% cities.forEach((city, index) => { %>
-                                                                    <span class="city-grid-item city-tab text-capitalize <%= index === 0 ? 'active' : '' %>" 
-                                                                        data-city="<%= city.city %>">
-                                                                        <%= city.city %>
-                                                                    </span>
                                                                 <% }) %>
-                                                                <span class="city-grid-item" onclick="window.location.href='<%= APP_URL %>hotels';">Explore All</span>
-                                                            </div>
                                                         </div>
+                                                        <% }) %>
+                                                </div>
+                                                <!-- Display Cities -->
+                                                <div>
+                                                    <p class="text-center fw-bold mb-0" style="font-size: 18px;">Our
+                                                        hotels</p>
+                                                    <div class="city-grid-container">
+                                                        <% cities.forEach((city, index)=> { %>
+                                                            <span
+                                                                class="city-grid-item city-tab text-capitalize <%= index === 0 ? 'active' : '' %>"
+                                                                data-city="<%= city.city %>">
+                                                                <%= city.city %>
+                                                            </span>
+                                                            <% }) %>
+                                                                <span class="city-grid-item"
+                                                                    onclick="window.location.href='<%= APP_URL %>hotels';">Explore
+                                                                    All</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </li>
@@ -342,3 +361,7 @@
             </div>
         </div>
     </div> -->
+    <% singleHotel.forEach(singleHotel => { %>
+        <%= singleHotel.main_image %>
+        <%= singleHotel.name %>
+        <% }) %>

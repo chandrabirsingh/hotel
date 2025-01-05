@@ -1,14 +1,13 @@
 const config = require('../config.js');
 
 const fetchCitiesAndHotel = (req, res, next) =>{
-    const getCitiesQuery = "SELECT DISTINCT city FROM hotels WHERE type = 'hotel'";
+    const getCitiesQuery = "SELECT DISTINCT city FROM hotels";
     const getHotelQuery = `
         SELECT * 
         FROM hotels 
         WHERE id IN (
             SELECT MIN(id) 
             FROM hotels 
-            WHERE type = 'hotel' 
             GROUP BY city
         )
     `; // Fetch only one hotel
@@ -36,7 +35,7 @@ const fetchCitiesAndHotel = (req, res, next) =>{
 
             // Add hotel data and slug to res.locals to make them available in views
             res.locals.singleHotel = hotelsWithSlug;
-            // console.log(hotelsWithSlug );
+            // console.log(hotelData);
             res.locals.cities = cities;
             next();
         });

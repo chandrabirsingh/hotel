@@ -339,17 +339,18 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"> -->
     <section id="hero" style="padding: 0px;">
       <video autoplay muted loop id="myVideo">
-        <source src="<%=APP_URL%>assets/hotelpics/newfreepic/211152_tiny.mp4" type="video/mp4">
+        <source src="<%=APP_URL%>/assets/video/7.mp4" type="video/mp4">
       </video>
       <div class="hero-container">
         <section class="rowa">
           <div class="container">
             <div align="left">
               <form action="<%=APP_URL%>book-now" method="get"
-                class="row m0 find-quick-form text-center search aaseaform" style="margin-left:0px;margin-top: 0px;">
+                class="row m0 find-quick-form text-center search aaseaform p-3"
+                style="margin-left:0px;margin-top: 0px;">
                 <div class="row" id="bookform">
                   <div class="col-md-12 text-start mb-3">
                     <div class="row" style="align-items: center;">
@@ -710,25 +711,50 @@
         <!-- <p>Her are some nearby hotels</p> -->
 
         <div class="row mb-5" data-aos="fade-up" data-aos-delay="100">
+          <% hotels.forEach((hotel,index)=>{%>
+            <% if(hotel.status==2){ %>
+              <div class="col-lg-4 col-md-6">
+                <div class="hotel mb-0 position-relative" style="height: 20rem;">
+                  <img src="<%=APP_URL%>/<%= hotel.main_image %>" alt="<%= hotel.name %>" class="border-0 rounded-0"
+                    style="height: 100%;width: 100%;object-fit: cover;">
+                  <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                    <h3>Hotels in <%= hotel.city.charAt(0).toUpperCase() + hotel.city.slice(1).toLowerCase()%>
+                    </h3>
+                    <p class="text-end mb-0 fw-bold"><a
+                        href="<%=APP_URL%>hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
+                        class="inter"> view Hotel</a></p>
+                  </div>
 
-          <div class="col-lg-4 col-md-6">
-            <div class="hotel mb-0 position-relative" style="height: 20rem;">
-              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i1.jpg" alt="Hotel 1" class="border-0 rounded-0"
-                style="height: 100%;width: 100%;object-fit: cover;">
-              <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                <h3>Hotels in Bangalore</h3>
-                <p class="text-end mb-0 fw-bold"><a href="<%=APP_URL%>hotels" class="inter"> view More</a></p>
+                </div>
               </div>
-
-            </div>
-          </div>
+              <% }%>
+                <% }) %>
         </div>
         <div class="row" data-aos="fade-up" data-aos-delay="100">
 
           <!-- <div class="col-12">
             <h2 style="text-align: center;">Coming soon</h2>
           </div> -->
-          <div class="col-lg-4 col-md-6 mb-5">
+          <% hotels.forEach((hotel,index)=>{%>
+            <% if(hotel.status==1){ %>
+              <div class="col-lg-4 col-md-6 mb-5">
+                <div class="hotel mb-0 position-relative" style="height: 20rem;">
+                  <img src="<%=APP_URL%>/<%= hotel.main_image %>" alt="<%= hotel.name %>" class="border-0 rounded-0"
+                    style="height: 100%;width: 100%;object-fit: cover;">
+                  <div style="background: white;    bottom: -2px;" class=" position-absolute">
+                    <h3>Hotels in <%= hotel.city.charAt(0).toUpperCase() + hotel.city.slice(1).toLowerCase()%>
+                    </h3>
+                    <p class="text-end mb-0 fw-bold"><a
+                        href="<%=APP_URL%>hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
+                        class="inter"> view Hotel</a></p>
+                        <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
+                  </div>
+
+                </div>
+              </div>
+              <% }%>
+                <% }) %>
+          <!-- <div class="col-lg-4 col-md-6 mb-5">
             <div class="hotel mb-0 position-relative" style="height: 20rem;">
               <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 1" class="border-0 rounded-0"
                 style="height: 100%;width: 100%;object-fit: cover;">
@@ -771,7 +797,7 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
           <!-- <div class="col-lg-3 col-md-6">
             <div class="hotel">
               <div class="hotel-img">
@@ -957,7 +983,7 @@
             <div class="col-md-6 col-12">
               <div class="contact-map h-100">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.80219906876!2d77.75838856417931!3d12.984499668109883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae0e0e447fb773%3A0x5dfbfa970e67953!2sALEMBIC%20URBAN%20FOREST%2C%203G%20Homes%20Crimson%20Layout%2C%20Kadugodi%2C%20Bengaluru%2C%20Karnataka%20560067!5e0!3m2!1sen!2sin!4v1654421859984!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3595.582849285996!2d81.78725687525937!3d21.12955408054513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjHCsDA3JzQ2LjQiTiA4McKwNDcnMjMuNCJF!5e1!3m2!1sen!2sin!4v1736053844716!5m2!1sen!2sin"
                   width="100%" height="400" class="h-100" style="border:0;" allowfullscreen="" loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
@@ -1080,4 +1106,4 @@
                 document.getElementById("error-message").style.display = "block";
               });
           });
-        </script>9++
+        </script>

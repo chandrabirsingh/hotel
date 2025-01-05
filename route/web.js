@@ -21,25 +21,25 @@ module.exports = function (app, upload) {
     app.post('/meet-and-events', homecontroller.meet_and_events);
     app.get('/e-gift-coupon', homecontroller.e_gift_coupon);
     // app.get('/ecouponbuy/:id', homecontroller.ecouponbuy);
-
-    // app.get('/career', homecontroller.career);
+// footer links
+    app.get('/career', homecontroller.career);
     // app.post('/career',upload.any(), homecontroller.career);
     app.get('/aboutus', homecontroller.aboutus);
-    // app.get('/covid-update', homecontroller.covidupdate);
-    // app.get('/best-rate-guaranteed', homecontroller.best_rate_guaranteed);
-    // app.get('/leadership', homecontroller.leadership);
-    // app.get('/privacy-policy', homecontroller.privacy_policy);
-    // app.get('/partner-with-us', homecontroller.partner_with_as);
-    // app.get('/cancellation-policy', homecontroller.cancellation_policy);
-    // app.get('/plant-tree', homecontroller.plant_tree);
-    // app.get('/flexible-cancellation', homecontroller.flexible_cancellation);
-    // app.get('/ecocommitment-go-green', homecontroller.ecocommitment_go_green);
-    // app.get('/food-delivery', homecontroller.food_delivery);
-    // app.get('/download-brochure', homecontroller.download_brochure);
-    // app.get('/media-centre', homecontroller.media_centre);
-    // app.get('/contact', homecontroller.contact);
+    app.get('/leadership', homecontroller.leadership);
+    app.get('/media-centre', homecontroller.media_centre);
+    app.get('/contact', homecontroller.contact);
+    app.get('/terms-conditions', homecontroller.terms_conditions);
+    app.get('/cancellation-policy', homecontroller.cancellation_policy);
+    app.get('/plant-tree', homecontroller.plant_tree);
+    app.get('/privacy-policy', homecontroller.privacy_policy);
+    app.get('/covid-update', homecontroller.covidupdate);
+    app.get('/best-rate-guaranteed', homecontroller.best_rate_guaranteed);
+    app.get('/partner-with-us', homecontroller.partner_with_as);
+    app.get('/flexible-cancellation', homecontroller.flexible_cancellation);
+    app.get('/ecocommitment-go-green', homecontroller.ecocommitment_go_green);
+    app.get('/food-delivery', homecontroller.food_delivery);
+    // app.get('/download-brochure', homecontroller.download_brochure);//faltu link
     app.post('/contact', homecontroller.contact);
-    // app.get('/terms-conditions', homecontroller.terms_conditions);
     app.get('/book-now', homecontroller.booknow);
     app.post('/book-now', homecontroller.booknow);
     app.post('/feedback', homecontroller.feedback);
@@ -48,8 +48,10 @@ module.exports = function (app, upload) {
     app.get('/booked', homecontroller.booked);
     app.get('/booked/:id', homecontroller.booked);
     app.get('/thankyou/:message', homecontroller.thankyou);
-    // app.get('/loyalty-program', homecontroller.loyalty_program);
-    // app.get('/loyalty-program-buy/:id', homecontroller.loyalty_program_buy);
+    app.get('/loyalty-program', homecontroller.loyalty_program);
+    app.get('/loyalty-program-buy/:id', homecontroller.loyalty_program_buy);
+    app.get('/membership', homecontroller.membership);
+    // end of footer links and header
     // app.post('/loyalty_program_view/:id',upload.any(), homecontroller.loyalty_program_view);
     app.get('/modify-cancel', homecontroller.modify_can);
     app.post('/modify-cancel', homecontroller.modify_can);
