@@ -1195,7 +1195,7 @@ exports.resorts = function (req, res) {
 // Luxary Residency
 exports.private_luxuary_residency = function (req, res) {
     session = req.session;
-    config.con.query("SELECT * FROM hotel WHERE hotel_type = 'Luxary Residency'", (err, hotels) => {
+    config.con.query("SELECT * FROM hotels WHERE type = 'luxuary'", (err, hotels) => {
         let user = '';
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
