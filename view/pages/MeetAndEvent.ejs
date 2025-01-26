@@ -116,7 +116,7 @@
                     everyone in to a happiness through an amazing experiential journey.</p>
             </div>
         </section> -->
-        <main id="main" class="main-page">
+        <main id="main" class="main-page pb-5">
             <!-- new form -->
             <div class="container">
                 <div class="row justify-content-center">
@@ -131,41 +131,7 @@
                                         <div id="form-message-success" class="mb-4">
                                             Your message was sent, thank you!
                                         </div>
-                                        <!-- <div class="row mb-4">
-                                            <div class="col-md-6 px-0">
-                                                <div class="dbox w-100 d-flex align-items-start">
-                                                    <div class="text">
-                                                        <p><span>Address:</span> 198 West 21th Street, Suite 721 New
-                                                            York NY 10016</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 px-0">
-                                                <div class="dbox w-100 d-flex align-items-start">
-                                                    <div class="text">
-                                                        <p><span>Email:</span> <a
-                                                                href="mailto:info@yoursite.com">info@yoursite.com</a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 px-0">
-                                                <div class="dbox w-100 d-flex align-items-start">
-                                                    <div class="text">
-                                                        <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355
-                                                                98</a></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 px-0">
-                                                <div class="dbox w-100 d-flex align-items-start">
-                                                    <div class="text">
-                                                        <p><span>Social:</span> <a href="tel://1234567920">+ 1235 2355
-                                                                98</a></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+
                                         <form method="POST" id="contactForm" name="contactForm" class="contactForm m-0"
                                             novalidate="novalidate">
                                             <div class="row">
@@ -189,8 +155,7 @@
                                                 </div>
                                                 <div class="col-md-12 px-0">
                                                     <div class="form-group">
-                                                        <input type="datetime-local" class="form-control" name="time"
-                                                            id="time" placeholder="Date and time">
+                                                        <input type="date" class="form-control" name="date" id="date">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 px-0">
@@ -215,7 +180,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="w-100 social-media mt-5">
+                                        <!-- <div class="w-100 social-media mt-5">
                                             <h3>Follow us here</h3>
                                             <p>
                                                 <a href="#" class="inter">Facebook</a>
@@ -223,12 +188,12 @@
                                                 <a href="#" class="inter">Instagram</a>
                                                 <a href="#" class="inter">Dribbble</a>
                                             </p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="col-lg-6 d-flex align-items-stretch">
                                     <div class="info-wrap w-100 p-5 img"
-                                        style="background-image: url(http://192.168.1.44:5003/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);">
+                                        style="background-image: url(/assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg);">
                                     </div>
                                 </div>
                             </div>
@@ -330,6 +295,11 @@
         <!-- ======= Footer ======= -->
         <%- include('../partial/foot'); -%>
             <script>
-              
 
+                var date = new Date();
+                var currentDate = date.toISOString().slice(0, 10);
+                var currentTime = date.getHours() + ':' + date.getMinutes();
+
+                document.getElementById('date').value = currentDate;
+                // document.getElementById('currentTime').value = currentTime;
             </script>

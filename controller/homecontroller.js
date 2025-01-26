@@ -71,7 +71,7 @@ exports.hotels = function (req, res) {
     session = req.session;
     console.log(session);
 
-    config.con.query("SELECT * FROM hotels", (err, hotels) => {
+    config.con.query("SELECT * FROM hotels WHERE type = 'hotel'", (err, hotels) => {
         if (err) {
             console.error("Error fetching hotels:", err);
             return res.status(500).send("Error fetching hotels");
@@ -1116,17 +1116,18 @@ exports.confirmBooking = function (req, res) {
 exports.meet_and_events = function (req, res) {
     session = req.session;
     // console.log(req.body);
-    if (req.body.booking_date !== undefined) {
+    if (req.body.date !== undefined) {
         config.con.query(
             "INSERT INTO `meeet_and_event`(`booking_date`, `booking_time`, `no_of_guest`, `name`, `email`, `phone`, `comment`) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [
-                req.body.booking_date,
-                req.body.booking_time,
-                req.body.no_of_guest,
+                req.body.date,
+                '3 am',
+                // req.body.booking_time,
+                req.body.guest,
                 req.body.name,
                 req.body.email,
-                req.body.phone,
-                req.body.comment,
+                req.body.mobile,
+                req.body.message,
             ],
             async (err, result) => {
                 if (err) {
@@ -1134,13 +1135,13 @@ exports.meet_and_events = function (req, res) {
                     return res.status(500).send('Server error');
                 }
                 const subject = 'This is test mail for New Reservation Request';
-                const text = `${req.body.name} requested a reservation on ${req.body.booking_date} for ${req.body.no_of_guest} guest(s) at ${req.body.booking_time}.
-                Contact Number: ${req.body.phone}
+                const text = `${req.body.name} requested a reservation on ${req.body.date} for ${req.body.guest} guest(s).
+                Contact Number: ${req.body.mobile}
                 Email: ${req.body.email}
-                Comment: ${req.body.comment || 'No additional comments.'}`;
+                Comment: ${req.body.message || 'No additional comments.'}`;
 
                 // Send email to gutamh142@gmail.com
-                const emailSent = await sendEmail('chaudhary.chander@gmail.com', subject, text);
+                const emailSent = await sendEmail('gutamh142@gmail.com', subject, text);
                 if (!emailSent) console.error('Failed to send reservation email.');
                 // Redirect back to the referring page
                 const referer = req.get('Referer') || `${config.APP_URL}/meet-and-events`;
@@ -1195,7 +1196,7 @@ exports.resorts = function (req, res) {
 // Luxary Residency
 exports.private_luxuary_residency = function (req, res) {
     session = req.session;
-    config.con.query("SELECT * FROM hotels WHERE type = 'luxuary'", (err, hotels) => {
+    config.con.query("SELECT * FROM hotels WHERE type = 'plr'", (err, hotels) => {
         let user = '';
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
@@ -1217,7 +1218,7 @@ exports.private_luxuary_residency = function (req, res) {
 
 exports.service_apartments = function (req, res) {
     session = req.session;
-    config.con.query("SELECT * FROM hotels WHERE type = 'Service Apartment'", (err, hotels) => {
+    config.con.query("SELECT * FROM hotels WHERE type = 'sa'", (err, hotels) => {
         let user = '';
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
@@ -1518,33 +1519,96 @@ exports.career = function (req, res) {
     session = req.session;
     let user = '';
     if (req.body.name !== undefined) {
-        var cv;
-        cv = [];
-        req.files.forEach(uploads => {
-            if (uploads.fieldname == 'cv') {
+        let cv = [];
+        req.files.forEach((uploads) => {
+            if (uploads.fieldname === 'cv') {
+                // const filePath = path.join(__dirname, 'public', 'uploads', upload.filename);
                 cv.push(uploads.filename);
             }
         });
-        // console.log(req.files);
-        config.con.query("INSERT INTO `career`(`name`, `mobile`, `email`, `current_position`, `language`, `skill`, `current_salary`, `apply_for`, `expected_salary`, `cv`, `message`) VALUES ('" + req.body.name + "','" + req.body.cc + req.body.mobile + "','" + req.body.email + "','" + req.body.current_position + "','" + req.body.language + "','" + req.body.skill + "','" + req.body.current_salary + "','" + req.body.apply_for + "','" + req.body.expected_salary + "','" + req.body.cv + "','" + req.body.message + "')", (err, result) => {
-            if (err) console.log(err);
-            res.redirect('thankyou/We are in receipt of your application. One of our HR representative will connect with you with in 15 days if your profile is short listed. For more job updates kindly follow us on our social media job portals.');
-            var mess = "name : " + req.body.email + "',Mobile : " + req.body.cc + req.body.mobile + "',email " + req.body.email + "',current_position " + req.body.current_position + "',language " + req.body.language + "',skill " + req.body.skill + "',current_salary " + req.body.current_salary + "',apply_for " + req.body.apply_for + "',expected_salary " + req.body.expected_salary + "',message " + req.body.message + "'";
-            var request = require('request');
-            var options = {
-                'method': 'GET',
-                'url': 'http://skydoorhotels.com/mail?to=chandrabir.singh@skydoorhotels.com&subject=Career&message=' + mess,
-                'headers': {
-                    'Cookie': 'connect.sid=s%3Ay5vOW7KatUr30uGv90Rbxkb3eN_XhoZf.yf28BCuSgR1ov7Eqt1LHyvPPqhd5LywcdPzMXwKD19k'
-                }
-            };
-            request(options, function (error, response) {
-                if (error) throw new Error(error);
-                console.log(response.body);
-            });
-
+    
+        const query = `
+            INSERT INTO career 
+            (name, mobile, email, current_position, language, skill, current_salary, apply_for, expected_salary, cv, message) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        const values = [
+            req.body.name,
+            `${req.body.cc}${req.body.mobile}`,
+            req.body.email,
+            req.body.current_position,
+            req.body.language,
+            req.body.skill,
+            req.body.current_salary,
+            req.body.apply_for,
+            req.body.expected_salary,
+            cv.join(','), // Join CV filenames into a single string
+            req.body.message
+        ];
+    
+        config.con.query(query, values, async (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Error saving career application.');
+                return;
+            }
+    
+            // Redirect to thank you page
+            res.redirect('thankyou/We are in receipt of your application. One of our HR representatives will connect with you within 15 days if your profile is shortlisted. For more job updates kindly follow us on our social media job portals.');
+    
+            // Prepare email content
+            const subject = 'Career Application Received';
+            const text = `
+                Dear ${req.body.name},
+                Thank you for applying for the position of ${req.body.apply_for}. We have received your application with the following details:
+                
+                Name: ${req.body.name}
+                Mobile: ${req.body.cc}${req.body.mobile}
+                Email: ${req.body.email}
+                Current Position: ${req.body.current_position}
+                Language(s): ${req.body.language}
+                Skill(s): ${req.body.skill}
+                Current Salary: ${req.body.current_salary}
+                Expected Salary: ${req.body.expected_salary}
+                Additional Message: ${req.body.message || 'No additional comments.'}
+                
+                Our HR team will review your application, and if shortlisted, we will get in touch with you within 15 days.
+    
+                Best regards,
+                HR Team
+            `;
+    
+            // Send confirmation email to the applicant
+            const emailSent = await sendEmail(req.body.email, subject, text);
+            if (!emailSent) {
+                console.error('Failed to send confirmation email to the applicant.');
+            }
+    
+            // Optionally, send notification email to HR
+            const hrEmail = 'gutamh142@gmail.com';
+            const hrSubject = `New Career Application Received for ${req.body.name}`;
+            const cvLinks = cv.map(filePath => `${config.APP_URL}${filePath}`).join('<br>');
+            const hrText = `
+                A new career application has been submitted with the following details:
+                
+                Name: ${req.body.name}
+                Mobile: ${req.body.cc}${req.body.mobile}
+                Email: ${req.body.email}
+                Current Position: ${req.body.current_position}
+                Language(s): ${req.body.language}
+                Skill(s): ${req.body.skill}
+                Current Salary: ${req.body.current_salary}
+                Expected Salary: ${req.body.expected_salary}
+                CVs:${cvLinks},
+                Additional Message: ${req.body.message || 'No additional comments.'}
+            `;
+            const hrEmailSent = await sendEmail(hrEmail, hrSubject, hrText);
+            if (!hrEmailSent) {
+                console.error('Failed to send notification email to HR.');
+            }
         });
-    } else {
+    }
+     else {
         if (session.user_id !== undefined) {
             config.con.query("SELECT * FROM user WHERE id=" + session.user_id, (err, result) => {
                 if (err) { res.redirect('/logout'); } else {

@@ -69,9 +69,14 @@
                                                             style="font-size: 18px;">
                                                             <%=hotel.name%>
                                                         </h4>
-                                                        <p class="text-muted text-start" style="font-size: 14px;">
-                                                            <%=hotel.city%>
-                                                        </p>
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <p class="text-muted text-start" style="font-size: 14px;">
+                                                                <%=hotel.city%>
+                                                            </p>
+                                                            <%if (hotel.status == 1) {%>
+                                                            <p style=" color: #FFA500;" class="badge rounded-pill bg-white border v_sm_text border-warning">Comming soon</p>
+                                                           <%}%>
+                                                        </div>
                                                         <p class="text-start" style="font-size: 14px;">Beautiful
                                                             property. You feel you are in midst of nature despite being
                                                             in the heart of the city view from balcony of the garden

@@ -16,46 +16,62 @@
     <main id="main" class="main-page">
       <section class="why-us section-bg" data-aos="fade-up" date-aos-delay="200">
         <div class="container-fluide">
-          <div class=" text-center">
-            <div class="container">
-              <h1>Service Apartments</h1>
-              <div class="row">
-                <% if (hotels && hotels.length> 0) { %>
-                  <% hotels.forEach((hotel,index)=> { %>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="card mb-2">
-                        <div class="hotel">
-                          <div class="hotel-img">
-                            <img src="<%=APP_URL%>uploads/<%=hotel.hotel_images%>" alt="Hotel 1" class="img-fluid"
-                              style="height:250px;">
-                          </div>
-                          <h4><a href="<%=APP_URL%>hotelroomdetail?hotel=<%=hotel.id%>">
-                              <%=hotel.hotel_name%>
-                            </a></h4>
-                          <br>
-
-                          <b>Facilities :</b><br>
-                          <!-- <div class="row"> -->
-                          <% let facs=hotel.facilities.split(","); facs.forEach((fac)=> { %>
-                            <div style="float: left;">
-                              <br><span style="margin: 10px;">
-                                <%=fac%>
-                              </span>
-                            </div>
-                            <% }) %>
-                              <!-- </div> -->
-                        </div>
-                      </div>
+            <div class="">
+                <div class="mx-4">
+                    <div class="eleven">
+                        <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative"><%= JSON.stringify(url).split('/')[1].replace(/"/g,'')%>
+                        </h1>
                     </div>
-                    <% }) %>
-                      <% } else { %>
-                        <p>No Apprtments found.</p>
-                        <% } %>
-              </div>
+                    <div class="container">
+                        <div class="row">
+                            <% hotels.forEach((hotel,index)=> { %>
+                                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 py-2"
+                                    onclick="window.location.href='<%=APP_URL%><%= JSON.stringify(url).split('/')[1].replace(/"/g,'')%>/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>'">
+                                    <div class="card mb-2 bg-white shadow-sm" style="
+                                cursor: pointer;
+                            ">
+                                        <div class="hotel rounded-2 overflow-hidden">
+                                            <div class="hotel-img positon-relative">
+                                                <img class="w-100" src="<%= hotel.main_image ? APP_URL + hotel.main_image : APP_URL + 'assets/hotelpics/newfreepic/indoor-design-luxury-resort.jpg' %>"
+                                                    alt=" <%=hotel.name%>"
+                                                    style="height:250px;border-radius:0 0 8px 8px;">
+                                            </div>
+                                            <div class="position-relative px-3 py-4">
+
+                                                <h4 class="text-start fw-bold mb-0"
+                                                    style="font-size: 18px;">
+                                                    <%=hotel.name%>
+                                                </h4>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <p class="text-muted text-start" style="font-size: 14px;">
+                                                        <%=hotel.city%>
+                                                    </p>
+                                                    <%if (hotel.status == 1) {%>
+                                                    <p style=" color: #FFA500;" class="badge rounded-pill bg-white border v_sm_text border-warning">Comming soon</p>
+                                                   <%}%>
+                                                </div>
+                                                <p class="text-start" style="font-size: 14px;">Beautiful
+                                                    property. You feel you are in midst of nature despite being
+                                                    in the heart of the city view from balcony of the garden
+                                                    facing room is amazing excellent hospitality n service i
+                                                    requested for an avacado toast n choc shake which was not in
+                                                    the breakfast buffet but was made available in couple of
+                                                    mins free of any additional charges
+                                                </p>
+
+                                                <a href="<%=APP_URL%><%= JSON.stringify(url).split('/')[1].replace(/"/g,'')%>/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>" target="_blank" class="pr_color fw-bold inter fw-bold" tabindex="0">View
+                                                    Property</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
     </main>
     <!-- ======= Footer ======= -->
     <%- include('./partial/foot'); -%>

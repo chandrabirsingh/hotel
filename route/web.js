@@ -23,7 +23,7 @@ module.exports = function (app, upload) {
     // app.get('/ecouponbuy/:id', homecontroller.ecouponbuy);
 // footer links
     app.get('/career', homecontroller.career);
-    // app.post('/career',upload.any(), homecontroller.career);
+    app.post('/career',upload.any(), homecontroller.career);
     app.get('/aboutus', homecontroller.aboutus);
     app.get('/leadership', homecontroller.leadership);
     app.get('/media-centre', homecontroller.media_centre);
