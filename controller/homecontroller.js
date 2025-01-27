@@ -1121,7 +1121,7 @@ exports.meet_and_events = function (req, res) {
             "INSERT INTO `meeet_and_event`(`booking_date`, `booking_time`, `no_of_guest`, `name`, `email`, `phone`, `comment`) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [
                 req.body.date,
-                '3 am',
+                '00:00:04',
                 // req.body.booking_time,
                 req.body.guest,
                 req.body.name,
