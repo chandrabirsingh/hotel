@@ -1587,7 +1587,7 @@ exports.career = function (req, res) {
             // Optionally, send notification email to HR
             const hrEmail = 'gutamh142@gmail.com';
             const hrSubject = `New Career Application Received for ${req.body.name}`;
-            const cvLinks = cv.map(filePath => `${config.APP_URL}${filePath}`).join('<br>');
+            const cvLinks = cv.map(filePath => `${config.APP_URL}uploads/${filePath}`).join('<br>');
             const hrText = `
                 A new career application has been submitted with the following details:
                 
