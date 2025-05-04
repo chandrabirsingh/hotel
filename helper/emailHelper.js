@@ -29,5 +29,5 @@ const sendEmail = async (to, subject, text) => {
         return false;
     }
 };
-
+// 54.185.68.164 dns a record chagneed by server ip
 module.exports = sendEmail;

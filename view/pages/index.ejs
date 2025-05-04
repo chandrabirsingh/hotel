@@ -338,187 +338,122 @@
           transform: unset;
         }
       }
+
+      .select2.select2-container {
+        width: 100% !important;
+      }
+
+      .select2.select2-container .selection {
+        width: 100%;
+      }
+
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+        text-align: left;
+      }
+
+      .select2-container--default .select2-selection--single {
+        border-radius: 4px;
+        padding: 4px 8px;
+        height: auto;
+      }
+
+      /* Hide number input arrows */
+      input.no-arrows::-webkit-outer-spin-button,
+      input.no-arrows::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input.no-arrows {
+        -moz-appearance: textfield;
+      }
     </style>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"> -->
     <section id="hero" style="padding: 0px;">
       <video autoplay muted loop id="myVideo">
-        <source src="<%=APP_URL%>/assets/video/7.mp4" type="video/mp4">
+        <source src="/assets/video/hero.mp4" type="video/mp4">
       </video>
-      <div class="hero-container">
-        <section class="rowa">
-          <div class="container">
-            <div align="left">
-              <form action="<%=APP_URL%>book-now" method="get"
-                class="row m0 find-quick-form text-center search aaseaform p-3"
-                style="margin-left:0px;margin-top: 0px;">
-                <div class="row" id="bookform">
-                  <div class="col-md-12 text-start mb-3">
-                    <div class="row" style="align-items: center;">
-                      <div class="col-md-2" style="color: #fff;">
-                        OFFERS
-                      </div>
-                      <div class="col-md-10">
-                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                          <div class="carousel-inner">
-                            <div class="carousel-item active text-center" style="color: #fff;">
-                              <div class="row">
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> BEST RATE GUARANTEE
-                                </div>
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Flexible
-                                  Cancellation</div>
-                              </div>
-                            </div>
-                            <div class="carousel-item text-center" style="color: #fff;">
-                              <div class="row">
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Free WIFI</div>
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> 10% off on all
-                                  booking</div>
-                              </div>
-                            </div>
-                            <div class="carousel-item text-center" style="color: #fff;">
-                              <div class="row">
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Meals Availability
-                                </div>
-                                <div class="col-sm-6"><i class="fa fa-wifi" aria-hidden="true"></i> Last Room
-                                  Availability</div>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="sr-only"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="sr-only"></span>
-                        </a> -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="destination" required id="destination" class="form-control" style="color: #fff;
-                          background: #6ea0e300;" onchange="city()">
-                        <option value="" style="background: #3b72b0;">Choose Destination</option>
-                        <% cities.forEach((city,index)=> { %>
-                          <option style="background: #3b72b0;" value="<%=city.city%>">
-                            <%=city.city%>
+      <div class="hero-container container">
+        <div class="row">
+          <div class="col-6">
+            <form id="bookingForm" action="/book-now" method="get" class="p-4 bg-white rounded shadow-sm"
+              style="box-shadow: 6px 7px 0px #2C3E50;">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h3 class="text-start fw-bold mb-2">Book Your Stay</h3>
+                  <p class="d-flex gap-2 mb-3"> <span>Best Rate Gurantee </span><span> <i class="fa-solid fa-circle"
+                        style="font-size: 5px; color: #c4c4c4;"></i> Flexible Cancellation</span></p>
+                </div>
+                <button type="button" class="d-flex gap-2 bg-transparent text-dark border-0"
+                  style="font-size: 14px; font-weight: 600;" title="Modify/Cancel Booking" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
+                  <i class="bi bi-pencil-square"></i> Modify/Cancel
+                </button>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-6">
+                  <label for="destination" class="form-label w-100 text-start">Search Hotels and Destinations</label>
+                  <select id="destination" class="form-select" required>
+                    <option value="">Select Hotel</option>
+                    <% Object.keys(groupedHotels).forEach(function(city) { %>
+                      <optgroup label="<%= city %>">
+                        <% groupedHotels[city].forEach(function(hotel) { %>
+                          <option value="<%= hotel.id %>">
+                            <%= hotel.name %> (<%= city %>)
                           </option>
                           <% }) %>
-                      </select>
-                    </div>
-                  </div>
-                  <script>
-                    function city() {
-                      let destination = document.getElementById("destination").value;
-
-                      fetch("/fhotel/" + destination)
-                        .then(response => response.text())
-                        .then(data => {
-                          document.getElementById("hotel").innerHTML = data;
-                          console.log(data);
-                        })
-                        .catch(error => console.error('Error:', error));
-                    }
-
-                  </script>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="hotel_id" required class="form-control" style="color: #fff;
-                          background: #6ea0e300;" id="hotel">
-                        <option value="" style="background: #3b72b0;">Choose Hotel</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <input type="text" id="checkin" name="check_in" value="Check-in" class="form-control"
-                        onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
-                        style="color: #fff;
-                          background: #6ea0e300;">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <input type="text" id="checkout" name="check_out" value="Check-out" class="form-control"
-                        onfocus="if(this.type == 'text') this.type='date';if(this.value == '') this.value=new Date().toISOString().slice(0, 10);this.min = new Date().toISOString().slice(0, 10);"
-                        style="color: #fff;
-                          background: #6ea0e300;">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <input type="text" name="rooms" id="room" value="Room(s)" class="form-control"
-                        style="color: #fff; background: #6ea0e300;"
-                        onfocus="if(this.type == 'text') this.type='number';if(this.value == '') this.value=1">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <select name="adults" id="adults" class="form-control" style="color: #fff;
-                      background: #6ea0e300;">
-                        <option style="background: #3b72b0;">Adults</option>
-                        <option style="background: #3b72b0;" value="1">1</option>
-                        <option style="background: #3b72b0;" value="2">2</option>
-                        <option style="background: #3b72b0;" value="3">3</option>
-                        <option style="background: #3b72b0;" value="4">4</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <select name="children" id="child" class="form-control" style="color: #fff;
-                      background: #6ea0e300;">
-                        <option style="background: #3b72b0;">Children (5 to 11 years old)</option>
-                        <option style="background: #3b72b0;" value="1">1</option>
-                        <option style="background: #3b72b0;" value="2">2</option>
-                        <option style="background: #3b72b0;" value="3">3</option>
-                        <option style="background: #3b72b0;" value="4">4</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- <div class="col-md-4">
-                    <div class="form-group">
-                      <select name="child" id="child" class="form-control" style="color: #fff;
-                      background: #6ea0e300;">
-                        <option style="background: #3b72b0;">Children (below 5 years)</option>
-                        <option style="background: #3b72b0;" value="1">1</option>
-                        <option style="background: #3b72b0;" value="2">2</option>
-                        <option style="background: #3b72b0;" value="3">3</option>
-                        <option style="background: #3b72b0;" value="4">4</option>
-                      </select>
-                    </div>
-                  </div> -->
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <input type="text" name="coupon" id="coupon" value="Coupon(s)" class="form-control"
-                        style="color: #fff; background: #6ea0e300;" onfocus="this.value='SKY10'">
-                    </div>
-                  </div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-6">
-                    <div class="form-group mt-2">
-                      <a data-bs-toggle="modal" data-bs-target="#exampleModal" placeholder="destination"
-                        class="btn btn-success p-2">Modify/Cancel Booking</a>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group mt-2">
-                      <button type="submit" placeholder="destination" class="btn rounded-0 p-3 px-3 btnHover">Check
-                        Availability</button>
+                      </optgroup>
+                      <% }) %>
+                  </select>
+                </div>
+                <div class="mb-3 col-6">
+                  <label for="daterange" class="form-label w-100 text-start">Select CheckIn - CheckOut</label>
+                  <input type="text" id="daterange" class="form-control" name="daterange" required readonly />
+                </div>
+                <div class="mb-3 col-6">
+                  <label for="adults" class="form-label w-100 text-start">Adults</label>
+                  <select name="adults" id="adults" class="form-select" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-6">
+                  <label for="children" class="form-label w-100 text-start"><span>Children </span><span class="small">(5
+                      to 11 years old)</span></label>
+                  <select name="children" id="children" class="form-select">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-4">
+                  <label for="rooms" class="form-label w-100 text-start">Room(s)</label>
+                  <div class=" d-flex align-items-center border rounded overflow-hidden">
+                    <input type="number" id="rooms" name="rooms" value="1" class="no-arrows border-0 p-1 py-2 w-100"
+                      min="1" value="1" required="">
+                    <div class="flex-grow-1 p-2 bg-light"> <!-- Adjust top margin to align with input -->
+                      <span id="roomLabel">room</span>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+                <div class="col-8">
+                  <div class="d-flex justify-content-start gap-2 h-100 align-items-center mt-2">
+                    <button type="submit" class="btn p-2" style="background: #D4AF37;">
+                      Check Availability
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-        </section>
+          <div class="col-6"></div>
+        </div>
       </div>
     </section>
-    <!-- End Hero Section -->
-    <!-- ======= About Section ======= -->
     <section id="about">
       <div class="container" data-aos="fade-up">
 
@@ -532,9 +467,9 @@
         </div>
       </div>
     </section>
-    <!-- End About Section -->
 
-    <!-- ======= Why Us Section ======= -->
+
+
     <section class="why-us" data-aos="fade-up" date-aos-delay="200">
       <div class="container">
         <div class="eleven ">
@@ -545,11 +480,8 @@
           <div class="col-lg-6 col-12 video-box">
             <div class="overflow-hidden imgHov" style="aspect-ratio:1/1;;width: 480px;">
 
-              <img src="<%=APP_URL%>assets/img/lobby-398845_1280.jpg" class="img-fluid p-0 rounded-0">
+              <img src="/assets/img/lobby-398845_1280.jpg" class="img-fluid p-0 rounded-0">
             </div>
-            <!-- <video autoplay muted loop id="myVideo" style="width:100%;">
-              <source src="<%=APP_URL%>assets/hotelpics/vedios/new1vediofree/v5.mp4" type="video/mp4">
-            </video> -->
           </div>
           <div class="col-lg-6 col-12 p-5">
             <h4 class="title mb-3">Amazing experiential journey</h4>
@@ -559,8 +491,6 @@
         </div>
       </div>
     </section>
-    <!-- End Why Us Section -->
-    <!-- photo gallary -->
     <div class="photo-gallery">
       <div class="container">
         <div class="row photos">
@@ -568,8 +498,8 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="overflow-hidden">
-                  <a href="<%=APP_URL%>images/res1.jpg" data-lightbox="photos">
-                    <img src="<%=APP_URL%>images/res1.jpg" class="rounded-0 img-fluid w-100 h-100">
+                  <a href="/images/res1.jpg" data-lightbox="photos">
+                    <img src="/images/res1.jpg" class="rounded-0 img-fluid w-100 h-100">
                   </a>
                 </div>
               </div>
@@ -590,7 +520,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="hover hover-1 text-white 
-                "><img class="rounded-0 h-100" style="scale: 2;" src="<%=APP_URL%>images/clu1.jpg" alt="">
+                "><img class="rounded-0 h-100" style="scale: 2;" src="/images/clu1.jpg" alt="">
                   <div class="hover-overlay"></div>
                   <div class="hover-1-content px-5 py-4">
                     <h3 class="hover-1-title text-uppercase font-weight-bold mb-0" style="color: #fff;"> <span
@@ -606,8 +536,7 @@
           <div class="col-12 col-md-6">
             <div class="row">
               <div class="col-sm-12">
-                <div class="hover hover-1 text-white"><img class="rounded-0 h-100" src="<%=APP_URL%>images/clu5.jpg"
-                    alt="">
+                <div class="hover hover-1 text-white"><img class="rounded-0 h-100" src="/images/clu5.jpg" alt="">
                   <div class="hover-overlay"></div>
                   <div class="hover-1-content px-5 py-4">
                     <h3 class="hover-1-title text-uppercase font-weight-bold mb-0" style="color: #fff;"> <span
@@ -629,7 +558,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-sm-12">
-                <div class="hover2 hover-1 text-white"><img class="rounded-0" src="<%=APP_URL%>images/bea5.jpg" alt="">
+                <div class="hover2 hover-1 text-white"><img class="rounded-0" src="/images/bea5.jpg" alt="">
                   <div class="hover-overlay"></div>
                   <div class="hover-1-content px-5 py-4">
                     <h3 class="hover-1-title text-uppercase mb-0" style="color: #fff;"> <span class="fw-light">Converse
@@ -652,7 +581,7 @@
               <div class="col-sm-12">
                 <div class="col-sm-12">
                   <div class="overflow-hidden">
-                    <img class="img-fluid rounded-0 web-img" src="<%=APP_URL%>images/wed3.jpg">
+                    <img class="img-fluid rounded-0 web-img" src="/images/wed3.jpg">
                   </div>
                   <h2>Knitting Knots </h2>
                   <p>The perfect place to celebrate togetherness of two souls and rejoice moments with your friends,
@@ -665,7 +594,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="overflow-hidden">
-                  <img class="img-fluid web-img rounded-0" src="<%=APP_URL%>images/wed6.jpg">
+                  <img class="img-fluid web-img rounded-0" src="/images/wed6.jpg">
                 </div>
                 <h2>Rejoice Moments </h2>
                 <p>Celebrate moments and organize creative destination parties. Serving drinks, food and hospitality
@@ -690,8 +619,8 @@
               <div class="col-sm-12">
                 <div class="imgHov"
                   style="box-shadow: 12px 12px 1px 0 rgb(56 56 56), -12px -12px 1px 0 rgb(132 207 250);">
-                  <a href="<%=APP_URL%>images/bar1.jpg" data-lightbox="photos">
-                    <img class="img-fluid rounded-0" src="<%=APP_URL%>images/bar1.jpg">
+                  <a href="/images/bar1.jpg" data-lightbox="photos">
+                    <img class="img-fluid rounded-0" src="/images/bar1.jpg">
                   </a>
                 </div>
               </div>
@@ -706,130 +635,70 @@
 
       <div class="container" data-aos="fade-up">
         <div class="eleven">
-          <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Our Destinaitons</h1>
+          <h1 class="center mt-1 mb-5 m-auto text-capitaliz big_font position-relative">
+            Our Destinations
+          </h1>
         </div>
-        <!-- <p>Her are some nearby hotels</p> -->
 
         <div class="row mb-5" data-aos="fade-up" data-aos-delay="100">
-          <% hotels.forEach((hotel,index)=>{%>
-            <% if(hotel.status==2){ %>
-              <div class="col-lg-4 col-md-6">
-                <div class="hotel mb-0 position-relative" style="height: 20rem;">
-                  <img src="<%=APP_URL%>/<%= hotel.main_image %>" alt="<%= hotel.name %>" class="border-0 rounded-0"
-                    style="height: 100%;width: 100%;object-fit: cover;">
-                  <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                    <h3>Hotels in <%= hotel.city.charAt(0).toUpperCase() + hotel.city.slice(1).toLowerCase()%>
-                    </h3>
-                    <p class="text-end mb-0 fw-bold"><a
-                        href="<%=APP_URL%>hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
-                        class="inter"> view Hotel</a></p>
+          <% Object.keys(groupedHotels).forEach(function(city) { %>
+            <!-- Section header for a city -->
+            <!-- <h2 class="mb-4 text-center">Hotels in <%= city.charAt(0).toUpperCase() + city.slice(1).toLowerCase() %></h2> -->
+
+            <!-- Row for hotels that are available (status == 2) -->
+            <% groupedHotels[city].forEach(function(hotel) { %>
+              <% if (hotel.status==2) { %>
+                <div class="col-lg-4 col-md-6 mb-5">
+                  <div class="hotel mb-0 position-relative overflow-hidden" style="height: 20rem;">
+                    <img src="<%= hotel.main_image ? '/' + hotel.main_image : '/uploads/hotels/hoteldemo.jpg' %>"
+                      alt="<%= hotel.name %>" class="border-0 rounded-0"
+                      style="height: 100%; width: 100%; object-fit: cover;">
+                    <div class="position-absolute p-2" style="background: white; bottom: -2px; width:100%;">
+                      <h3 class="">Hotels in <%= city.charAt(0).toUpperCase() + city.slice(1).toLowerCase() %>
+                      </h3>
+                      <p class="text-end mb-0 fw-bold">
+                        <a href="/hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
+                          class="inter">
+                          View Hotel
+                        </a>
+                      </p>
+                    </div>
                   </div>
-
                 </div>
-              </div>
-              <% }%>
-                <% }) %>
+                <% } %>
+                  <% }); %>
+
+                    <!-- Row for hotels that are "Coming Soon" (status == 1) -->
+                    <% groupedHotels[city].forEach(function(hotel) { %>
+                      <% if (hotel.status==1) { %>
+                        <div class="col-lg-4 col-md-6 mb-5">
+                          <div class="hotel mb-0 position-relative overflow-hidden" style="height: 20rem;">
+                            <img
+                              src="<%= hotel.main_image ? '/' + hotel.main_image : '/uploads/hotels/hoteldemo.jpg' %>"
+                              alt="<%= hotel.name %>" class="border-0 rounded-0"
+                              style="height: 100%; width: 100%; object-fit: cover;">
+                            <div class="position-absolute p-2" style="background: white; bottom: -2px; width:100%;">
+                              <h3 class="">Hotels in <%= city.charAt(0).toUpperCase() + city.slice(1).toLowerCase() %>
+                              </h3>
+                              <div class="d-flex justify-content-end gap-2">
+                                <p class="text-end mb-0 fw-bold p-0">
+                                  <a href="/hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
+                                    class="inter">
+                                    View Hotel
+                                  </a>
+                                </p>
+                                <p class="text-end mb-0 fw-bold p-0">
+                                  <a href="#" class="inter">Coming Soon</a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <% } %>
+                          <% }); %>
+                            <% }); %>
         </div>
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
 
-          <!-- <div class="col-12">
-            <h2 style="text-align: center;">Coming soon</h2>
-          </div> -->
-          <% hotels.forEach((hotel,index)=>{%>
-            <% if(hotel.status==1){ %>
-              <div class="col-lg-4 col-md-6 mb-5">
-                <div class="hotel mb-0 position-relative" style="height: 20rem;">
-                  <img src="<%=APP_URL%>/<%= hotel.main_image %>" alt="<%= hotel.name %>" class="border-0 rounded-0"
-                    style="height: 100%;width: 100%;object-fit: cover;">
-                  <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                    <h3>Hotels in <%= hotel.city.charAt(0).toUpperCase() + hotel.city.slice(1).toLowerCase()%>
-                    </h3>
-                    <p class="text-end mb-0 fw-bold"><a
-                        href="<%=APP_URL%>hotels/<%= hotel.name ? hotel.name.toLowerCase().replace(/\s+/g, '-') : '' %>"
-                        class="inter"> view Hotel</a></p>
-                        <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
-                  </div>
-
-                </div>
-              </div>
-              <% }%>
-                <% }) %>
-          <!-- <div class="col-lg-4 col-md-6 mb-5">
-            <div class="hotel mb-0 position-relative" style="height: 20rem;">
-              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 1" class="border-0 rounded-0"
-                style="height: 100%;width: 100%;object-fit: cover;">
-              <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                <h3>Hotels in Goa</h3>
-                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 mb-5">
-            <div class="hotel mb-0 position-relative" style="height: 20rem;">
-              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 1" class="border-0 rounded-0"
-                style="height: 100%;width: 100%;object-fit: cover;">
-              <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                <h3>Hotels in Goa</h3>
-                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 mb-5">
-            <div class="hotel mb-0 position-relative" style="height: 20rem;">
-              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i3.jpg" alt="Hotel 1" class="border-0 rounded-0"
-                style="height: 100%;width: 100%;object-fit: cover;">
-              <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                <h3>Hotels in Udaipur</h3>
-                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 mb-5">
-            <div class="hotel mb-0 position-relative" style="height: 20rem;">
-              <img src="<%=APP_URL%>/assets/hotelpics/newfreepic/i4.jpg" alt="Hotel 1" class="border-0 rounded-0"
-                style="height: 100%;width: 100%;object-fit: cover;">
-              <div style="background: white;    bottom: -2px;" class=" position-absolute">
-                <h3>Hotels in Jaipur</h3>
-                <p class="text-end mb-0 fw-bold"><a href="#" class="inter"> Coming Soon</a></p>
-              </div>
-
-            </div>
-          </div> -->
-          <!-- <div class="col-lg-3 col-md-6">
-            <div class="hotel">
-              <div class="hotel-img">
-                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i2.jpg" alt="Hotel 2" class="img-fluid"
-                  style="height:250px;">
-              </div>
-              <h3><a href="#">Hotels in Goa <br><span style="font-size:10px;"></span></a></h3>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-lg-3 col-md-6">
-            <div class="hotel">
-              <div class="hotel-img">
-                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i3.jpg" alt="Hotel 3" class="img-fluid"
-                  style="height:250px;">
-              </div>
-              <h3><a href="#">Hotels in Udaipur <br><span style="font-size:10px;"></span></a></h3>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-lg-3 col-md-6">
-            <div class="hotel">
-              <div class="hotel-img">
-                <img src="<%=APP_URL%>assets/hotelpics/newfreepic/i4.jpg" alt="Hotel 3" class="img-fluid"
-                  style="height:250px;">
-              </div>
-              <h3><a href="#">Hotels in Jaipur <br><span style="font-size:10px;"></span></a></h3>
-            </div>
-          </div> -->
-
-        </div>
-      </div>
 
     </section>
     <!-- hotel end -->
@@ -871,11 +740,11 @@
 
           <div class="image-center">
             <!-- Image goes here -->
-            <img src="<%=APP_URL%>/assets/img/girl.png" alt="Center Image">
+            <img src="/assets/img/girl.png" alt="Center Image">
           </div>
           <div class="image-center sm_sc">
             <!-- Image goes here -->
-            <img src="<%=APP_URL%>/assets/img/girl.png" alt="Center Image">
+            <img src="/assets/img/girl.png" alt="Center Image">
           </div>
 
           <div class="services-right">
@@ -922,7 +791,7 @@
           <div id="testimonial-slider" class="owl-carousel">
             <div class="testimonial d-flex gap-3 justify-content-between">
               <div class="pic">
-                <img src="<%=APP_URL%>/uploads/testimo-999.jpg">
+                <img src="/uploads/testimo-999.jpg">
               </div>
               <div class="d-flex flex-column">
                 <p class=" flex-grow-1">
@@ -937,7 +806,7 @@
 
             <div class="testimonial d-flex gap-3 justify-content-between">
               <div class="pic">
-                <img src="<%=APP_URL%>/uploads/testimo-9991.jpg">
+                <img src="/uploads/testimo-9991.jpg">
               </div>
               <div class="d-flex flex-column">
                 <p class=" flex-grow-1">
@@ -953,7 +822,7 @@
 
             <div class="testimonial d-flex gap-3 justify-content-between">
               <div class="pic">
-                <img src="<%=APP_URL%>/uploads/testimo-9992.jpg">
+                <img src="/uploads/testimo-9992.jpg">
               </div>
               <div class="d-flex flex-column">
                 <p class=" flex-grow-1">
@@ -970,110 +839,129 @@
         </div>
       </div>
     </div>
-    <!-- our testimonial end -->
-    <%- include('../partial/faq') -%>
-      <!-- our testimonial end -->
-      <!-- ======= Contact Section ======= -->
-      <section class="section-with-bg" id="contact">
-        <div class="container mt-5">
-          <div class="eleven">
-            <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Contact us</h1>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <div class="contact-map h-100">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3595.582849285996!2d81.78725687525937!3d21.12955408054513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjHCsDA3JzQ2LjQiTiA4McKwNDcnMjMuNCJF!5e1!3m2!1sen!2sin!4v1736053844716!5m2!1sen!2sin"
-                  width="100%" height="400" class="h-100" style="border:0;" allowfullscreen="" loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"></iframe>
-              </div>
+
+
+
+
+    <!-- contact -->
+    <section class="section-with-bg" id="contact">
+      <div class="container mt-5">
+        <div class="eleven">
+          <h1 class="center mt-1 mb-5 m-auto  text-capitaliz big_font position-relative">Contact us</h1>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="contact-map h-100">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3595.582849285996!2d81.78725687525937!3d21.12955408054513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjHCsDA3JzQ2LjQiTiA4McKwNDcnMjMuNCJF!5e1!3m2!1sen!2sin!4v1736053844716!5m2!1sen!2sin"
+                width="100%" height="400" class="h-100" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
+          </div>
 
-            <!-- Contact form -->
-            <div class="col-md-6 col-12">
+          <!-- Contact form -->
+          <div class="col-md-6 col-12">
 
 
 
-              <form id="ajax-form" action="/contact" method="post" class="form-main">
-                <!-- <input type="hidden" name="redirectTo" value="index"> -->
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name" required>
-                  <div class="error" id="err-name" style="display: none;">Please enter name</div>
-                </div>
-                <div class="form-group">
-                  <label for="mobile">Mobile</label>
-                  <input class="form-control" id="mobile" name="mobile" type="number"
-                    placeholder="Enter your mobile number">
-                  <div class="error" id="err-mobile" style="display: none;">Mobile is not valid</div>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input class="form-control" id="email" name="email" type="text" placeholder="Enter your email"
-                    required>
-                  <div class="error" id="err-emailvld" style="display: none;">E-mail is not valid</div>
-                </div>
-                <div class="form-group">
-                  <label for="message">Type your query here</label>
-                  <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                </div>
-                <div id="error-message" class="error" style="display: none; color: red;"></div>
-                <div class="d-flex justify-content-end mt-4">
-                  <button type="submit" class="btn rounded-0 p-3 px-3 btnHover" id="send">Submit</button>
-                </div>
-              </form>
-              <div id="thanks-message" style="display: none;">
-                <h4>Thank you for your message!</h4>
-                <p>We will get back to you soon.</p>
+            <form id="ajax-form" action="/contact" method="post" class="form-main">
+              <!-- <input type="hidden" name="redirectTo" value="index"> -->
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name" required>
+                <div class="error" id="err-name" style="display: none;">Please enter name</div>
               </div>
-
+              <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input class="form-control" id="mobile" name="mobile" type="number"
+                  placeholder="Enter your mobile number">
+                <div class="error" id="err-mobile" style="display: none;">Mobile is not valid</div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="text" placeholder="Enter your email" required>
+                <div class="error" id="err-emailvld" style="display: none;">E-mail is not valid</div>
+              </div>
+              <div class="form-group">
+                <label for="message">Type your query here</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+              </div>
+              <div id="error-message" class="error" style="display: none; color: red;"></div>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn rounded-0 p-3 px-3 btnHover" id="send">Submit</button>
+              </div>
+            </form>
+            <div id="thanks-message" style="display: none;">
+              <h4>Thank you for your message!</h4>
+              <p>We will get back to you soon.</p>
             </div>
 
           </div>
 
         </div>
-      </section>
-      <!-- contact us section -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel" style="color:#000;">Modify/Cancel Booking</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form action="<%=APP_URL%>modify-cancel" method="post">
-                <div class="from-group">
-                  <input type="text" name="booking_id" class="form-control" placeholder="Enter Booking ID Here">
-                </div>
-                <br>
-                <div class="from-group">
-                  <input type="submit" class="form-control btn btn-primary" placeholder="Enter Booking ID Here">
-                </div>
-              </form>
-            </div>
+
+      </div>
+    </section>
+
+    <!-- contact us section -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:#000;">Modify/Cancel Booking</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="<%=APP_URL%>modify-cancel" method="post">
+              <div class="from-group">
+                <input type="text" name="booking_id" class="form-control" placeholder="Enter Booking ID Here">
+              </div>
+              <br>
+              <div class="from-group">
+                <input type="submit" class="form-control btn btn-primary" placeholder="Enter Booking ID Here">
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <%- include('../partial/foot'); -%>
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> -->
+    </div>
+
+    <%- include('../partial/faq') -%>
+      <%- include('../partial/foot'); -%>11
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <script>
-          window.setTimeout(function () {
-            $('.aaseaform').hide();
-          }, 30000);
-          function booknowshow() {
-            $('.aaseaform').show();
-          }
+          $(function () {
+            $('#daterange').daterangepicker({
+              opens: 'left',
+              autoApply: true,
+              locale: {
+                format: 'YYYY-MM-DD'
+              }
+            });
+          });
         </script>
         <script>
-          var wa_btnSetting = { "btnColor": "#16BE45", "ctaText": "WhatsApp Us", "cornerRadius": 40, "marginBottom": 20, "marginLeft": 20, "marginRight": 20, "btnPosition": "right", "whatsAppNumber": "999999999", "welcomeMessage": "hi", "zIndex": 999999, "btnColorScheme": "light" };
-          window.onload = () => {
-            _waEmbed(wa_btnSetting);
-          };
-        </script>
-        <script>
+
+          $("#bookingForm").on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Get selected values
+            const hotel = $("#destination").val();
+            const checkInDate = $("#daterange").data('daterangepicker').startDate.format('YYYY-MM-DD');
+            const checkOutDate = $("#daterange").data('daterangepicker').endDate.format('YYYY-MM-DD');
+            const rooms = $("#rooms").val();
+            const adults = $("#adults").val();
+            const children = $("#children").val();
+
+            // Build the URL
+            const url = `/book-now?hotel_id=${hotel}&check_in=${checkInDate}&check_out=${checkOutDate}&rooms=${rooms}&hotel=${encodeURIComponent($("#destination option:selected").text())}&adults=${adults}&children=${children}&submit=Submit`;
+
+            // Redirect to the generated URL
+            window.location.href = url;
+          });
           document.getElementById("ajax-form").addEventListener("submit", function (event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -1105,5 +993,48 @@
                 document.getElementById("error-message").textContent = "Something went wrong. Please try again later.";
                 document.getElementById("error-message").style.display = "block";
               });
+          });
+        </script>
+
+        <script>
+          $(document).ready(function () {
+            function initializeSelect2() {
+              $('#destination').select2({
+                placeholder: 'Search...',
+                allowClear: true,
+              }).on('select2:open', function () {
+                setTimeout(function () {
+                  document.querySelector('.select2-container--open .select2-search__field').focus();
+                }, 100);
+              });
+            }
+            initializeSelect2();
+            $(window).on('load', function () {
+              if ($('#destination').hasClass('select2-hidden-accessible')) {
+                $('#destination').select2('destroy');
+              }
+              initializeSelect2();
+            });
+          });
+
+        </script>
+        <script>
+          // Handle form submission dynamically
+          $("#bookingForm").on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Get selected values
+            const hotel = $("#destination").val();
+            const checkInDate = $("#daterange").data('daterangepicker').startDate.format('YYYY-MM-DD');
+            const checkOutDate = $("#daterange").data('daterangepicker').endDate.format('YYYY-MM-DD');
+            const rooms = $("#rooms").val();
+            const adults = $("#adults").val();
+            const children = $("#children").val();
+
+            // Build the URL
+            const url = `/book-now?hotel_id=${hotel}&check_in=${checkInDate}&check_out=${checkOutDate}&rooms=${rooms}&hotel=${encodeURIComponent($("#destination option:selected").text())}&adults=${adults}&children=${children}&submit=Submit`;
+
+            // Redirect to the generated URL
+            window.location.href = url;
           });
         </script>

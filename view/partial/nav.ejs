@@ -147,7 +147,7 @@
                                                                 city.city).forEach(singleHotel => { %>
                                                                 <div>
                                                                     <div style="width: 398px;">
-                                                                        <img src="<%= APP_URL %><%= singleHotel.main_image %>"
+                                                                        <img src="<%= singleHotel.main_image ? '/' + singleHotel.main_image : '/uploads/hotels/hoteldemo.jpg' %>"
                                                                             class="w-100 h-100">
                                                                     </div>
                                                                     <div>

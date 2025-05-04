@@ -420,7 +420,7 @@
 
         <section>
             <div class="position-relative" style="width: 100vw;height: calc(100vh - 200px);">
-                <img loading="lazy" src="<%=APP_URL%><%= hotel.main_image %>" class="h-100 w-100"
+                <img loading="lazy" src="<%= hotel.main_image ? '/' + hotel.main_image : '/uploads/hotels/hoteldemo.jpg' %>" class="h-100 w-100"
                     style="object-fit: cover;" alt="">
 
             </div>

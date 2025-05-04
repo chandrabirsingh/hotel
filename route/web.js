@@ -1,11 +1,12 @@
 module.exports = function (app, upload) {
     var homecontroller = require('../controller/homecontroller.js');
     var admincontroller = require('../controller/admincontroller.js');
+    var WebController = require('../controller/web/WebController.js');
     const config = require('../config.js');
 
     // web croutes
     // console.log(homecontroller.detailhotel);
-    app.get('/', homecontroller.index);
+    app.get('/', WebController.index);
     app.post('/', homecontroller.index);
     app.post('/login', homecontroller.login);
     app.post('/register', homecontroller.register);
