@@ -33,10 +33,9 @@ exports.index = async function (req, res) {
         user = result;
       }
   
-      // Render the page with grouped hotels
       res.render('pages/index', {
         APP_URL: config.APP_URL,
-        groupedHotels, // Pass the grouped hotels data
+        groupedHotels, 
         url: req.url,
         user
       });
