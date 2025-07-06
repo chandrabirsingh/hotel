@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const RoomType = require('../model/RoomType.js');
 const MealPlans = require('../model/MealPlans.js');
 const HotelRooms = require('../model/HotelRooms.js');
-const RoomAvailability = require('../model/roomAvailability.js');
+const RoomAvailability = require('../model/RoomAvailability.js');
 
 const SECRET_KEY = 'kasnfwsfna32420u';
  //new change
