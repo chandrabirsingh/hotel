@@ -3,7 +3,7 @@ const Admin = require('../model/Admin.js');
 module.exports = function (app, upload) {
     var homecontroller = require('../controller/homecontroller.js');
     var WebController = require('../controller/web/WebController.js');
-    const AdminController = require("../controller/AdminController.js");
+    const AdminController = require('../controller/AdminController.js');
     const authMiddleware = require('../middleware/authMiddleware.js');
     const config = require('../config.js');
 
