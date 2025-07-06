@@ -9,7 +9,7 @@ const sendEmail = async (to, subject, text) => {
             port: 587,
             secure: false, // true for port 465, false for other ports
             auth: {
-              user: "himanshu@gleamcipher.com",
+            //   user: "himanshu@gleamcipher.com",
               pass: "lU|^ro?/dS9",
             },
         });

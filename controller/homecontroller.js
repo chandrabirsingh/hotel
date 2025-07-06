@@ -1222,7 +1222,7 @@ exports.meet_and_events = function (req, res) {
 
                 // Send email to gutamh142@gmail.com
                 const emailSent = await sendEmail('gutamh142@gmail.com', subject, text);
-                if (!emailSent) console.error('Failed to send reservation email.');
+                // if (!emailSent) console.error('Failed to send reservation email.');
                 // Redirect back to the referring page
                 const referer = req.get('Referer') || `${config.APP_URL}/meet-and-events`;
                 // console.log(req.get('Referer'));
