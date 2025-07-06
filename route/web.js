@@ -9,7 +9,8 @@ module.exports = function (app, upload) {
 
     // web croutes
     // console.log(homecontroller.detailhotel);
-    app.get('/', WebController.index);
+    app.get('/', WebController.upcoming);
+    app.get('/home', WebController.index);
     app.post('/', homecontroller.index);
     app.post('/login', homecontroller.login);
     app.post('/register', homecontroller.register);

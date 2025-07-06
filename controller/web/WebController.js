@@ -44,4 +44,9 @@ exports.index = async function (req, res) {
       res.status(500).send("Error occurred");
     }
   };
-  
+  exports.upcoming = async function(req,res){
+    res.render('pages/upcoming', {
+        APP_URL: config.APP_URL,
+        url: req.url
+    });
+  }
