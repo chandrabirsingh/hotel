@@ -8,7 +8,7 @@ const HotelRooms = require('../model/HotelRooms.js');
 const RoomAvailability = require('../model/roomAvailability.js');
 
 const SECRET_KEY = 'kasnfwsfna32420u';
-
+ //new change
 exports.login = async function (req, res) {
   const { email, password } = req.body;
 
