@@ -1,0 +1,113 @@
+<%- include('../partial/head'); -%>
+    <%- include('../partial/nav'); -%>
+        <style>
+            .booking-card {
+                transition: all .3s;
+            }
+
+            .booking-card:hover {
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+            }
+            .highlight-card {
+    border: 2px solid #0d6efd; /* Bootstrap's primary blue */
+    box-shadow: 0 0.5rem 1.5rem rgba(13, 110, 253, 0.25)!important;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+}
+        </style>
+        <div class="container py-5">
+            <!-- Page Header -->
+            <header class="pb-3 mb-4 border-bottom">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h1 class="h2">Welcome, <%= user.name %>!</h1>
+                        <p class="text-muted">Here is a list of all your past and upcoming bookings.</p>
+                    </div>
+                    <a href="/" class="btn btn-primary">
+                        Make a New Booking
+                    </a>
+                </div>
+            </header>
+
+            <!-- Bookings List Section -->
+            <main>
+                <h2 class="h4 mb-4">Your Bookings (<%= bookings.length %>)</h2>
+
+                <% if (bookings && bookings.length> 0) { %>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <% bookings.forEach(function(booking) { %>
+                            <div class="col">
+                                <!-- Booking Card -->
+                                <div class="card h-100 shadow-sm booking-card <%= (typeof highlightId !== 'undefined' && highlightId == booking.booking_id) ? 'highlight-card' : '' %>">
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <h6 class="card-subtitle text-primary">Booking #<%= booking.booking_id %>
+                                            </h6>
+
+                                            <span
+                                                class="badge rounded-pill 
+                                            <% if (booking.status === 'Confirmed') { %> bg-success-subtle border border-success-subtle text-success-emphasis <% } else if (booking.status === 'Completed') { %> bg-info-subtle border border-info-subtle text-info-emphasis <% } else if (booking.status === 'Pending') { %> bg-warning-subtle border border-warning-subtle text-warning-emphasis <% } else { %> bg-danger-subtle border border-danger-subtle text-danger-emphasis <% } %>">
+                                                <%= booking.status %>
+                                            </span>
+                                        </div>
+
+                                        <!-- UPDATED: Using hotel_id as a placeholder for service_name -->
+                                        <h5 class="card-title mb-3">Booking for Hotel #<%= booking.hotel_id %>
+                                        </h5>
+
+                                        <div class="text-muted small">
+                                            <!-- UPDATED: Using `created_at` for the date -->
+                                            <p class="mb-1"><strong>Date:</strong>
+                                                <%= new Date(booking.created_at).toLocaleDateString('en-US', {
+                                                    year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                            </p>
+                                            <p class="mb-1"><strong>Time:</strong>
+                                                <%= new Date(booking.created_at).toLocaleTimeString('en-US', {
+                                                    hour: '2-digit' , minute: '2-digit' }) %>
+                                            </p>
+                                            <!-- UPDATED: Using `total_price` for the amount -->
+                                            <% if (booking.total_price) { %>
+                                                <p class="mb-0"><strong>Amount:</strong> ₹<%=
+                                                        booking.total_price.toFixed(2) %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+
+                                        <div class="mt-auto pt-3">
+                                            <a href="/booked/<%= booking.booking_id %>"
+                                                class="btn btn-outline-secondary w-100">
+                                                View Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <% } %>
+
+            </main>
+        </div>
+        <%- include('../partial/foot'); -%>
+        <script>
+             document.addEventListener('DOMContentLoaded', () => {
+        // 1. Find the element that has the highlight class
+        const highlightedCard = document.querySelector('.highlight-card');
+
+        // 2. If such a card exists...
+        if (highlightedCard) {
+            // 3. Wait for 1.5 seconds (1500 milliseconds)
+            setTimeout(() => {
+                // 4. Remove the highlight class to make the special styling disappear
+                highlightedCard.classList.remove('highlight-card');
+
+                // 5. [Optional] This part cleans the URL by removing the `?highlight=...`
+                // so the highlight doesn't reappear if the user refreshes the page.
+                const url = new URL(window.location);
+                url.searchParams.delete('highlight');
+                window.history.replaceState({}, document.title, url);
+
+            }, 1500); // You can change this value to make the highlight last longer or shorter
+        }
+    });
+        </script>

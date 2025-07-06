@@ -378,7 +378,7 @@ const checkHotelRoomAvailability = (hotel_id, check_in, check_out, requestedRoom
         }
 
         if (!rooms.length) {
-            return callback(new Error("No rooms found for this hotel."));
+            return callback(null, { valid: false, reason: 'not_found' });
         }
 
         let totalAvailableRooms = 0;
@@ -426,7 +426,7 @@ const checkHotelRoomAvailability = (hotel_id, check_in, check_out, requestedRoom
     });
 };
 // distribute room among the persons
-function distributePersonsIntoRooms(adults, children, rooms) {
+function distributePersonsIntoRoomsOld(adults, children, rooms) {
     const totalPersons = adults + children;
     const personsPerRoom = Math.ceil(totalPersons / rooms);
     const distribution = Array.from({ length: rooms }, () => ({
@@ -452,6 +452,58 @@ function distributePersonsIntoRooms(adults, children, rooms) {
             remainingChildren -= childrenToAssign;
         }
     }
+    return distribution;
+}
+function distributePersonsIntoRooms(adults, children, rooms) {
+    // 1. Initialize a distribution array for all requested rooms.
+    const distribution = Array.from({ length: rooms }, () => ({
+        adults: 0,
+        children: 0,
+    }));
+
+    // Edge Case: If there are no adults, children can be distributed freely.
+    if (adults === 0) {
+        let remainingChildren = children;
+        for (let i = 0; i < rooms && remainingChildren > 0; i++) {
+            // This simple distribution is not perfect but handles the edge case.
+            // A more complex logic could be used if even distribution is critical here.
+            const childrenToAssign = Math.ceil(remainingChildren / (rooms - i));
+            distribution[i].children = childrenToAssign;
+            remainingChildren -= childrenToAssign;
+        }
+        return distribution;
+    }
+
+    // 2. Determine the number of rooms we can actually use. To ensure children are
+    //    always with an adult, we can't use more rooms than there are adults.
+    const effectiveRooms = Math.min(rooms, adults);
+
+    // 3. Distribute adults as evenly as possible across the effective rooms.
+    //    First, give each room a base number of adults.
+    const baseAdultsPerRoom = Math.floor(adults / effectiveRooms);
+    let remainingAdults = adults % effectiveRooms; // Adults left over
+
+    for (let i = 0; i < effectiveRooms; i++) {
+        distribution[i].adults = baseAdultsPerRoom;
+        // Distribute the remaining adults one by one
+        if (remainingAdults > 0) {
+            distribution[i].adults++;
+            remainingAdults--;
+        }
+    }
+
+    // 4. Distribute all children as evenly as possible across the same effective rooms
+    //    using a round-robin approach.
+    let remainingChildren = children;
+    let roomIndex = 0;
+    while (remainingChildren > 0) {
+        distribution[roomIndex].children++;
+        remainingChildren--;
+        // Move to the next room, wrapping around to the beginning if necessary
+        roomIndex = (roomIndex + 1) % effectiveRooms;
+    }
+
+    // 5. Return the final distribution. Any rooms beyond `effectiveRooms` will be empty.
     return distribution;
 }
 exports.booknow = async function (req, res) {
@@ -521,7 +573,7 @@ exports.booknow = async function (req, res) {
 
         } else {
             const hotelDetailQuery = `
-                    SELECT hotels.id, hotels.name, hotels.city, hotels.full_address, hotels.main_image 
+                    SELECT hotels.id, hotels.name, hotels.city, hotels.full_address, hotels.main_image ,hotels.status
                     FROM hotels 
                     WHERE hotels.id = ?;
             `
@@ -615,6 +667,7 @@ exports.booknow = async function (req, res) {
                         if (!validationResult.valid) {
                             return res.render('pages/booking', paramsToRender);
                         }
+                        // res.send({ queryData: req.query});
                         // Loop through each room and fetch its respective meal plans
                         hotelRooms.forEach(room => {
                             // Fetch meal plans for each room individually
@@ -661,7 +714,7 @@ exports.booknow = async function (req, res) {
                                                 } else {
                                                     return res.redirect('/logout');
                                                 }
-
+                                                
                                                 // Render the page with data
                                                 res.render('pages/booking', {
                                                     APP_URL: config.APP_URL,
@@ -716,7 +769,30 @@ exports.booknow = async function (req, res) {
     }
 };
 
+exports.checkAvailability = function(req,res){
+    const { rooms, adults, children, children_age, hotel_id, room_id, check_in, check_out } = req.query;
+    const requestedRooms = parseInt(rooms, 10);
+    const checkInDate = new Date(check_in);
+    const checkOutDate = new Date(check_out);
+    const adultCount = parseInt(adults, 10);
+    const childCount = parseInt(children, 10);
+    checkHotelRoomAvailability(hotel_id, checkInDate, checkOutDate, requestedRooms, (err, result) => {
+        if (err) { 
+            console.log(err);
+            return res.status(500).json({ message: "Server error" });
+        }
 
+        if (result.reason === 'not_found') {
+            return res.status(400).json({ message: "Hotel rooms not found" });
+        }
+
+        if (!result.valid) {
+            return res.status(400).json({ message: `Not enough rooms available. Only ${result.availableRooms} room(s) available.` });
+        }
+
+        return res.status(200).json({ message: "Rooms are available", availableRooms: result.availableRooms });
+    })
+}
 exports.createBooking = function (req, res) {
     const { user_id, hotel_id, total_price, rooms } = req.body;
     // Insert booking details into the Booking table
@@ -850,6 +926,9 @@ exports.getRoomDetailsById = (req, res) => {
         const discountPercentage = baseRow.discount_percentage || 0;
 
         // If totalPersons <= 2, calculate and return base price
+        // need to make it dynamic it can not be 2 always some raw can be contain more than 2 persons
+        // For example, if baseRow.num_persons = 3, then we need to check for 3 persons
+        // and if totalPersons <= 3, we can use the baseRow for calculation
         if (totalPersons <= 2) {
             const finalPrice = calculateBasePrice(adultsCount, childrenCount, baseRow, discountPercentage, nights);
             return res.json({ success: true, data: finalPrice });
@@ -1016,6 +1095,7 @@ exports.bookingDetail = function (req, res) {
             brd.check_in,
             brd.check_out,
             brd.adults,
+            brd.children,
             rt.room_name
         FROM 
             booking b
@@ -1066,7 +1146,7 @@ exports.bookingDetail = function (req, res) {
                     food_preferences: row.food_preferences ? row.food_preferences.split(',') : [],
                     check_in: row.check_in,
                     check_out: row.check_out,
-                    adults: row.adults,
+                    adults: row.adults,children: row.children || 0,
                     nights: nights
                 };
             })
@@ -1918,3 +1998,64 @@ exports.partner_with_as = function (req, res) {
         res.render('partner_with_as', { APP_URL: config.APP_URL, url: req.url, user: user });
     }
 }
+
+// show all bookings
+exports.showAllUserBookings = async (req, res) => {
+    // 1. Get the user ID from the session.
+    const { session } = req;
+    const userId = session.user_id;
+
+    // 2. If no user is logged in, redirect them to the login page.
+    if (!userId) {
+        console.log('No user ID in session, redirecting to login.');
+        return res.redirect('/login'); // Or '/' or wherever your login page is
+    }
+
+    // Helper function to promisify the database query
+    const queryDB = (sql, params) => {
+        return new Promise((resolve, reject) => {
+            config.con.query(sql, params, (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result);
+            });
+        });
+    };
+
+    try {
+        // 3. Define the SQL queries using parameterized placeholders (?)
+        const bookingsQuery = "SELECT * FROM booking WHERE user_id = ?";
+        const userQuery = "SELECT * FROM user WHERE id = ?";
+
+        // 4. Execute both queries in parallel for efficiency.
+        const [bookings, userResult] = await Promise.all([
+            queryDB(bookingsQuery, [userId]), // Fetches all bookings for the user
+            queryDB(userQuery, [userId])      // Fetches user details
+        ]);
+
+        // 5. Check if the user exists. If not, the session might be invalid.
+        if (!userResult || userResult.length === 0) {
+            console.log(`User with ID ${userId} not found in database.`);
+            return res.redirect('/logout'); // Log out to clear the invalid session
+        }
+
+        const user = userResult[0];
+const highlightId = req.query.highlight;
+        // 6. Render a view and pass the user details and the array of bookings.
+        // You will need a view file (e.g., 'userBookings.ejs') to display the list.
+        console.log(user,bookings);
+        res.render('pages/userBookings', {
+            APP_URL: config.APP_URL,
+            url: req.url,
+            user: user,
+            bookings: bookings, // This is now an array of all booking objects
+            highlightId: highlightId
+        });
+
+    } catch (err) {
+        // 7. Handle any database or server errors.
+        console.error("Error fetching user bookings:", err);
+        res.status(500).send("An error occurred while retrieving your bookings.");
+    }
+};

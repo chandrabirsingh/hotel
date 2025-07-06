@@ -65,7 +65,7 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+const cors = require('cors');
 const sessionStore = new MySQLStore({}, config.con);
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
@@ -75,7 +75,7 @@ app.use(session({
     cookie: { maxAge: oneDay },
     resave: false
 }));
-
+app.use(cors());
 app.use(flash()); 
 app.use(fetchCitiesAndHotel); 
 const storage = multer.diskStorage({

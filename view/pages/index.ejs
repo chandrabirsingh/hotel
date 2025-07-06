@@ -442,7 +442,7 @@
                 </div>
                 <div class="col-8">
                   <div class="d-flex justify-content-start gap-2 h-100 align-items-center mt-2">
-                    <button type="submit" class="btn p-2" style="background: #D4AF37;">
+                    <button type="button" id="checkAvailability" class="btn p-2" style="background: #D4AF37;">
                       Check Availability
                     </button>
                   </div>
@@ -945,23 +945,7 @@
         </script>
         <script>
 
-          $("#bookingForm").on('submit', function (e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Get selected values
-            const hotel = $("#destination").val();
-            const checkInDate = $("#daterange").data('daterangepicker').startDate.format('YYYY-MM-DD');
-            const checkOutDate = $("#daterange").data('daterangepicker').endDate.format('YYYY-MM-DD');
-            const rooms = $("#rooms").val();
-            const adults = $("#adults").val();
-            const children = $("#children").val();
-
-            // Build the URL
-            const url = `/book-now?hotel_id=${hotel}&check_in=${checkInDate}&check_out=${checkOutDate}&rooms=${rooms}&hotel=${encodeURIComponent($("#destination option:selected").text())}&adults=${adults}&children=${children}&submit=Submit`;
-
-            // Redirect to the generated URL
-            window.location.href = url;
-          });
+         
           document.getElementById("ajax-form").addEventListener("submit", function (event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -1020,7 +1004,7 @@
         </script>
         <script>
           // Handle form submission dynamically
-          $("#bookingForm").on('submit', function (e) {
+          $('#checkAvailability').on('click', function (e) {
             e.preventDefault(); // Prevent default form submission
 
             // Get selected values
@@ -1030,11 +1014,26 @@
             const rooms = $("#rooms").val();
             const adults = $("#adults").val();
             const children = $("#children").val();
-
-            // Build the URL
-            const url = `/book-now?hotel_id=${hotel}&check_in=${checkInDate}&check_out=${checkOutDate}&rooms=${rooms}&hotel=${encodeURIComponent($("#destination option:selected").text())}&adults=${adults}&children=${children}&submit=Submit`;
-
-            // Redirect to the generated URL
-            window.location.href = url;
+            const url = `?hotel_id=${hotel}&check_in=${checkInDate}&check_out=${checkOutDate}&rooms=${rooms}&hotel=${encodeURIComponent($("#destination option:selected").text())}&adults=${adults}&children=${children}&submit=Submit`;
+            $.ajax({
+              url: '/api/check-availability' + url,
+              method: 'GET',
+              success: function (res, status, xhr) {
+                // Only redirect if status code is 200
+                if (xhr.status === 200) {
+                  window.location.href = '/book-now' + url;
+                } else {
+                  alert(res.message || "Availability check failed.");
+                }
+              },
+              error: function (xhr) {
+                if (xhr.status === 400 || xhr.status === 500) {
+                  const message = xhr.responseJSON?.message || "Rooms not available.";
+                  alert(message);
+                } else {
+                  alert("Unexpected error occurred.");
+                }
+              }
+            })
           });
         </script>

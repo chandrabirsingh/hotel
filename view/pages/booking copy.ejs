@@ -419,27 +419,26 @@
                             const maxRooms = <%=queryData.rooms %>;
 
                             function updateFormForRooms(roomIndex) {
+                                console.log(roomIndex);
                                 const room = roomDistribution[roomIndex];
                                 const adultsCount = room.adults;
                                 const childrenCount = room.children;
-                                
-                                console.log(roomIndex,room);
+
 
                                 // Generate HTML for the adults select input
-                                const adultHtml = `
-                                    <label for="adults${roomIndex + 1}" class="">Adults (Room ${roomIndex + 1}):
-                                        <div class="w-100 border p-2">
-                                            <select name="adults${roomIndex + 1}" id="adults${roomIndex + 1}" class="bg-transparent border-0 w-100">
-                                                <option value="0">0</option>
-                                                <option value="1"${adultsCount === 1 ? 'selected' : ''}>1</option>
-                                                <option value="2"${adultsCount === 2 ? 'selected' : ''}>2</option>
-                                                <option value="3"${adultsCount === 3 ? 'selected' : ''}>3</option>
-                                                <option value="4" ${adultsCount === 4 ? 'selected' : ''}>4</option>
-                                                <option value="5"${adultsCount === 5 ? 'selected' : ''}>5</option>
-                                            </select>
-                                        </div>
-                                    </label>
-                                `;
+                                adultHtml += `
+                                <div class="mb-3">
+                                    <label for="adults${roomIndex + 1}" class="form-label">Adults (Room ${roomIndex + 1}):</label>
+                                    <select name="adults${roomIndex + 1}" id="adults${roomIndex + 1}" class="form-select">
+                                        <option value="0" ${adultsCount === 0 ? 'selected' : ''}>0</option>
+                                        <option value="1" ${adultsCount === 1 ? 'selected' : ''}>1</option>
+                                        <option value="2" ${adultsCount === 2 ? 'selected' : ''}>2</option>
+                                        <option value="3" ${adultsCount === 3 ? 'selected' : ''}>3</option>
+                                        <option value="4" ${adultsCount === 4 ? 'selected' : ''}>4</option>
+                                        <option value="5" ${adultsCount === 5 ? 'selected' : ''}>5</option>
+                                    </select>
+                                </div>
+                            `;
 
                                 // Inject adults HTML into the element with id="adult_input"
                                 document.getElementById("adult_input").innerHTML = adultHtml;

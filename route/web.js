@@ -1,7 +1,10 @@
+const Admin = require('../model/Admin.js');
+
 module.exports = function (app, upload) {
     var homecontroller = require('../controller/homecontroller.js');
-    var admincontroller = require('../controller/admincontroller.js');
     var WebController = require('../controller/web/WebController.js');
+    const AdminController = require("../controller/AdminController.js");
+    const authMiddleware = require('../middleware/authMiddleware.js');
     const config = require('../config.js');
 
     // web croutes
@@ -47,6 +50,7 @@ module.exports = function (app, upload) {
     app.post('/booking', homecontroller.booking);
     app.post('/contact', homecontroller.contact);
     app.get('/booked', homecontroller.booked);
+    app.get('/user-bookings ', homecontroller.showAllUserBookings);
     app.get('/booked/:id', homecontroller.booked);
     app.get('/thankyou/:message', homecontroller.thankyou);
     app.get('/loyalty-program', homecontroller.loyalty_program);
@@ -66,7 +70,7 @@ module.exports = function (app, upload) {
     app.post('/api/createBooking', homecontroller.createBooking)
     app.get('/api/bookingDetail/:id', homecontroller.bookingDetail)
     app.post('/api/confirmBooking/:id', homecontroller.confirmBooking)
-
+    app.get('/api/check-availability',homecontroller.checkAvailability);
 
     app.get('/logout', (req, res) => {
         req.session.destroy();
@@ -75,22 +79,24 @@ module.exports = function (app, upload) {
     });
     // admin routes
 
-    app.get('/admin',admincontroller.index);
-    app.get('/admin/login',admincontroller.login);
-    app.post('/admin/login',admincontroller.login);
-    app.get('/admin/add_hotel',admincontroller.add_hotel);
-    app.post('/admin/add_hotel',upload.any(),admincontroller.add_hotel);
+    // app.get('/admin',admincontroller.index);
+    // app.get('/admin/login',admincontroller.login);
+    // app.post('/admin/login',admincontroller.login);
+    // app.get('/admin/add_hotel',admincontroller.add_hotel);
+    // app.post('/admin/add_hotel',upload.any(),admincontroller.add_hotel);
+
+
     // app.get('/admin/edit_hotel/:id',admincontroller.edit_hotel);
     // app.get('/admin/manage_hotels',admincontroller.manage_hotels);
-    app.get('/admin/add_rooms',admincontroller.add_rooms);
-    app.post('/admin/add_rooms',upload.any(),admincontroller.add_rooms);
+    // app.get('/admin/add_rooms',admincontroller.add_rooms);
+    // app.post('/admin/add_rooms',upload.any(),admincontroller.add_rooms);
     // app.get('/admin/users',admincontroller.users);
     // app.get('/admin/manage_rooms/:id',admincontroller.manage_rooms);
     // app.get('/admin/booking/:id',admincontroller.booking);
 
-
-
-
+    app.post("/admin/login", AdminController.login);
+    app.get("/admin/basic-data",authMiddleware,AdminController.Basicdata);
+    app.post("/admin/hotel-room-create",authMiddleware,upload.any(),AdminController.HotelRoomCreate)
     app.get('/admin/logout', (req, res) => {
         // req.session.destroy();
         res.redirect('admin/login');
